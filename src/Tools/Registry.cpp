@@ -27,7 +27,7 @@
 #include <string>
 #include "Registry.hpp"
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     HKEY Registry::GetRootKey(const std::wstring &subKey, std::wstring &actualPath)
     {

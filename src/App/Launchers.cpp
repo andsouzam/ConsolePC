@@ -32,7 +32,7 @@
 #include "Tools/Packages.hpp"
 
 
-namespace AnyFSE::App::Launchers
+namespace ConsolePC::App::Launchers
 {
     static Logger log = LogManager::GetLogger("Launchers");
 

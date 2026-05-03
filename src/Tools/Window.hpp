@@ -27,7 +27,7 @@
 #include <Windows.h>
 #include "GdiPlus.hpp"
 
-namespace AnyFSE::Tools::Window
+namespace ConsolePC::Tools::Window
 {
     BOOL GetChildRect(HWND hwnd, RECT *rect);
     BOOL MoveWindow(HWND hwnd, RECT * rect, BOOL bRepaint);
@@ -35,4 +35,4 @@ namespace AnyFSE::Tools::Window
     BOOL MouseInClientRect(HWND, RECT *rect = NULL, int inflate = 0);
 }
 
-namespace Window = AnyFSE::Tools::Window;
+namespace Window = ConsolePC::Tools::Window;

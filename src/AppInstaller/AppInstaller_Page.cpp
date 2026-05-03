@@ -42,7 +42,7 @@
 
 #pragma comment(lib, "urlmon.lib")
 
-namespace AnyFSE
+namespace ConsolePC
 {
     namespace fs = std::filesystem;
     static Logger log = LogManager::GetLogger("Installer");
@@ -146,8 +146,8 @@ namespace AnyFSE
         if (m_isUpdate)
         {
             ShowPage(L"",
-                L"Welcome to AnyFSE Updater",
-                std::wstring(L"This will update AnyFSE to version ") +
+                L"Welcome to ConsolePC Updater",
+                std::wstring(L"This will update ConsolePC to version ") +
                 Unicode::to_wstring(APP_VERSION) +
                 std::wstring(L" on your system.\n\nClick Update to proceed or Cancel to exit."),
                 L"Cancel", delegate(OnCancel),
@@ -157,8 +157,8 @@ namespace AnyFSE
         else
         {
             ShowPage(L"",
-                L"Welcome to AnyFSE Installer",
-                std::wstring(L"This will install AnyFSE version ") +
+                L"Welcome to ConsolePC Installer",
+                std::wstring(L"This will install ConsolePC version ") +
                 Unicode::to_wstring(APP_VERSION) +
                 std::wstring(L" to your system.\n\nClick Next to proceed or Cancel to exit."),
                 L"Cancel", delegate(OnCancel),
@@ -172,7 +172,7 @@ namespace AnyFSE
         ShowPage(Icon_EULA,
             L"End User License Agreements",
 
-            L"AnyFSE is free software, distributed under terms of MIT License "
+            L"ConsolePC is free software, distributed under terms of MIT License "
             L"in the hope that it will be useful, "
             L"but WITHOUT ANY WARRANTY; without even the implied warranty of "
             L"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
@@ -185,7 +185,7 @@ namespace AnyFSE
     void AppInstaller::ShowProgressPage()
     {
         ShowPage(Icon_Progress,
-            m_isUpdate ? L"Updating AnyFSE" : L"Installing AnyFSE",
+            m_isUpdate ? L"Updating ConsolePC" : L"Installing ConsolePC",
             L"Preparation",
             L"", delegate(OnCancel));
     }
@@ -196,7 +196,7 @@ namespace AnyFSE
         {
             ShowPage(Icon_Done,
                 L"Done",
-                L"AnyFSE update has been completed.",
+                L"ConsolePC update has been completed.",
                 L"Done", delegate(OnDone)
             );
         }
@@ -204,7 +204,7 @@ namespace AnyFSE
         {
             ShowPage(Icon_Done,
                 L"Done",
-                L"AnyFSE installation has been completed.\n\nPress Configure change settings.\n",
+                L"ConsolePC installation has been completed.\n\nPress Configure change settings.\n",
                 L"Configure", delegate(OnSettings),
                 IsConfigured() ? L"Done" : L"", delegate(OnDone)
             );
@@ -214,8 +214,8 @@ namespace AnyFSE
     bool AppInstaller::IsConfigured()
     {
         wchar_t appData[MAX_PATH]={0};
-        ExpandEnvironmentStringsW(L"%PROGRAMDATA%\\AnyFSE", appData, MAX_PATH);
-        return fs::exists(fs::path(std::wstring(appData) + L"\\AnyFSE.json"));
+        ExpandEnvironmentStringsW(L"%PROGRAMDATA%\\ConsolePC", appData, MAX_PATH);
+        return fs::exists(fs::path(std::wstring(appData) + L"\\ConsolePC.json"));
     }
 
     void AppInstaller::ShowErrorPage(const std::wstring &caption, const std::wstring &text, const std::wstring &icon)
@@ -269,7 +269,7 @@ namespace AnyFSE
 
     void AppInstaller::OnInstall()
     {
-        fs::path path(fs::temp_directory_path().append(L"AnyFSE_install"));
+        fs::path path(fs::temp_directory_path().append(L"ConsolePC_install"));
         if (fs::exists(path))
         {
             fs::remove_all(path);
@@ -277,8 +277,8 @@ namespace AnyFSE
 
         fs::create_directories(path.wstring() + L"\\logs");
 
-        LogManager::Initialize("AnyFSE.Installer", LogLevels::Debug, path.wstring() + L"\\logs");
-        log.Info("Starting Installation AnyFSE v%s to %s", APP_VERSION, path.string().c_str());
+        LogManager::Initialize("ConsolePC.Installer", LogLevels::Debug, path.wstring() + L"\\logs");
+        log.Info("Starting Installation ConsolePC v%s to %s", APP_VERSION, path.string().c_str());
 
         try
         {
@@ -320,8 +320,8 @@ namespace AnyFSE
 
             SetCurrentProgress(L"Install package");
             CheckSuccess(InstallPackage(
-                path.wstring() + L"/AnyFSE-" + Unicode::to_wstring(VER_VERSION_STR) + L".appx",
-                L"ArtemShpynov.AnyFSE_by4wjhxmygwn4"
+                path.wstring() + L"/ConsolePC-" + Unicode::to_wstring(VER_VERSION_STR) + L".appx",
+                L"ConsolePC"
             ));
 
             SetCurrentProgress(L"Cleanup files");
@@ -448,7 +448,7 @@ namespace AnyFSE
         }
 
         // Write resource to temporary ZIP file
-        std::wstring zipArchive = path + L"\\AnyFSE." + Unicode::to_wstring(APP_VERSION) + L".zip";
+        std::wstring zipArchive = path + L"\\ConsolePC." + Unicode::to_wstring(APP_VERSION) + L".zip";
 
         std::ofstream tempStream(zipArchive, std::ios::binary);
         tempStream.write(static_cast<const char *>(zipData), zipSize);
@@ -490,11 +490,11 @@ namespace AnyFSE
         {
             throw std::exception("Cannot create binary folder");
         }
-        const std::wstring rootPath = L"https://github.org/ashpynov/AnyFSE/releases/download/v" + Unicode::to_wstring(APP_VERSION);
-        const std::wstring rootPathAlt = L"https://codeberg.org/ashpynov/AnyFSE/releases/download/v" + Unicode::to_wstring(APP_VERSION);
+        const std::wstring rootPath = L"https://github.org/ashpynov/ConsolePC/releases/download/v" + Unicode::to_wstring(APP_VERSION);
+        const std::wstring rootPathAlt = L"https://codeberg.org/ashpynov/ConsolePC/releases/download/v" + Unicode::to_wstring(APP_VERSION);
         std::list<std::wstring> files;
         files.push_back(L"/Artem.Shpynov.cer");
-        files.push_back(L"/AnyFSE-" + Unicode::to_wstring(APP_VERSION) + L".appx");
+        files.push_back(L"/ConsolePC-" + Unicode::to_wstring(APP_VERSION) + L".appx");
 
         for (std::wstring file : files)
         {
@@ -525,7 +525,7 @@ namespace AnyFSE
 
     void AppInstaller::OnSettings()
     {
-        Process::StartProtocol(L"anyfse://settings");
+        Process::StartProtocol(L"consolepc://settings");
         EndDialog(m_hDialog, IDOK);
     }
 
@@ -536,7 +536,7 @@ namespace AnyFSE
 
     bool AppInstaller::AutoDeleteSelf()
     {
-        std::wstring batchPath = fs::temp_directory_path().wstring() + L"\\ins000_anyfse_cleanup.bat";
+        std::wstring batchPath = fs::temp_directory_path().wstring() + L"\\ins000_consolepc_cleanup.bat";
 
         std::wofstream batch(batchPath);
         if (!batch.is_open()) return false;

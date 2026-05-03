@@ -31,7 +31,7 @@
 #include "Unicode.hpp"
 #include <algorithm>
 
-namespace AnyFSE::Tools::Unicode
+namespace ConsolePC::Tools::Unicode
 {
     std::string to_string(const std::wstring& wstr)
     {

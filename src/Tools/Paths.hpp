@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace AnyFSE::Tools::Paths
+namespace ConsolePC::Tools::Paths
 {
     std::wstring GetConfigPath();
     std::wstring GetLogsPath();

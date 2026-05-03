@@ -22,7 +22,7 @@ using namespace Windows::System::Diagnostics;
 using namespace Windows::ApplicationModel::AppExtensions;
 
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     std::wstring GetPackageFamilyName(const std::wstring& appUserModelID)
     {
@@ -95,7 +95,7 @@ namespace AnyFSE::Tools
         std::wstring resourcePath;
         size_t pathPos = path.find(L'/');
 
-        familyName = pathPos ? GetPackageFamilyName(path.substr(0, pathPos)) : L"ArtemShpynov.AnyFSE_by4wjhxmygwn4";
+        familyName = pathPos ? GetPackageFamilyName(path.substr(0, pathPos)) : L"ConsolePC";
         resourcePath = pathPos != std::wstring::npos ? path.substr(pathPos) : L"";
 
         auto packages = pm.FindPackagesForUser(L"", familyName);
@@ -163,9 +163,9 @@ namespace AnyFSE::Tools
         std::vector<std::wstring> launchers;
 
         auto catalog = AppExtensionCatalog::Open(L"windows.gamingApp");
-        auto extensions = catalog.FindAll();
+        auto extensions = catalog.FindAllAsync().get();
 
-        for (auto extension : extensions)
+        for (const auto& extension : extensions)
         {
             launchers.push_back(extension.AppInfo().AppUserModelId().c_str());
         }

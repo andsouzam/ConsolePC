@@ -5,7 +5,7 @@
 #include "StartupPage.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void StartupPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {
@@ -21,7 +21,7 @@ namespace AnyFSE::App::AppSettings::Settings::Page
 
         m_pStartupPageAppsHeader = &m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
             L"Additional startup applications",
-            L"Configure specific applications to be executed by AnyFSE on fullscreen experience enter",
+            L"Configure specific applications to be executed by ConsolePC on fullscreen experience enter",
             Layout::LineHeight, 0, 0
         );
 

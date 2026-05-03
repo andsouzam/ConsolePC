@@ -14,7 +14,7 @@
 #include "Tools/Unicode.hpp"
 
 
-namespace AnyFSE
+namespace ConsolePC
 {
     static Logger log = LogManager::GetLogger("Installer");
 

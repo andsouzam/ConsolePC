@@ -4,7 +4,7 @@
 
 #pragma comment(lib, "windowsapp.lib")      // WinRT runtime
 
-namespace AnyFSE::App::JumpList
+namespace ConsolePC::App::JumpList
 {
     void RegisterJumpList()
     {

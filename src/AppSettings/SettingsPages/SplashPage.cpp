@@ -1,3 +1,4 @@
+#include <filesystem>
 #include "Tools/Event.hpp"
 #include "AppSettings/SettingsLayout.hpp"
 #include "AppSettings/SettingsDialog.hpp"
@@ -5,7 +6,7 @@
 #include "Tools/Paths.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void SplashPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {
@@ -111,8 +112,8 @@ namespace AnyFSE::App::AppSettings::Settings::Page
     {
         std::wstring path = Tools::Paths::GetSplashDefaultPath();
 
-        CreateDirectoryW(path.c_str(), NULL);
-        Process::StartProtocol(L"\"" + path + L"\"");
+        std::filesystem::create_directories(path);
+        ShellExecuteW(NULL, L"open", L"explorer.exe", path.c_str(), NULL, SW_SHOWNORMAL);
     }
 
     void SplashPage::OnShowTextChanged()

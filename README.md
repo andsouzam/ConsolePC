@@ -1,13 +1,13 @@
-# AnyFSE Home Application
-![DownloadCountTotal](https://img.shields.io/github/downloads/ashpynov/AnyFSE/AnyFSE.Installer.exe?displayAssetName=false&style=plastic) [![DownloadCountLatest](https://img.shields.io/github/downloads/ashpynov/AnyFSE/latest/AnyFSE.Installer.exe?displayAssetName=false&style=plastic)](https://github.com/ashpynov/AnyFSE/releases/latest) [![LatestVersion](https://img.shields.io/github/v/tag/ashpynov/AnyFSE?label=Latest%20version&style=plastic)](https://github.com/ashpynov/AnyFSE/releases/latest) [![License](https://img.shields.io/github/license/ashpynov/AnyFSE?style=plastic)](LICENCE)
+# ConsolePC Home Application
+![DownloadCountTotal](https://img.shields.io/github/downloads/ashpynov/ConsolePC/ConsolePC.Installer.exe?displayAssetName=false&style=plastic) [![DownloadCountLatest](https://img.shields.io/github/downloads/ashpynov/ConsolePC/latest/ConsolePC.Installer.exe?displayAssetName=false&style=plastic)](https://github.com/ashpynov/ConsolePC/releases/latest) [![LatestVersion](https://img.shields.io/github/v/tag/ashpynov/ConsolePC?label=Latest%20version&style=plastic)](https://github.com/ashpynov/ConsolePC/releases/latest) [![License](https://img.shields.io/github/license/ashpynov/ConsolePC?style=plastic)](LICENCE)
 
-The AnyFSE Home application aims to give users the ability to use their favorite launchers as Home applications for Gaming Full Screen Experience mode on modern Windows.
+The ConsolePC Home application aims to give users the ability to use their favorite launchers as Home applications for Gaming Full Screen Experience mode on modern Windows.
 
-[Latest Release](https://github.com/ashpynov/AnyFSE/releases/latest)
+[Latest Release](https://github.com/ashpynov/ConsolePC/releases/latest)
 
 [Help and Discussions](https://discord.gg/AfkERzTEut)
 
-AnyFSE can be selected as Home application for full screen experience and will execute users favourite launchers like Playnite, Steam Big Picture mode, LaunchBox, etc. in full screen experience mode (Xbox mode).
+ConsolePC can be selected as Home application for full screen experience and will execute users favourite launchers like Playnite, Steam Big Picture mode, LaunchBox, etc. in full screen experience mode (Xbox mode).
 
 Some other launchers potentially can be supported too with minor customizations
 
@@ -36,15 +36,15 @@ Some other launchers potentially can be supported too with minor customizations
 
 ## How it is works
 
-If AnyFSE is selected as home application:
+If ConsolePC is selected as home application:
 
-1. Windows starts AnyFSE as fullscreen home application (Fullscreen experience or Xbox mode).
-2. AnyFSE read configuration and start launcher selected by user.
+1. Windows starts ConsolePC as fullscreen home application (Fullscreen experience or Xbox mode).
+2. ConsolePC read configuration and start launcher selected by user.
 3. Show splash screen (text or video).
 4. Wait till launcher executed (try to detect it main window).
 5. Close splash screen and exit
 
-Same for cases when AnyFSE executed from gamebar.
+Same for cases when ConsolePC executed from gamebar.
 
 In case if ASUS ROG Ally buttons remaping is configured it will start second instance as background app that listen such buttons and execute handlers on keypress.
 
@@ -52,15 +52,15 @@ In case if ASUS ROG Ally buttons remaping is configured it will start second ins
 ## Install, Configure and Uninstall
 
 > [!NOTE]
-> AnyFSE is not implement enabling FSE mode support in windows. It is require either supported Handheld device like ASUS ROG Ally or enabling this mode on other devices using "Enabler" tool e.g. [XboxFullscreenExperienceTool](https://github.com/8bit2qubit/XboxFullscreenExperienceTool).
+> ConsolePC is not implement enabling FSE mode support in windows. It is require either supported Handheld device like ASUS ROG Ally or enabling this mode on other devices using "Enabler" tool e.g. [XboxFullscreenExperienceTool](https://github.com/8bit2qubit/XboxFullscreenExperienceTool).
 
 ### How to install
 
-Just Launch AnyFSE.Installer.exe. Wait few seconds to complete and Configure.
+Just Launch ConsolePC.Installer.exe. Wait few seconds to complete and Configure.
 
 You launcher should be installed additionally.
 
-Please note: that AnyFSE work only when it is selected as home application in Settings->Gaming->Full screen experience.
+Please note: that ConsolePC work only when it is selected as home application in Settings->Gaming->Full screen experience.
 
 > [!IMPORTANT]
 > During installation of the package is should be signed. I have not ability to got code signin certificate from trusted authorities. So I had to use self-signed certificate during instalation.
@@ -72,11 +72,11 @@ Please note: that AnyFSE work only when it is selected as home application in Se
 
 ### Manual installation
 
-In case if your antivirus still blames on AnyFSE.Installer.exe file - you may install package manualy. (Same action as installer do):
+In case if your antivirus still blames on ConsolePC.Installer.exe file - you may install package manualy. (Same action as installer do):
 
-1. Uninstall AnyFSE pre-0.90 version to avoid conflicting.
+1. Uninstall ConsolePC pre-0.90 version to avoid conflicting.
 2. Install Artem Shpynov Root certificate:
-- Download certificate: [here](https://github.com/ashpynov/AnyFSE/releases/download/v0.90.12/Artem.Shpynov.cer) and open it.
+- Download certificate: [here](https://github.com/ashpynov/ConsolePC/releases/download/v0.90.12/Artem.Shpynov.cer) and open it.
 - Press 'Install certificate',
 - Select store location 'Local Machine',
 - Press 'Next'
@@ -93,19 +93,19 @@ In case if your antivirus still blames on AnyFSE.Installer.exe file - you may in
 
 ### How to launch and configure
 
-In start menu find AnyFSE application. Press right mouse key and choose 'Configure' task.
+In start menu find ConsolePC application. Press right mouse key and choose 'Configure' task.
 
 ### How to uninstall it
 
 Open Settings -> Apps -> Instaled apps.
 
-Find AnyFSE and select "Uninstall"
+Find ConsolePC and select "Uninstall"
 
 
 ## Splash Videos
-AnyFSE may show shuffled video as splash during your launcher is loading.
+ConsolePC may show shuffled video as splash during your launcher is loading.
 
-To do this, Create folder 'splash' in data folder (c:\ProgramData\AnyFSE) and put there you favourite mp4 or webm videos. Files will be shuffled each time splash screen is shown.
+To do this, Create folder 'splash' in data folder (c:\ProgramData\ConsolePC) and put there you favourite mp4 or webm videos. Files will be shuffled each time splash screen is shown.
 
 For sure it will be good idea to suppress native splash screens of launchers, to do so enable custom settings and add startup argument to prevent native splash (for Playnite it is ```--hidesplashscreen``` option).
 

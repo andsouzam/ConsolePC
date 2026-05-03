@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     class Packages
     {

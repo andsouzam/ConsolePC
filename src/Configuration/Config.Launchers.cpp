@@ -25,7 +25,7 @@
 #include "Config.hpp"
 #include "Tools/Unicode.hpp"
 
-namespace AnyFSE::Configuration
+namespace ConsolePC::Configuration
 {
     static std::list<LauncherConfig> InitSupportedLaunchers()
     {

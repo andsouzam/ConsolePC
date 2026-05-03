@@ -36,10 +36,10 @@
 
 using namespace std;
 
-using namespace AnyFSE::Logging;
+using namespace ConsolePC::Logging;
 
 
-namespace AnyFSE::Logging
+namespace ConsolePC::Logging
 {
     std::ofstream LogManager::LogWriter;
     std::mutex LogManager::WriteLock;

@@ -1,4 +1,4 @@
-// Header-only minidump helper for AnyFSE
+// Header-only minidump helper for ConsolePC
 #pragma once
 
 #include <windows.h>
@@ -10,7 +10,7 @@
 
 #pragma comment(lib, "Dbghelp.lib")
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     inline bool WriteMiniDump(EXCEPTION_POINTERS* pExceptionInfo)
     {
@@ -86,7 +86,7 @@ namespace AnyFSE::Tools
         return wrote;
     }
 
-    inline LONG WINAPI AnyFSEUnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionInfo)
+    inline LONG WINAPI ConsolePCUnhandledExceptionFilter(EXCEPTION_POINTERS* pExceptionInfo)
     {
         WriteMiniDump(pExceptionInfo);
         return EXCEPTION_EXECUTE_HANDLER;
@@ -94,6 +94,6 @@ namespace AnyFSE::Tools
 
     inline void InstallUnhandledExceptionHandler()
     {
-        SetUnhandledExceptionFilter(AnyFSEUnhandledExceptionFilter);
+        SetUnhandledExceptionFilter(ConsolePCUnhandledExceptionFilter);
     }
 }

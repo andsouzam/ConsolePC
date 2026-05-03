@@ -16,13 +16,13 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Build AnyFSE Release",
+            "label": "Build ConsolePC Release",
             "command": "msbuild.exe",
             "args": [
-                "AnyFSE.sln",
+                "ConsolePC.sln",
                 "-property:Configuration=Release",
                 "-property:Platform=x64",
-                "-target:AnyFSE;AnyFSE_Settings"
+                "-target:ConsolePC;ConsolePC_Settings"
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -37,7 +37,7 @@
             "label": "Clean Debug",
             "command": "msbuild.exe",
             "args": [
-                "AnyFSE.sln",
+                "ConsolePC.sln",
                 "-property:Configuration=Debug",
                 "-property:Platform=x64",
                 "-target:Clean"
@@ -52,13 +52,13 @@
         },
         {
             "type": "shell",
-            "label": "Build AnyFSE Debug",
+            "label": "Build ConsolePC Debug",
             "command": "msbuild.exe",
             "args": [
-                "AnyFSE.sln",
+                "ConsolePC.sln",
                 "-property:Configuration=Debug",
                 "-property:Platform=x64",
-                "-target:AnyFSE;AnyFSE_Settings"
+                "-target:ConsolePC;ConsolePC_Settings"
             ],
             "problemMatcher": [
                 "$msCompile"
@@ -79,9 +79,9 @@
                 "--export_type",
                 "cobertura:${workspaceFolder}\\coverage.xml",
                 "--",
-                "${workspaceFolder}\\build\\Debug\\AnyFSE.exe"
+                "${workspaceFolder}\\build\\Debug\\ConsolePC.exe"
             ],
-            "dependsOn": ["Build AnyFSE Debug"],
+            "dependsOn": ["Build ConsolePC Debug"],
             "group": "none"
         },
         {
@@ -89,7 +89,7 @@
             "type": "shell",
             "command": "msbuild",
             "args": [
-                "${workspaceFolder}/AnyFSE.sln",
+                "${workspaceFolder}/ConsolePC.sln",
                 "/p:Configuration=Release",
                 "/p:Platform=x64"
             ],
@@ -100,7 +100,7 @@
             "type": "shell",
             "command": "msbuild",
             "args": [
-                "${workspaceFolder}/AnyFSE.sln",
+                "${workspaceFolder}/ConsolePC.sln",
                 "/p:Configuration=Debug",
                 "/p:Platform=x64"
             ],
@@ -108,10 +108,10 @@
         },
         {
             "type": "shell",
-            "label": "Build AnyFSE.Installer Release",
+            "label": "Build ConsolePC.Installer Release",
             "command": "msbuild.exe",
             "args": [
-                "AnyFSE.Installer.vcxproj",
+                "ConsolePC.Installer.vcxproj",
                 "-property:Configuration=Release",
                 "-property:Platform=x64",
             ],
@@ -128,10 +128,10 @@
         },
         {
             "type": "shell",
-            "label": "Build AnyFSE.Installer Debug",
+            "label": "Build ConsolePC.Installer Debug",
             "command": "msbuild.exe",
             "args": [
-                "AnyFSE.Installer.vcxproj",
+                "ConsolePC.Installer.vcxproj",
                 "-property:Configuration=Debug",
                 "-property:Platform=x64",
             ],

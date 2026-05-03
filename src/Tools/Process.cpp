@@ -38,7 +38,7 @@
 
 #pragma comment(lib, "psapi.lib")
 
-namespace AnyFSE::Tools::Process
+namespace ConsolePC::Tools::Process
 {
     static Logger log = LogManager::GetLogger("Process");
 

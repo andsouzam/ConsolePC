@@ -25,7 +25,7 @@
 
 #include <windows.h>
 
-namespace AnyFSE::App
+namespace ConsolePC::App
 {
     namespace Window { class MainWindow; }
     namespace StateLoop { class AppControlStateLoop; }

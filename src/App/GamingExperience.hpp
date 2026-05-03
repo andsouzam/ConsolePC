@@ -27,7 +27,7 @@
 #include <gamingexperience.h>
 #include "Tools/Event.hpp"
 
-namespace AnyFSE::App
+namespace ConsolePC::App
 {
     class GamingExperience
     {
@@ -50,4 +50,4 @@ namespace AnyFSE::App
     };
 }
 
-using namespace AnyFSE::App;
+using namespace ConsolePC::App;

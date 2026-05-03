@@ -34,7 +34,7 @@
 #include <exception>
 
 
-namespace AnyFSE::Logging
+namespace ConsolePC::Logging
 {
     enum class LogLevels
     {
@@ -74,4 +74,4 @@ namespace AnyFSE::Logging
     };
 }
 
-using namespace AnyFSE::Logging;
+using namespace ConsolePC::Logging;

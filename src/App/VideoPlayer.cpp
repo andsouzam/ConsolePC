@@ -37,7 +37,7 @@
 #pragma comment(lib, "mfuuid.lib")
 #pragma comment(lib, "shlwapi.lib")
 
-namespace AnyFSE::App::Window
+namespace ConsolePC::App::Window
 {
     Logger log = LogManager::GetLogger("VideoPlayer");
 

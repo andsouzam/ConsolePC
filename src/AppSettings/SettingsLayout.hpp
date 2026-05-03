@@ -1,6 +1,6 @@
 #pragma once
 
-namespace AnyFSE::App::AppSettings::Settings::Layout
+namespace ConsolePC::App::AppSettings::Settings::Layout
 {
     static const int OKWidth = 100;
     static const int CloseWidth = 150;

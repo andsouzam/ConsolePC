@@ -29,7 +29,7 @@
 #include <fstream>
 #include "Logger.hpp"
 
-namespace AnyFSE::Logging
+namespace ConsolePC::Logging
 {
     class LogManager
     {
@@ -58,4 +58,4 @@ namespace AnyFSE::Logging
     };
 }
 
-using namespace AnyFSE::Logging;
+using namespace ConsolePC::Logging;

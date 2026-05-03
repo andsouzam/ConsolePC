@@ -26,7 +26,7 @@
 #include <string>
 
 
-namespace AnyFSE::ToolsEx::Admin
+namespace ConsolePC::ToolsEx::Admin
 {
     BOOL IsRunningAsAdministrator();
     BOOL RequestAdminElevation(const std::wstring& args = L"");

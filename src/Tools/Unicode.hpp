@@ -27,7 +27,7 @@
 #include <string>
 #include <Windows.h>
 
-namespace AnyFSE::Tools::Unicode
+namespace ConsolePC::Tools::Unicode
 {
     std::wstring to_wstring(const std::string& str);
     std::string to_string(const std::wstring& wstr);
@@ -37,4 +37,4 @@ namespace AnyFSE::Tools::Unicode
     std::string to_upper(const std::string &str);
 }
 
-namespace Unicode = AnyFSE::Tools::Unicode;
+namespace Unicode = ConsolePC::Tools::Unicode;

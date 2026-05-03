@@ -25,7 +25,7 @@
 #include "Tools/Process.hpp"
 #include "Tools/Paths.hpp"
 
-namespace AnyFSE::ToolsEx::Admin
+namespace ConsolePC::ToolsEx::Admin
 {
     BOOL IsRunningAsAdministrator()
     {

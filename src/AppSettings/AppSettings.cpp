@@ -42,7 +42,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD reason, LPVOID lpReserved)
 __declspec(dllexport)
 int WINAPI Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    HWND hDialogWnd = FindWindow(AnyFSE::App::AppSettings::Settings::SettingsDialog::DialogClassName, NULL);
+    HWND hDialogWnd = FindWindow(ConsolePC::App::AppSettings::Settings::SettingsDialog::DialogClassName, NULL);
     if (hDialogWnd)
     {
         ShowWindow(hDialogWnd, SW_SHOWNORMAL);
@@ -53,10 +53,10 @@ int WINAPI Main(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, i
     Config::Load();
     Config::GetStartupConfigured();
 
-    AnyFSE::Logging::LogManager::Initialize("AnyFSE.Settings", Config::LogLevel, Config::LogPath);
+    ConsolePC::Logging::LogManager::Initialize("ConsolePC.Settings", Config::LogLevel, Config::LogPath);
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-    int result = (int)AnyFSE::App::AppSettings::Settings::SettingsDialog().Show(hInstance);
+    int result = (int)ConsolePC::App::AppSettings::Settings::SettingsDialog().Show(hInstance);
     return result;
 };
 

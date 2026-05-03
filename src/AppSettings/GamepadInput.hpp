@@ -30,7 +30,7 @@
 
 #pragma comment(lib, "xinput.lib")
 
-namespace AnyFSE::App::AppSettings::Input
+namespace ConsolePC::App::AppSettings::Input
 {
     class GamepadInputListener
     {
@@ -70,4 +70,4 @@ namespace AnyFSE::App::AppSettings::Input
     };
 }
 
-using namespace AnyFSE::App::AppSettings::Input;
+using namespace ConsolePC::App::AppSettings::Input;

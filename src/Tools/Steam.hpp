@@ -5,7 +5,7 @@
 #include <vector>
 #include <windows.h>
 
-namespace AnyFSE::Tools::Steam
+namespace ConsolePC::Tools::Steam
 {
     std::wstring GetConfigValue(const std::wstring &key, const std::wstring &defValue);
     std::vector<WORD> ParseKeySequence(const std::string &steamSequence);

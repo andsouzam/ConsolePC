@@ -33,7 +33,7 @@
 #include "Tools/Paths.hpp"
 
 
-namespace AnyFSE::Configuration
+namespace ConsolePC::Configuration
 {
     namespace fs = std::filesystem;
 
@@ -42,7 +42,7 @@ namespace AnyFSE::Configuration
         FseOnStartup = IsFseOnStartupConfigured();
         Launcher.StartCommand = IsNativeConfigured()
             ? GetNativePath(Launcher.StartCommand)
-            : IsAnyFSEConfigured()
+            : IsConsolePCConfigured()
             ? Launcher.StartCommand
             : L"";
     }
@@ -84,14 +84,14 @@ namespace AnyFSE::Configuration
         std::wstring appPackageId = Registry::ReadString(
             L"Software\\Microsoft\\Windows\\CurrentVersion\\GamingConfiguration",
             L"GamingHomeApp");
-        return !IsAnyFSEConfigured() && !Packages::GetAppxInstallLocation(appPackageId).empty();
+        return !IsConsolePCConfigured() && !Packages::GetAppxInstallLocation(appPackageId).empty();
     }
 
-    bool Config::IsAnyFSEConfigured()
+    bool Config::IsConsolePCConfigured()
     {
         return Registry::ReadString(
             L"Software\\Microsoft\\Windows\\CurrentVersion\\GamingConfiguration",
-            L"GamingHomeApp") == L"ArtemShpynov.AnyFSE_by4wjhxmygwn4!App";
+            L"GamingHomeApp") == L"ConsolePC_fwdx51s6az6d4!App";
     }
 
     std::wstring Config::GetNativePath(const std::wstring& launcher)
@@ -221,7 +221,7 @@ namespace AnyFSE::Configuration
         auto launchers = Packages::GetNativeLaunchers();
         for (auto appUserModelId : launchers)
         {
-            if (appUserModelId == L"ArtemShpynov.AnyFSE_by4wjhxmygwn4!App" )
+            if (appUserModelId == L"ConsolePC_fwdx51s6az6d4!App" )
                 continue;
 
             if (List::npos == List::index_of_if(

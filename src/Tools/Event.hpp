@@ -30,7 +30,7 @@
 #define delegate(func) [This = this]() { This->func(); }
 #define delegateparam(func, param) [This = this, Param = param]() { This->func(Param); }
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     class Event
     {
@@ -50,4 +50,4 @@ namespace AnyFSE::Tools
 
     };
 }
-using namespace AnyFSE::Tools;
+using namespace ConsolePC::Tools;

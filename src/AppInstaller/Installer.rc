@@ -32,7 +32,7 @@ BEGIN
     END
 END
 
-2                ICON                    "..\\..\\media\\AnyFSEInstaller.ico"
+2                ICON                    "..\\..\\media\\ConsolePCInstaller.ico"
 
 #ifdef OFFLINE_INSTALLER
 3                ZIP                     BUILD_ARCHIVE

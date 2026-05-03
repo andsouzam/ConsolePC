@@ -24,7 +24,7 @@ namespace Ally::Handlers
     void ToggleMicrophone();
 
     void OpenArmouryCrate();
-    void OpenAnyFSESettings();
+    void OpenConsolePCSettings();
     void OpenGameBar();
     void OpenSteamOverlay();
     void OpenSteamQuickMenu();

@@ -6,7 +6,7 @@
 #include "AllyHidPage.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void AllyHidPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {

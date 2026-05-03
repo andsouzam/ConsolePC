@@ -26,7 +26,7 @@
 
 #include "SettingsDialog.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     using namespace FluentDesign;
 

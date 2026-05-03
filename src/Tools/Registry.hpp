@@ -25,7 +25,7 @@
 #include <windows.h>
 #include <string>
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     class Registry
     {
@@ -46,4 +46,4 @@ namespace AnyFSE::Tools
         static HKEY GetRootKey(const std::wstring& subKey, std::wstring& actualPath);
     };
 }
-using namespace AnyFSE::Tools;
+using namespace ConsolePC::Tools;

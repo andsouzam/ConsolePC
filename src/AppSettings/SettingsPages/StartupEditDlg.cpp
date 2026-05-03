@@ -1,7 +1,7 @@
 #include <filesystem>
 #include "StartupEditDlg.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     void StartupEditDlg::OnOk()
     {

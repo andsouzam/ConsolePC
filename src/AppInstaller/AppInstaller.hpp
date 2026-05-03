@@ -29,7 +29,7 @@
 #include "FluentDesign/Static.hpp"
 
 
-namespace AnyFSE
+namespace ConsolePC
 {
 #ifndef VER_VERSION_STR
 #define VER_VERSION_STR "1.2.3"
@@ -44,7 +44,7 @@ namespace AnyFSE
 #endif
 
 #ifndef VER_PRODUCT_NAME
-#define VER_PRODUCT_NAME "AnyFSE"
+#define VER_PRODUCT_NAME "ConsolePC"
 #endif
 
 #define IDR_EMBEDDED_ZIP 3
@@ -99,7 +99,7 @@ namespace AnyFSE
             const int Layout_EditHeight = 36;
             const int Layout_ButtonPadding = 16;
 
-            const wchar_t * registryPath = L"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\AnyFSE";
+            const wchar_t * registryPath = L"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\ConsolePC";
 
             const wchar_t * Icon_EULA = L"C:\\Windows\\system32\\imageres.dll,-81";
             const wchar_t * Icon_Browse = L"C:\\Windows\\system32\\imageres.dll,-1025";

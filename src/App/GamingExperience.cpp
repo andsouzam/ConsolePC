@@ -24,7 +24,7 @@
 #include <apiquery2.h>
 #include <libloaderapi.h>
 #include <libloaderapi2.h>
-#include <gamingexperience.h>
+#include "gamingexperience.h"
 #include "Logging/LogManager.hpp"
 #include "GamingExperience.hpp"
 
@@ -33,56 +33,72 @@
 #pragma comment(lib, "windowsapp.lib")
 #pragma comment(lib, "onecore.lib")
 
-namespace AnyFSE::App
+namespace ConsolePC::App
 {
     static Logger log = LogManager::GetLogger("GamingExperience");
 
+    // Dynamic function pointers
+    static pfnIsGamingFullScreenExperienceSupported fIsGamingFullScreenExperienceSupported = nullptr;
+    static pfnIsGamingFullScreenExperienceActive fIsGamingFullScreenExperienceActive = nullptr;
+    static pfnSetGamingFullScreenExperience fSetGamingFullScreenExperience = nullptr;
+    static pfnRegisterGamingFullScreenExperienceChangeNotification fRegisterGamingFullScreenExperienceChangeNotification = nullptr;
+    static pfnUnregisterGamingFullScreenExperienceChangeNotification fUnregisterGamingFullScreenExperienceChangeNotification = nullptr;
+
     bool isApiSetImplemented( const std::string& api )
     {
-        HMODULE hDll = NULL;
-        bool result = ::IsApiSetImplemented(api.c_str())
-            && (hDll = LoadLibraryA((api + ".dll").c_str()))
-            && GetProcAddress(hDll, "RegisterGamingFullScreenExperienceChangeNotification");
-        if (hDll)
-        {
-            FreeLibrary(hDll);
-        }
-        return result;
+        HMODULE hDll = LoadLibraryA((api + ".dll").c_str());
+        if (!hDll) return false;
+
+        fIsGamingFullScreenExperienceSupported = (pfnIsGamingFullScreenExperienceSupported)GetProcAddress(hDll, "IsGamingFullScreenExperienceSupported");
+        fIsGamingFullScreenExperienceActive = (pfnIsGamingFullScreenExperienceActive)GetProcAddress(hDll, "IsGamingFullScreenExperienceActive");
+        fSetGamingFullScreenExperience = (pfnSetGamingFullScreenExperience)GetProcAddress(hDll, "SetGamingFullScreenExperience");
+        fRegisterGamingFullScreenExperienceChangeNotification = (pfnRegisterGamingFullScreenExperienceChangeNotification)GetProcAddress(hDll, "RegisterGamingFullScreenExperienceChangeNotification");
+        fUnregisterGamingFullScreenExperienceChangeNotification = (pfnUnregisterGamingFullScreenExperienceChangeNotification)GetProcAddress(hDll, "UnregisterGamingFullScreenExperienceChangeNotification");
+
+        // We don't free hDll because we need the function pointers to stay valid
+        return fRegisterGamingFullScreenExperienceChangeNotification != nullptr;
     }
 
     bool GamingExperience::ApiIsAvailable = isApiSetImplemented("api-ms-win-gaming-experience-l1-1-0");
 
     bool GamingExperience::IsFullscreenMode()
     {
-        return ApiIsAvailable && IsGamingFullScreenExperienceActive();
+        return ApiIsAvailable && fIsGamingFullScreenExperienceActive && fIsGamingFullScreenExperienceActive();
     }
 
     bool GamingExperience::IsDesktopMode()
     {
         return !ApiIsAvailable
-            || (IsGamingFullScreenExperienceSupported() && !IsGamingFullScreenExperienceActive());
+            || (fIsGamingFullScreenExperienceSupported && fIsGamingFullScreenExperienceSupported() 
+                && fIsGamingFullScreenExperienceActive && !fIsGamingFullScreenExperienceActive());
     }
 
     bool GamingExperience::ExitFSEMode()
     {
-        HRESULT hres = SetGamingFullScreenExperience(FALSE);
-        log.Debug("Set FSE off return %u", hres);
+        if (ApiIsAvailable && fSetGamingFullScreenExperience)
+        {
+            HRESULT hres = fSetGamingFullScreenExperience(FALSE);
+            log.Debug("Set FSE off return %u", hres);
+        }
         return false;
     }
 
     bool GamingExperience::EnterFSEMode()
     {
-        HRESULT hres = SetGamingFullScreenExperience(TRUE);
-        log.Debug("Entering FSE mode ... %u", hres);
+        if (ApiIsAvailable && fSetGamingFullScreenExperience)
+        {
+            HRESULT hres = fSetGamingFullScreenExperience(TRUE);
+            log.Debug("Entering FSE mode ... %u", hres);
+        }
         return false;
     }
 
     GamingExperience::GamingExperience()
     {
         m_fseHandle = nullptr;
-        if (ApiIsAvailable)
+        if (ApiIsAvailable && fRegisterGamingFullScreenExperienceChangeNotification)
         {
-            RegisterGamingFullScreenExperienceChangeNotification((VOID(CALLBACK *)(LPVOID))Callback, this, &m_fseHandle);
+            fRegisterGamingFullScreenExperienceChangeNotification((PFN_GAMING_FULL_SCREEN_EXPERIENCE_CHANGE_CALLBACK)Callback, this, &m_fseHandle);
             if (m_fseHandle != nullptr)
             {
                 log.Debug(
@@ -105,9 +121,9 @@ namespace AnyFSE::App
 
     GamingExperience::~GamingExperience()
     {
-        if (m_fseHandle != nullptr && ApiIsAvailable)
+        if (m_fseHandle != nullptr && ApiIsAvailable && fUnregisterGamingFullScreenExperienceChangeNotification)
         {
-            UnregisterGamingFullScreenExperienceChangeNotification(m_fseHandle);
+            fUnregisterGamingFullScreenExperienceChangeNotification(m_fseHandle);
         }
     }
 }

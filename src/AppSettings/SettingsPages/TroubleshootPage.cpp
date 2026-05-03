@@ -7,7 +7,7 @@
 #include "Tools/Paths.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void TroubleshootPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {

@@ -58,7 +58,7 @@ name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
 processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     using namespace FluentDesign;
     class SettingsDialog
@@ -67,7 +67,7 @@ namespace AnyFSE::App::AppSettings::Settings
 
         // SettingsDialog_Update
         static const UINT WM_UPDATE_NOTIFICATION = WM_USER + 2;
-        inline static const wchar_t* DialogClassName = L"AnyFSESettingsDialogClass";
+        inline static const wchar_t* DialogClassName = L"ConsolePCSettingsDialogClass";
 
         HWND GetHwnd() { return m_hDialog; }
 
@@ -208,4 +208,4 @@ namespace AnyFSE::App::AppSettings::Settings
 
 #include "SettingsDialog.tpp"
 
-using namespace AnyFSE::App::AppSettings::Settings;
+using namespace ConsolePC::App::AppSettings::Settings;

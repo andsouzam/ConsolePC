@@ -8,7 +8,7 @@
 #include "LauncherPage.hpp"
 #include "Logging/LogManager.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     static Logger log = LogManager::GetLogger("Settings/Launcher");
 
@@ -36,6 +36,12 @@ namespace AnyFSE::App::AppSettings::Settings::Page
             L"Enter full screen experience on startup",
             L"",
             m_fseOnStartupToggle,
+            Layout::LineHeight, Layout::LinePadding, 0);
+
+        m_dialog.AddSettingsLine(settingPageList, top,
+            L"Enable Decky Loader",
+            L"Run PluginLoader automatically for Steam plugins",
+            m_deckyEnabledToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_pCustomSettingsLine = &m_dialog.AddSettingsLine(settingPageList, top,
@@ -177,6 +183,8 @@ namespace AnyFSE::App::AppSettings::Settings::Page
         UpdateCombo();
         Config::LoadLauncherSettings(m_currentLauncherPath, m_config);
 
+        m_deckyEnabledToggle.SetCheck(Config::DeckyUpdateEnabled);
+
         bool customSettings = Config::CustomSettings;
         m_customSettingsState = customSettings ? FluentDesign::SettingsLine::Next: FluentDesign::SettingsLine::Normal;
 
@@ -197,7 +205,7 @@ namespace AnyFSE::App::AppSettings::Settings::Page
         const std::wstring startupToGamingHome = L"StartupToGamingHome";
         const std::wstring gamingHomeApp = L"GamingHomeApp";
         //const std::wstring xboxApp = L"Microsoft.GamingApp_8wekyb3d8bbwe!Microsoft.Xbox.App";
-        const std::wstring anyFSEApp = L"ArtemShpynov.AnyFSE_by4wjhxmygwn4!App";
+        const std::wstring ConsolePCApp = L"ConsolePC_fwdx51s6az6d4!App";
 
         if (m_config.Type == LauncherType::None)
         {
@@ -212,13 +220,14 @@ namespace AnyFSE::App::AppSettings::Settings::Page
         }
         else
         {
-            log.Debug("Saving AnyFSE as launcher");
+            log.Debug("Saving ConsolePC as launcher");
             Registry::WriteBool(gamingConfiguration, startupToGamingHome, m_fseOnStartupToggle.GetCheck());
-            Registry::WriteString(gamingConfiguration, gamingHomeApp, anyFSEApp);
+            Registry::WriteString(gamingConfiguration, gamingHomeApp, ConsolePCApp);
         }
 
         log.Debug("Saved launcher: %s", Unicode::to_string(Registry::ReadString(gamingConfiguration, gamingHomeApp)).c_str());
 
+        Config::DeckyUpdateEnabled = m_deckyEnabledToggle.GetCheck();
         Config::Launcher.StartCommand = m_config.StartCommand;
         Config::CustomSettings = m_customSettingsToggle.GetCheck();
         Config::CustomSettings = m_customSettingsToggle.GetCheck();
@@ -328,7 +337,7 @@ namespace AnyFSE::App::AppSettings::Settings::Page
                !m_defaultConfig.AppUserModelID.empty()
             || m_defaultConfig.Type == LauncherType::None;
 
-        bool enabledAnyFSE =
+        bool enabledConsolePC =
                m_defaultConfig.Type != LauncherType::None
             && m_defaultConfig.Type != LauncherType::Native;
 
@@ -346,17 +355,17 @@ namespace AnyFSE::App::AppSettings::Settings::Page
 
         if (haveSettings && !enableCheck)
         {
-            m_pCustomSettingsLine->Enable(enabledAnyFSE && haveSettings);
+            m_pCustomSettingsLine->Enable(enabledConsolePC && haveSettings);
             EnableWindow(m_pCustomSettingsLine->GetChildControl(), enableCheck);
             m_pCustomSettingsLine->Invalidate();
         }
         else
         {
-            m_pCustomSettingsLine->Enable(enabledAnyFSE && enableCheck);
+            m_pCustomSettingsLine->Enable(enabledConsolePC && enableCheck);
         }
 
-        m_pSplashSettingsLine->Enable(enabledAnyFSE);
-        m_pStartupSettingsLine->Enable(enabledAnyFSE);
+        m_pSplashSettingsLine->Enable(enabledConsolePC);
+        m_pStartupSettingsLine->Enable(enabledConsolePC);
 
         if (!haveSettings)
         {
@@ -366,7 +375,7 @@ namespace AnyFSE::App::AppSettings::Settings::Page
 
         m_pBrowseLine->SetDescription(
             m_defaultConfig.Type == LauncherType::Native
-                ? L"* Native launcher is selected, AnyFSE will not be executed"
+                ? L"* Native launcher is selected, ConsolePC will not be executed"
                 : L""
         );
     }

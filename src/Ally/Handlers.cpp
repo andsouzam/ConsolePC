@@ -30,7 +30,7 @@ namespace Ally::Handlers
         { L"ArmouryCrate", L"Armoury Crate SE", Handlers::OpenArmouryCrate },
         { L"SteamOverlay", L"Steam Overlay", Handlers::OpenSteamOverlay },
         { L"SteamQAM", L"Steam Quick Menu (Ctrl+2)", Handlers::OpenSteamQuickMenu },
-        { L"AnyFSESettings", L"AnyFSE Settings", Handlers::OpenAnyFSESettings },
+        { L"ConsolePCSettings", L"ConsolePC Settings", Handlers::OpenConsolePCSettings },
         { L"Keyboard", L"On-Screen Keyboard", Handlers::ShowKeyboard },
     };
 
@@ -101,9 +101,9 @@ namespace Ally::Handlers
         Process::StartProtocol(L"asusac://");
     }
 
-    void Handlers::OpenAnyFSESettings()
+    void Handlers::OpenConsolePCSettings()
     {
-        Process::StartProtocol(L"anyfse://settings");
+        Process::StartProtocol(L"consolepc://settings");
     }
 
     void Handlers::OpenGameBar()
@@ -119,7 +119,7 @@ namespace Ally::Handlers
         }
         else
         {
-            std::vector<WORD> keys = AnyFSE::Tools::Steam::GetOverlaySequence();
+            std::vector<WORD> keys = ConsolePC::Tools::Steam::GetOverlaySequence();
             if (!keys.empty())
             {
                 SendKeyInput(keys, 300);
@@ -131,7 +131,7 @@ namespace Ally::Handlers
     {
         if (!SteamIsActive())
         {
-            std::vector<WORD> keys = AnyFSE::Tools::Steam::GetOverlaySequence();
+            std::vector<WORD> keys = ConsolePC::Tools::Steam::GetOverlaySequence();
             if (!keys.empty())
             {
                 SendKeyInput(keys, 100);
@@ -167,7 +167,7 @@ namespace Ally::Handlers
 
     void OpenLibrary()
     {
-        Process::StartProtocol(L"anyfse://launcher");
+        Process::StartProtocol(L"consolepc://launcher");
     }
 
     void OpenTaskSwitcher()

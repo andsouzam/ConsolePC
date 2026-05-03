@@ -46,7 +46,7 @@ namespace nlohmann
     };
 }
 
-namespace AnyFSE::Configuration
+namespace ConsolePC::Configuration
 {
     namespace fs = std::filesystem;
     using jp = json::json_pointer;
@@ -91,14 +91,23 @@ namespace AnyFSE::Configuration
     std::wstring    Config::AllyHidModeCCPress = L"";
     std::wstring    Config::AllyHidModeLibraryPress = L"";
 
+    bool            Config::DeckyUpdateEnabled = true;
+    std::wstring    Config::DeckyLastCheck = L"";
+    std::wstring    Config::DeckyLastSha = L"";
+
     bool Config::IsConfigured()
     {
         return fs::exists(GetConfigFileA());
     }
 
+    std::wstring Config::GetDeckyPath()
+    {
+        return Tools::Paths::GetAppPath() + L"\\Decky\\PluginLoader_noconsole.exe";
+    }
+
     std::string Config::GetConfigFileA(bool readOnly)
     {
-        return Unicode::to_string(Tools::Paths::GetConfigPath() + L"\\AnyFSE.json");
+        return Unicode::to_string(Tools::Paths::GetConfigPath() + L"\\ConsolePC.json");
     }
 
     json Config::GetConfig()
@@ -150,13 +159,17 @@ namespace AnyFSE::Configuration
         UpdateLastCheck         = config.value(jp("/Update/LastCheck"),      std::wstring());
         UpdateCheckInterval     = config.value(jp("/Update/CheckInterval"),  -2);
 
+        DeckyUpdateEnabled      = config.value(jp("/Update/Decky/Enabled"),    true);
+        DeckyLastCheck          = config.value(jp("/Update/Decky/LastCheck"),  std::wstring());
+        DeckyLastSha            = config.value(jp("/Update/Decky/LastSha"),    std::wstring());
+
         AllyHidEnable           = config.value(jp("/AllyHid/Enable"),       false);
         AllyHidACPress          = config.value(jp("/AllyHid/ACPress"),      std::wstring(L"GamebarCommandCenter"));
         AllyHidACHold           = config.value(jp("/AllyHid/ACHold"),       std::wstring(L"TaskSwitcher"));
         AllyHidCCPress          = config.value(jp("/AllyHid/CCPress"),      std::wstring(L"HomeApp"));
         AllyHidLibraryPress     = config.value(jp("/AllyHid/LibraryPress"), std::wstring(L"HomeApp"));
         AllyHidModeACPress      = config.value(jp("/AllyHid/ModeACPress"),  std::wstring(L"ArmouryCrate"));
-        AllyHidModeACHold       = config.value(jp("/AllyHid/ModeACHold"),   std::wstring(L"AnyFSESettings"));
+        AllyHidModeACHold       = config.value(jp("/AllyHid/ModeACHold"),   std::wstring(L"ConsolePCSettings"));
         AllyHidModeCCPress      = config.value(jp("/AllyHid/ModeCCPress"),  std::wstring(L""));
         AllyHidModeLibraryPress = config.value(jp("/AllyHid/ModeLibraryPress"), std::wstring(L""));
 
@@ -245,6 +258,10 @@ namespace AnyFSE::Configuration
         config["Update"]["LastVersion"]         = UpdateLastVersion;
         config["Update"]["LastCheck"]           = UpdateLastCheck;
         config["Update"]["CheckInterval"]       = UpdateCheckInterval;
+
+        config["Update"]["Decky"]["Enabled"]    = DeckyUpdateEnabled;
+        config["Update"]["Decky"]["LastCheck"]  = DeckyLastCheck;
+        config["Update"]["Decky"]["LastSha"]    = DeckyLastSha;
 
         config["AllyHid"]["Enable"]             = AllyHidEnable;
         config["AllyHid"]["ACPress"]            = AllyHidACPress;

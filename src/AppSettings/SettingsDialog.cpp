@@ -44,7 +44,7 @@
 #include "Tools/GdiPlus.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     static Logger log = LogManager::GetLogger("Settings");
 
@@ -180,7 +180,7 @@ namespace AnyFSE::App::AppSettings::Settings
             {   // To enable immersive dark mode (for a dark title bar)
 
                 m_theme.AttachDlg(hwnd);
-                SetWindowText(hwnd, L"AnyFSE Settings");
+                SetWindowText(hwnd, L"ConsolePC Settings");
                 OnInitDialog(hwnd);
                 RestoreWindowPlacement();
                 Process::BringWindowToForeground(m_hDialog);
@@ -644,7 +644,7 @@ namespace AnyFSE::App::AppSettings::Settings
 
     HWND SettingsDialog::GetMainWindow()
     {
-        return FindWindow(L"AnyFSE", NULL);
+        return FindWindow(L"ConsolePC", NULL);
     }
 
     void SettingsDialog::AddCaptionButtons()
@@ -811,7 +811,7 @@ namespace AnyFSE::App::AppSettings::Settings
         {
             if (!Ally::UpdateHidListener() && Config::AllyHidEnable)
             {
-                Process::StartProtocol(L"anyfse://AllyHid");
+                Process::StartProtocol(L"consolepc://AllyHid");
             }
         }
     }

@@ -7,7 +7,7 @@
 #include "FluentDesign/Button.hpp"
 #include "FluentDesign/TextBox.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     using namespace FluentDesign;
     class StartupEditDlg : protected Dialog

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <VersionRevision>4</VersionRevision>
+    <AppName>ConsolePC</AppName>
+    <AssemblyProduct>ConsolePC</AssemblyProduct>
+    <AssemblyCompany>ConsolePC</AssemblyCompany>
+    <AssemblyDescription>Windows Console Experience Home application launcher</AssemblyDescription>
+    <AssemblyCopyright>Copyright © 2026 ConsolePC. All rights reserved.</AssemblyCopyright>
+    <AssemblyInternalName>$(TargetName)</AssemblyInternalName>
+    <PublisherCN>ConsolePC</PublisherCN>
+    <PackageName>ConsolePC</PackageName>
+    <PackagePublisher>CN=ConsolePC</PackagePublisher>
+    <PackagePublisherDisplayName>ConsolePC</PackagePublisherDisplayName>
+    <Description>Windows Console Experience</Description>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ResourceCompile>
+      <PreprocessorDefinitions>
+                VER_VERSION=$(AssemblyVersion.Replace('.', ',')),0;
+                VER_VERSION_STR=\"$(AssemblyVersion)\";
+                COMPANY_NAME=\"$(AssemblyCompany)\";
+                PRODUCT_NAME=\"$(AssemblyProduct)\";
+                FILE_DESCRIPTION=\"$(AssemblyDescription)\";
+                INTERNAL_NAME=\"$(AssemblyInternalName)\";
+                LEGAL_COPYRIGHT=\"$(AssemblyCopyright)\";
+                ORIGINAL_FILENAME=\"$(TargetName)$(TargetExt)\";
+                %(PreprocessorDefinitions)
+            </PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+</Project>

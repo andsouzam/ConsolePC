@@ -60,11 +60,11 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLi
     InitCommonControlsEx(&icex);
     SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
 
-    int result = (int)AnyFSE::AppInstaller().Show(hInstance, !_wcsnicmp(lpCmdLine, L"/autoupdate", 11));
+    int result = (int)ConsolePC::AppInstaller().Show(hInstance, !_wcsnicmp(lpCmdLine, L"/autoupdate", 11));
 
     return result;
 }
-namespace AnyFSE
+namespace ConsolePC
 {
     Logger log = LogManager::GetLogger("Installer");
 
@@ -186,7 +186,7 @@ namespace AnyFSE
 
     void AppInstaller::OnInitDialog(HWND hwnd)
     {
-        std::wstring title = std::wstring(L"AnyFSE ")
+        std::wstring title = std::wstring(L"ConsolePC ")
             + (m_isUpdate ? L"Updater v" : L"Installer v")
             + Unicode::to_wstring(APP_VERSION);
         SetWindowText(hwnd, title.c_str());
@@ -209,7 +209,7 @@ namespace AnyFSE
         {
             ShowErrorPage(
                 L"Insufficient permissions",
-                L"Escalated privileges is required to install AnyFSE.\n\n"
+                L"Escalated privileges is required to install ConsolePC.\n\n"
                 L"Please allow it in User Account Control (UAC) prompt.",
                 Icon_Permission);
         }

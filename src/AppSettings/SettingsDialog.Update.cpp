@@ -19,7 +19,7 @@
 #include "SettingsLayout.hpp"
 #include "Tools/Notification.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     static Logger log = LogManager::GetLogger("Settings");
 

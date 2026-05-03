@@ -4,7 +4,7 @@
 #include "FluentDesign/Theme.hpp"
 #include "AppSettings/SettingsPages/SettingsPage.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     using namespace FluentDesign;
 

@@ -14,7 +14,7 @@
 #include "Tools/Unicode.hpp"
 #include <algorithm>
 
-namespace AnyFSE::Tools::Steam
+namespace ConsolePC::Tools::Steam
 {
     struct VDFNode
     {
@@ -419,13 +419,13 @@ namespace AnyFSE::Tools::Steam
 
     std::vector<WORD> GetOverlaySequence()
     {
-        std::wstring settings = AnyFSE::Tools::Steam::GetConfigValue(
+        std::wstring settings = ConsolePC::Tools::Steam::GetConfigValue(
             L"UserLocalConfigStore.system.InGameOverlayShortcutKey",
             L"Shift+Tab"
         );
         if (!settings.empty())
         {
-            return AnyFSE::Tools::Steam::ParseKeySequence(Unicode::to_string(settings));
+            return ConsolePC::Tools::Steam::ParseKeySequence(Unicode::to_string(settings));
         }
         return std::vector<WORD>();
     }

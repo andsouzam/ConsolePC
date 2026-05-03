@@ -27,7 +27,7 @@
 #include <Windows.h>
 #include "GdiPlus.hpp"
 
-namespace AnyFSE::Tools::Icon
+namespace ConsolePC::Tools::Icon
 {
     HICON LoadIcon(const std::wstring& icon, int size = 256);
     Gdiplus::Bitmap * LoadBitmapFromIcon(const std::wstring &icon, int iconSize = 256);

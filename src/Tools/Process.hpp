@@ -28,7 +28,7 @@
 #include <set>
 #include <windows.h>
 
-namespace AnyFSE::Tools::Process
+namespace ConsolePC::Tools::Process
 {
     HWND FindAppWindow(HANDLE hProcess);
     DWORD FindFirstByExe(const std::wstring &processPath);
@@ -43,4 +43,4 @@ namespace AnyFSE::Tools::Process
     std::wstring GetWindowProcessName(HWND hWnd);
 }
 
-namespace Process = AnyFSE::Tools::Process;
+namespace Process = ConsolePC::Tools::Process;

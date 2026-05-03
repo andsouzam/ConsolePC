@@ -29,7 +29,7 @@
 #include <mfplay.h>
 #include <mfidl.h>
 
-namespace AnyFSE::App::Window
+namespace ConsolePC::App::Window
 {
     class CriticalSectionLock {
     private:

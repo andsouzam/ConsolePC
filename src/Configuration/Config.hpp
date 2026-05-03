@@ -32,7 +32,7 @@
 
 using json = nlohmann::json;
 
-namespace AnyFSE::Configuration
+namespace ConsolePC::Configuration
 {
     enum LauncherType
     {
@@ -94,7 +94,7 @@ namespace AnyFSE::Configuration
             static void GetStartupConfigured();
             static bool IsFseOnStartupConfigured();
             static bool IsNativeConfigured();
-            static bool IsAnyFSEConfigured();
+            static bool IsConsolePCConfigured();
             static bool FindInstalledLaunchers(std::list<std::wstring> &found);
             static bool FindNotInstalledLaunchers(std::list<std::wstring> &found);
             static std::wstring GetNativePath(const std::wstring &launcher);
@@ -133,6 +133,8 @@ namespace AnyFSE::Configuration
             static std::wstring GetFileDescription(const std::wstring &filePath);
 
             static bool IsConfigured();
+
+            static std::wstring GetDeckyPath();
 
 
             static bool GetLauncherDefaults(const std::wstring& path, LauncherConfig& out);
@@ -182,7 +184,11 @@ namespace AnyFSE::Configuration
             static std::wstring AllyHidModeACHold;
             static std::wstring AllyHidModeCCPress;
             static std::wstring AllyHidModeLibraryPress;
+
+            static bool         DeckyUpdateEnabled;
+            static std::wstring DeckyLastCheck;
+            static std::wstring DeckyLastSha;
     };
 }
 
-using namespace AnyFSE::Configuration;
+using namespace ConsolePC::Configuration;

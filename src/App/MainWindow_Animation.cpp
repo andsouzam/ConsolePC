@@ -35,7 +35,7 @@
 
 #pragma comment(lib, "Gdiplus.lib")
 
-namespace AnyFSE::App::Window
+namespace ConsolePC::App::Window
 {
     bool MainWindow::InitAnimationResources()
     {

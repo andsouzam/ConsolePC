@@ -31,7 +31,7 @@
 
 namespace Gdiplus { class Image; }
 
-namespace AnyFSE::App::Window
+namespace ConsolePC::App::Window
 {
     class MainWindow
     {
@@ -117,4 +117,4 @@ namespace AnyFSE::App::Window
     };
 }
 
-using namespace AnyFSE::App::Window;
+using namespace ConsolePC::App::Window;

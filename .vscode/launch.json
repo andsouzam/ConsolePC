@@ -5,60 +5,60 @@
     "version": "0.2.0",
     "configurations": [
                 {
-            "name": "Debug AnyFSE Launcher",
+            "name": "Debug ConsolePC Launcher",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "AnyFSE.exe",
-            "args": ["anyfse://launcher"],
+            "program": "ConsolePC.exe",
+            "args": ["consolepc://launcher"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/Debug",
             "environment": [],
-            "preLaunchTask": "Build AnyFSE Debug"
+            "preLaunchTask": "Build ConsolePC Debug"
         },
         {
-            "name": "Debug AnyFSE Settings",
+            "name": "Debug ConsolePC Settings",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "AnyFSE.exe",
+            "program": "ConsolePC.exe",
             "args": ["/settings"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/Debug",
             "environment": [],
-            "preLaunchTask": "Build AnyFSE Debug"
+            "preLaunchTask": "Build ConsolePC Debug"
         },
         {
-            "name": "Debug AnyFSE AllyHid",
+            "name": "Debug ConsolePC AllyHid",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "AnyFSE.exe",
+            "program": "ConsolePC.exe",
             "args": ["/allyhid"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/Debug",
             "environment": [],
-            "preLaunchTask": "Build AnyFSE Debug"
+            "preLaunchTask": "Build ConsolePC Debug"
         },
         {
             "name": "Debug with Coverage",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/Debug/AnyFSE.exe",
+            "program": "${workspaceFolder}/build/Debug/ConsolePC.exe",
             "args": ["settings"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "console": "integratedTerminal",
-            "preLaunchTask": "Build AnyFSE Debug"
+            "preLaunchTask": "Build ConsolePC Debug"
         },
         {
-            "name": "Debug AnyFSE.Installer",
+            "name": "Debug ConsolePC.Installer",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "AnyFSE.Installer.exe",
+            "program": "ConsolePC.Installer.exe",
             "args": [""],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/build/Debug",
             "environment": [],
-            "preLaunchTask": "Build AnyFSE.Installer Debug"
+            "preLaunchTask": "Build ConsolePC.Installer Debug"
         }
     ]
 }

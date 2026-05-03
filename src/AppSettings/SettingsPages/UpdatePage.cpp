@@ -5,7 +5,7 @@
 #include "UpdatePage.hpp"
 
 
-namespace AnyFSE::App::AppSettings::Settings::Page
+namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void UpdatePage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {

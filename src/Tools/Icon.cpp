@@ -33,7 +33,7 @@
 #include "Icon.hpp"
 #include "Packages.hpp"
 
-namespace AnyFSE::Tools::Icon
+namespace ConsolePC::Tools::Icon
 {
     static Logger log = LogManager::GetLogger("Tools/Icon");
 
@@ -205,4 +205,4 @@ namespace AnyFSE::Tools::Icon
     }
 }
 
-namespace Icon = AnyFSE::Tools::Icon;
+namespace Icon = ConsolePC::Tools::Icon;

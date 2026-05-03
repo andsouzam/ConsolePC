@@ -34,7 +34,7 @@
 #include "Packages.hpp"
 
 
-namespace AnyFSE::Tools::Window
+namespace ConsolePC::Tools::Window
 {
     static Logger log = LogManager::GetLogger("Tools/Window");
 

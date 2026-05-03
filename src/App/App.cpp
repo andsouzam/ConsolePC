@@ -42,6 +42,7 @@
 #include "App/Launchers.hpp"
 #include "App/JumpList.hpp"
 #include "Ally/Ally.hpp"
+#include "Updater/Updater.hpp"
 
 #pragma comment(lib, "comctl32.lib")
 #pragma comment(linker, "\"/manifestdependency:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
@@ -50,11 +51,11 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-    AnyFSE::Tools::InstallUnhandledExceptionHandler();
-    return AnyFSE::App::App::WinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+    ConsolePC::Tools::InstallUnhandledExceptionHandler();
+    return ConsolePC::App::App::WinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 }
 
-namespace AnyFSE::App
+namespace ConsolePC::App
 {
     static Logger log = LogManager::GetLogger("Application");
 
@@ -106,7 +107,7 @@ namespace AnyFSE::App
 
     int App::ShowSettings()
     {
-        return CallLibrary(L"AnyFSE.Settings.dll", GetModuleHandle(NULL), NULL, NULL, 0);;
+        return CallLibrary(L"ConsolePC.Settings.dll", GetModuleHandle(NULL), NULL, NULL, 0);;
     }
 
     void App::InitCustomControls()
@@ -171,13 +172,13 @@ namespace AnyFSE::App
             return true;
         }
 
-        // Registry != AnyFSE
-        const std::wstring AnyFSEApp = L"ArtemShpynov.AnyFSE_by4wjhxmygwn4!App";
+        // Registry != ConsolePC
+        const std::wstring ConsolePCApp = L"ConsolePC_fwdx51s6az6d4!App";
         const std::wstring selectedApp = Registry::ReadString(
             L"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\GamingConfiguration",
             L"GamingHomeApp");
 
-        if (_wcsicmp(selectedApp.c_str(), AnyFSEApp.c_str() ) != 0)
+        if (_wcsicmp(selectedApp.c_str(), ConsolePCApp.c_str() ) != 0)
         {
             return true;
         }
@@ -192,9 +193,13 @@ namespace AnyFSE::App
                     LPSTR lpCmdLine,
                     int nCmdShow)
     {
-        Config::Load();
+        // Global marker
+        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_winmain.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-        AnyFSE::Logging::LogManager::Initialize("AnyFSE", Config::LogLevel, Config::LogPath);
+        Config::Load();
+        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_config_loaded.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+        ConsolePC::Logging::LogManager::Initialize("ConsolePC", Config::LogLevel, Config::LogPath);
         log.Debug("\nApplication is started (hInstance=%08x) args: [%s]", hInstance, lpCmdLine);
 
         if (Ally::IsSupported() && Config::AllyHidEnable)
@@ -203,14 +208,14 @@ namespace AnyFSE::App
             if (AsAllyHid(lpCmdLine))
             {
                 log.Debug("Ally start as HIDListener\n");
-                AnyFSE::Logging::LogManager::Initialize("AnyFSE/AllyHID", Config::LogLevel, Config::LogPath);
+                ConsolePC::Logging::LogManager::Initialize("ConsolePC/AllyHID", Config::LogLevel, Config::LogPath);
                 return Ally::HIDListener(NULL);
             }
 
             if (Ally::CheckListener())
             {
                 log.Debug("Ally not started and enabled\n");
-                Process::StartProtocol(L"anyfse://AllyHid");
+                Process::StartProtocol(L"consolepc://AllyHid");
             }
         }
         else if (AsAllyHid(lpCmdLine))
@@ -218,15 +223,18 @@ namespace AnyFSE::App
             return 0;
         }
 
-        AnyFSE::Logging::LogManager::Initialize("AnyFSE", Config::LogLevel, Config::LogPath);
+        ConsolePC::Logging::LogManager::Initialize("ConsolePC", Config::LogLevel, Config::LogPath);
 
-        if (FindWindow(L"AnyFSE", NULL))
+        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_pre_findwindow.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (FindWindow(L"ConsolePC", NULL))
         {
+            CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_findwindow_found.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
             log.Debug("Application control is executed already, exiting\n");
             return 0;
         }
+        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_post_findwindow.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-        AnyFSE::App::JumpList::RegisterJumpList();
+        ConsolePC::App::JumpList::RegisterJumpList();
 
         int exitCode = -1;
         SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
@@ -234,24 +242,24 @@ namespace AnyFSE::App
 
         if (!GamingExperience::ApiIsAvailable)
         {
-            log.Critical("Fullscreen Gaming API is not detected, exiting\n");
-            InitCustomControls();
-            TaskDialog(NULL, hInstance,
-                       L"Error",
-                       L"Gaming Fullscreen Experiense API is not detected",
-                       L"Fullscreen experiense is not available on your version of windows.\n"
-                       L"It is supported since Windows 25H2 version for Handheld Devices",
-                       TDCBF_CLOSE_BUTTON, TD_ERROR_ICON, NULL);
-            return -1;
+            log.Warn("Fullscreen Gaming API is not detected, continuing anyway for testing\n");
+            // InitCustomControls();
+            // TaskDialog(NULL, hInstance,
+            //            L"Error",
+            //            L"Gaming Fullscreen Experiense API is not detected",
+            //            L"Fullscreen experiense is not available on your version of windows.\n"
+            //            L"It is supported since Windows 25H2 version for Handheld Devices",
+            //            TDCBF_CLOSE_BUTTON, TD_ERROR_ICON, NULL);
+            // return -1;
         }
 
         log.Debug("\n\nApplication control is started (hInstance=%08x) args: [%s]", hInstance, lpCmdLine);
 
         bool bFirstLaunch = false;
 
-        if (!GlobalFindAtom(L"ArtemShpynov.AnyFSE_by4wjhxmygwn4"))
+        if (!GlobalFindAtom(L"ConsolePC"))
         {
-            GlobalAddAtom(L"ArtemShpynov.AnyFSE_by4wjhxmygwn4");
+            GlobalAddAtom(L"ConsolePC");
             log.Debug("First launch at fullscreen experience mode");
             bFirstLaunch = true;
         }
@@ -268,6 +276,20 @@ namespace AnyFSE::App
         if (AsSettings(lpCmdLine))
         {
             return ShowSettings();
+        }
+
+        // Run Decky Loader logic before checking if launcher is active
+        if (Config::DeckyUpdateEnabled)
+        {
+            std::wstring deckyPath = Config::GetDeckyPath();
+            if (std::filesystem::exists(deckyPath))
+            {
+                log.Debug("Starting built-in Decky Loader");
+                Process::StartProcess(deckyPath, L"");
+            }
+            // Trigger check even if Steam is running
+            Updater::ScheduledDeckyCheckAsync(NULL, 0);
+            Sleep(1000); // Give thread time to start markers
         }
 
         if (Launchers::IsLauncherActive())
@@ -301,6 +323,20 @@ namespace AnyFSE::App
             {
                 Launchers::LaunchStartupApps();
             };
+
+            if (Config::DeckyUpdateEnabled)
+            {
+                std::wstring deckyPath = Config::GetDeckyPath();
+                if (std::filesystem::exists(deckyPath))
+                {
+                    log.Debug("Starting built-in Decky Loader");
+                    Process::StartProcess(deckyPath, L"");
+                }
+                else
+                {
+                    log.Warn("Decky Loader enabled but executable not found at %s", Unicode::to_string(deckyPath).c_str());
+                }
+            }
         }
         else
         {
@@ -309,12 +345,14 @@ namespace AnyFSE::App
 
         Window::MainWindow mainWindow;
 
-        if (!mainWindow.Create(L"AnyFSE", hInstance, (Config::Launcher.Name + L" is launching").c_str()))
+        if (!mainWindow.Create(L"ConsolePC", hInstance, (Config::Launcher.Name + L" is launching").c_str()))
         {
             return (int)GetLastError();
         }
 
         mainWindow.Show();
+
+        Updater::ScheduledDeckyCheckAsync(mainWindow.GetHwnd(), 0);
 
         exitCode = Window::MainWindow::RunLoop();
 

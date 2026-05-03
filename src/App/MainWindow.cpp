@@ -42,7 +42,7 @@
 
 #pragma comment(lib, "mpr.lib")
 
-namespace AnyFSE::App::Window
+namespace ConsolePC::App::Window
 {
     static Logger log = LogManager::GetLogger("MainWindow");
     WNDCLASS MainWindow::WC;

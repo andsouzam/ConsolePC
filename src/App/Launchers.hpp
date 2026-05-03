@@ -23,7 +23,7 @@
 
 #pragma once
 
-namespace AnyFSE::App::Launchers
+namespace ConsolePC::App::Launchers
 {
     void LauncherOnBoot();
     void PlayniteOnBoot();

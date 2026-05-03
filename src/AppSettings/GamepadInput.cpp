@@ -24,7 +24,7 @@
 #include "GamepadInput.hpp"
 #include "Logging/LogManager.hpp"
 
-namespace AnyFSE::App::AppSettings::Input
+namespace ConsolePC::App::AppSettings::Input
 {
     static Logger log = LogManager::GetLogger("GamepadInput");
 

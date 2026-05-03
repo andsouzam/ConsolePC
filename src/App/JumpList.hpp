@@ -1,5 +1,5 @@
 
-namespace AnyFSE::App::JumpList
+namespace ConsolePC::App::JumpList
 {
     void RegisterJumpList();
 }

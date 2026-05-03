@@ -25,7 +25,7 @@
 #include "Event.hpp"
 #include "Logging/LogManager.hpp"
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     static Logger log = LogManager::GetLogger("Event");
 

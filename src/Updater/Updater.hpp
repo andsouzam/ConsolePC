@@ -3,7 +3,7 @@
 #include <string>
 #include <windows.h>
 
-namespace AnyFSE::Updater
+namespace ConsolePC::Updater
 {
     enum COMMAND
     {
@@ -82,11 +82,13 @@ namespace AnyFSE::Updater
     void Subscribe(HWND hWnd, UINT uMsg);
     void CheckUpdateAsync(bool includePreRelease, HWND hWnd, UINT uMsg);
     void UpdateAsync(const std::wstring &tag, bool silentUpdatee, HWND hWnd, UINT uMsg);
+    void CheckDeckyUpdateAsync(HWND hWnd, UINT uMsg);
     Updater::UpdateInfo GetLastUpdateInfo();
     void ShowVersion(const std::wstring &tag);
 
     int GetSince(const std::wstring &lastCheck);
     int ScheduledCheckAsync(const std::wstring &lastCheck, int checkInterval, bool includePreRelease, HWND hWnd, UINT uMsg);
+    int ScheduledDeckyCheckAsync(HWND hWnd, UINT uMsg);
     bool UpdaterHandleCommand(HWND hWnd, WPARAM wParam, LPARAM lParam);
 
     void NotifyConfigUpdated();

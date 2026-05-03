@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <string>
 
-namespace AnyFSE::Tools
+namespace ConsolePC::Tools
 {
     struct Notification
     {

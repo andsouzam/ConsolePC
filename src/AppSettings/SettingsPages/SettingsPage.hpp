@@ -4,7 +4,7 @@
 #include <windows.h>
 #include "FluentDesign/SettingsLine.hpp"
 
-namespace AnyFSE::App::AppSettings::Settings
+namespace ConsolePC::App::AppSettings::Settings
 {
     class SettingsDialog;
 

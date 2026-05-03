@@ -31,7 +31,7 @@
 #include "Logger.hpp"
 #include "LogManager.hpp"
 
-namespace AnyFSE::Logging
+namespace ConsolePC::Logging
 {
     Logger::Logger(const std::string &name)
     {

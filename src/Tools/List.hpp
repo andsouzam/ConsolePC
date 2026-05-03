@@ -24,7 +24,7 @@
 
 #pragma once
 
-namespace AnyFSE::Tools::List
+namespace ConsolePC::Tools::List
 {
     template <typename T, typename V>
     size_t index_of(const T& list, const V &value);
@@ -44,4 +44,4 @@ namespace AnyFSE::Tools::List
     }
 }
 
-namespace List = AnyFSE::Tools::List;
+namespace List = ConsolePC::Tools::List;
