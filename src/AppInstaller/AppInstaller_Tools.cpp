@@ -12,6 +12,7 @@
 #include "Logging/LogManager.hpp"
 #include "Tools/Registry.hpp"
 #include "Tools/Unicode.hpp"
+#include "Tools/Process.hpp"
 
 
 namespace ConsolePC
@@ -95,7 +96,7 @@ namespace ConsolePC
 
         CloseHandle(hFile);
 
-        PCCERT_CONTEXT pCertContext = CertCreateCertificateContext(X509_ASN_ENCODING, buffer, fileSize);
+        PCCERT_CONTEXT pCertContext = CertCreateCertificateContext(X509_ASN_ENCODING, buffer, fileSize);        
         delete[] buffer;
 
         if (!pCertContext)
@@ -173,15 +174,7 @@ namespace ConsolePC
 
             d::PackageManager packageManager;
 
-            // auto packages = packageManager.FindPackages(packageFamilyName);
-            // for (auto& package : packages)
-            // {
-            //     auto removing = packageManager.RemovePackageAsync(package.Id().FullName());
-            //     auto removed = removing.get();
-            // }
-
             f::Uri packageUri(fs::absolute(packageFilePath).wstring());
-            std::wcerr << packageUri.ToString().c_str() << std::endl;
 
             d::AddPackageOptions options;
             options.ForceUpdateFromAnyVersion(true);
@@ -202,12 +195,15 @@ namespace ConsolePC
             {
                 throw std::exception(Unicode::to_string(result.ErrorText().c_str()).c_str());
             }
-
-            return true;
         }
         catch (const winrt::hresult_error &e)
         {
             throw std::exception(Unicode::to_string(e.message().c_str()).c_str());
         }
+    }
+
+    bool AppInstaller::LaunchApp(const std::wstring &packageFamilyName, const std::wstring &arguments)
+    {
+        return Tools::Process::StartProtocol((L"consolepc://" + arguments).c_str());
     }
 };

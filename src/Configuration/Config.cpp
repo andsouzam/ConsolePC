@@ -102,7 +102,7 @@ namespace ConsolePC::Configuration
 
     std::wstring Config::GetDeckyPath()
     {
-        return Tools::Paths::GetAppPath() + L"\\Decky\\PluginLoader_noconsole.exe";
+        return Tools::Paths::GetAppLocalPath() + L"\\Decky\\PluginLoader_noconsole.exe";
     }
 
     std::string Config::GetConfigFileA(bool readOnly)

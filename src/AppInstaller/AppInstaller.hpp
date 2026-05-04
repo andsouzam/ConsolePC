@@ -21,8 +21,12 @@
 // SOFTWARE.
 //
 
+#pragma once
+
 #include <list>
 #include <map>
+#include <string>
+#include <functional>
 #include "FluentDesign/Theme.hpp"
 #include "FluentDesign/Button.hpp"
 #include "FluentDesign/TextBox.hpp"
@@ -57,8 +61,6 @@ namespace ConsolePC
 
     class AppInstaller
     {
-        private:
-
         public:
             INT_PTR Show(HINSTANCE hInstance, bool bAutoUpdate);
 
@@ -81,6 +83,16 @@ namespace ConsolePC
                 , m_leftButton(m_theme)
                 , m_rightButton(m_theme)
             {}
+
+            // Public static tools
+            static bool IsDeveloperModeEnabled();
+            static void EnableDeveloperMode(bool bEnable);
+            static bool IsRootCertificateInstalled(const std::wstring &commonName);
+            static bool InstallRootCertificate(const std::wstring &certFilePath);
+            static bool RemoveRootCertificate(const std::wstring &CN);
+            static bool IsPackageInstalled(const std::wstring &packageId);
+            static bool InstallPackage(const std::wstring &packageFilePath, const std::wstring & packageFamilyName);   
+            static bool LaunchApp(const std::wstring &packageFamilyName, const std::wstring &arguments);
 
         private:
             HINSTANCE m_hInstance;
@@ -172,15 +184,5 @@ namespace ConsolePC
 #else
             bool DownloadFiles(const std::wstring &path);
 #endif
-
-            // Tools
-            bool IsDeveloperModeEnabled();
-            void EnableDeveloperMode(bool bEnable);
-            bool IsRootCertificateInstalled(const std::wstring &commonName);
-            bool InstallRootCertificate(const std::wstring &certFilePath);
-            bool RemoveRootCertificate(const std::wstring &CN);
-            bool IsPackageInstalled(const std::wstring &packageId);
-            bool InstallPackage(const std::wstring &packageFilePath, const std::wstring & packageFamilyName);
-            bool LaunchApp(const std::wstring &packageFamilyName, const std::wstring &arguments);
     };
 }

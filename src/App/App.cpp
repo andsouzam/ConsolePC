@@ -28,6 +28,7 @@
 #include <tchar.h>
 #include <commctrl.h>
 #include <strsafe.h>
+#include <filesystem>
 
 #include "Logging/LogManager.hpp"
 #include "Configuration/Config.hpp"
@@ -35,6 +36,7 @@
 #include "Tools/Notification.hpp"
 #include "Tools/Registry.hpp"
 #include "Tools/Unicode.hpp"
+#include "Tools/Paths.hpp"
 
 #include "App/App.hpp"
 #include "App/GamingExperience.hpp"
@@ -193,11 +195,22 @@ namespace ConsolePC::App
                     LPSTR lpCmdLine,
                     int nCmdShow)
     {
-        // Global marker
-        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_winmain.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        std::wstring baseDir = Tools::Paths::GetAppLocalPath();
+        
+        // Clear old markers
+        _wremove((baseDir + L"\\winmain.marker").c_str());
+        _wremove((baseDir + L"\\config_loaded.marker").c_str());
+        _wremove((baseDir + L"\\pre_findwindow.marker").c_str());
+        _wremove((baseDir + L"\\post_findwindow.marker").c_str());
+        _wremove((baseDir + L"\\decky_check_start.marker").c_str());
+        _wremove((baseDir + L"\\decky_download_start.marker").c_str());
+        _wremove((baseDir + L"\\ps_error.txt").c_str());
+
+        // New markers in LocalState
+        CreateFile((baseDir + L"\\winmain.marker").c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
         Config::Load();
-        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_config_loaded.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        CreateFile((baseDir + L"\\config_loaded.marker").c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
         ConsolePC::Logging::LogManager::Initialize("ConsolePC", Config::LogLevel, Config::LogPath);
         log.Debug("\nApplication is started (hInstance=%08x) args: [%s]", hInstance, lpCmdLine);
@@ -225,14 +238,13 @@ namespace ConsolePC::App
 
         ConsolePC::Logging::LogManager::Initialize("ConsolePC", Config::LogLevel, Config::LogPath);
 
-        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_pre_findwindow.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        CreateFile((baseDir + L"\\pre_findwindow.marker").c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         if (FindWindow(L"ConsolePC", NULL))
         {
-            CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_findwindow_found.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
             log.Debug("Application control is executed already, exiting\n");
             return 0;
         }
-        CreateFile(L"C:\\Users\\ander\\AppData\\Local\\Temp\\consolepc_post_findwindow.txt", GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        CreateFile((baseDir + L"\\post_findwindow.marker").c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
         ConsolePC::App::JumpList::RegisterJumpList();
 
@@ -243,14 +255,6 @@ namespace ConsolePC::App
         if (!GamingExperience::ApiIsAvailable)
         {
             log.Warn("Fullscreen Gaming API is not detected, continuing anyway for testing\n");
-            // InitCustomControls();
-            // TaskDialog(NULL, hInstance,
-            //            L"Error",
-            //            L"Gaming Fullscreen Experiense API is not detected",
-            //            L"Fullscreen experiense is not available on your version of windows.\n"
-            //            L"It is supported since Windows 25H2 version for Handheld Devices",
-            //            TDCBF_CLOSE_BUTTON, TD_ERROR_ICON, NULL);
-            // return -1;
         }
 
         log.Debug("\n\nApplication control is started (hInstance=%08x) args: [%s]", hInstance, lpCmdLine);
@@ -289,7 +293,6 @@ namespace ConsolePC::App
             }
             // Trigger check even if Steam is running
             Updater::ScheduledDeckyCheckAsync(NULL, 0);
-            Sleep(1000); // Give thread time to start markers
         }
 
         if (Launchers::IsLauncherActive())
@@ -367,19 +370,6 @@ namespace ConsolePC::App
             log.Debug("Job is done!");
         }
 
-        // while (HANDLE hProcess = Launchers::GetLauncherProcess())
-        // {
-        //     log.Debug("Start waiting %x", hProcess);
-
-        //     DWORD waitResult = WAIT_TIMEOUT;
-        //     do
-        //     {
-        //         waitResult = WaitForSingleObject(hProcess, 1000);
-        //         log.Debug("Wait Result %u", waitResult);
-        //     } while (waitResult == WAIT_TIMEOUT);
-
-        //     CloseHandle(hProcess);
-        // };
         return (int)exitCode;
     }
 };

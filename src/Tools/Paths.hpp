@@ -12,4 +12,8 @@ namespace ConsolePC::Tools::Paths
 
     std::wstring GetAppPath();
     std::wstring GetDataPath();
+
+    std::wstring GetAppLocalPath();
+    std::wstring GetAppLocalCachePath();
+    std::wstring GetAppTempPath();
 }

@@ -61,6 +61,8 @@
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
     <rescap:Capability Name="unvirtualizedResources"/>
+    <Capability Name="internetClient" />
+    <Capability Name="privateNetworkClientServer" />
     <uap4:CustomCapability Name="Microsoft.appCategory.gamingHome_8wekyb3d8bbwe" />
   </Capabilities>
 

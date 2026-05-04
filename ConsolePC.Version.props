@@ -1,29 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <AssemblyVersion>1.0.2</AssemblyVersion>
     <VersionRevision>1</VersionRevision>
-    <AppName>ConsolePC</AppName>
+    <Version>1.0.2.0</Version>
+    <AssemblyFileVersion>1.0.2.0</AssemblyFileVersion>
+    <AssemblyInformationalVersion>1.0.2</AssemblyInformationalVersion>
     <AssemblyProduct>ConsolePC</AssemblyProduct>
     <AssemblyCompany>ConsolePC</AssemblyCompany>
+    <PublisherCN>ConsolePC</PublisherCN>
     <AssemblyDescription>Windows Console Experience Home application launcher</AssemblyDescription>
     <AssemblyCopyright>Copyright © 2026 ConsolePC. All rights reserved.</AssemblyCopyright>
-    <AssemblyInternalName>$(TargetName)</AssemblyInternalName>
-    <PublisherCN>ConsolePC</PublisherCN>
-    <PackageName>ConsolePC</PackageName>
-    <PackagePublisher>CN=ConsolePC</PackagePublisher>
-    <PackagePublisherDisplayName>ConsolePC</PackagePublisherDisplayName>
-    <Description>Windows Console Experience</Description>
   </PropertyGroup>
   <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>
+                VER_VERSION_STR="$(AssemblyVersion)";
+                VER_PRODUCT_NAME="$(AssemblyProduct)";
+                VER_COMPANY_NAME="$(AssemblyCompany)";
+                VER_PUBLISHER_CN="$(PublisherCN)";
+                %(PreprocessorDefinitions)
+            </PreprocessorDefinitions>
+    </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>
-                VER_VERSION=$(AssemblyVersion.Replace('.', ',')),0;
+                VER_VERSION=1,0,2,0;
                 VER_VERSION_STR=\"$(AssemblyVersion)\";
                 COMPANY_NAME=\"$(AssemblyCompany)\";
                 PRODUCT_NAME=\"$(AssemblyProduct)\";
                 FILE_DESCRIPTION=\"$(AssemblyDescription)\";
-                INTERNAL_NAME=\"$(AssemblyInternalName)\";
+                INTERNAL_NAME=\"\";
                 LEGAL_COPYRIGHT=\"$(AssemblyCopyright)\";
                 ORIGINAL_FILENAME=\"$(TargetName)$(TargetExt)\";
                 %(PreprocessorDefinitions)
