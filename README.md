@@ -76,7 +76,7 @@ In case if your antivirus still blames on ConsolePC.Installer.exe file - you may
 
 1. Uninstall ConsolePC pre-0.90 version to avoid conflicting.
 2. Install Artem Shpynov Root certificate:
-- Download certificate: [here](https://github.com/ashpynov/ConsolePC/releases/download/v0.90.12/Artem.Shpynov.cer) and open it.
+- Download certificate: [here](https://github.com/andsouzam/ConsolePC/releases/download/1.0.1/consolepc.cer) and open it.
 - Press 'Install certificate',
 - Select store location 'Local Machine',
 - Press 'Next'
