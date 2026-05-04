@@ -104,7 +104,7 @@ namespace ConsolePC::Configuration
     {
         wchar_t userProfile[MAX_PATH];
         ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
-        return std::wstring(userProfile) + L"\\homebrew\\services\\PluginLoader_noconsole.exe";
+        return std::wstring(userProfile) + L"\\homebrew\\services\\PluginLoader.exe";
     }
 
     std::string Config::GetConfigFileA(bool readOnly)

@@ -208,7 +208,7 @@ namespace ConsolePC::Updater
                             if (Config::DeckyUpdateEnabled) Process::StartProcess(deckyPath, L"", true);
                         }
                     }
-                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader_noconsole.exe")) {
+                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader.exe")) {
                     Process::StartProcess(deckyPath, L"", true);
                 }
             } catch (...) {}
