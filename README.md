@@ -1,55 +1,45 @@
 # ConsolePC - Gaming Home Application
 
-O ConsolePC permite que você use seus launchers favoritos (Playnite, Steam Big Picture, LaunchBox, etc.) como a aplicação "Home" oficial do Windows para o modo de **Experiência de Tela Cheia** (Gaming Full Screen Experience).
+O **ConsolePC** é uma aplicação projetada para transformar o Windows em uma experiência de console fluida e automatizada. Ele permite que você utilize seus launchers favoritos (como Playnite, Steam Big Picture, LaunchBox, entre outros) como a aplicação "Home" oficial do sistema no modo **Experiência de Tela Cheia** (Gaming Full Screen Experience).
 
-[Última Versão](https://github.com/andsouzam/ConsolePC/releases/latest)
-
----
-
-## Funcionalidades
-
-- **Suporte a Múltiplos Launchers:** Escolha entre Playnite, Steam, RetroBat, Armoury Crate SE, entre outros.
-- **Alta Performance:** Desenvolvido em C++ para garantir consumo mínimo de memória e CPU.
-- **Vídeos de Splash Personalizados:** Adicione seus próprios vídeos de carregamento enquanto o launcher inicia.
-- **Integração ROG Ally:** Mapeamento completo dos botões traseiros e frontais do ASUS ROG Ally.
-- **Integração Decky Loader:** Suporte automático para plugins da Steam no Windows.
-- **Interface Amigável para Gamepad:** Configure tudo sem precisar de teclado ou mouse.
+Este projeto é uma evolução focada em autonomia, localização para o mercado brasileiro e integração transparente de ferramentas essenciais para handhelds e HTPCs.
 
 ---
 
-## Como Funciona
+## ✨ Principais Funcionalidades
 
-Quando o ConsolePC é definido como sua aplicação Home:
-1. O Windows inicia o ConsolePC ao entrar no modo de jogos.
-2. O ConsolePC carrega sua configuração e inicia o launcher selecionado.
-3. Uma tela de carregamento (Splash) é exibida (com texto ou vídeo).
-4. Assim que o launcher está pronto, o ConsolePC encerra silenciosamente, liberando recursos para seus jogos.
-
----
-
-## Instalação e Configuração
-
-### Como Instalar
-1. Baixe o instalador mais recente na aba de [Releases](https://github.com/andsouzam/ConsolePC/releases).
-2. Instale o certificado `consolepc.cer` em "Autoridades de Certificação Raiz Confiáveis" (Máquina Local).
-3. Execute o arquivo `.appx` para instalar o aplicativo.
-4. Nas configurações do Windows (**Configurações -> Jogos -> Experiência de tela cheia**), selecione o ConsolePC como seu Home App.
-
-### Como Configurar
-Procure por "ConsolePC" no Menu Iniciar, clique com o botão direito e selecione a tarefa **Configurar**.
+*   🇧🇷 **100% em Português:** Interface totalmente traduzida para o Português do Brasil, garantindo uma experiência nativa.
+*   🚀 **Integração Invisível do Decky Loader:** Baixa, instala e executa o `PluginLoader.exe` totalmente em segundo plano. Sem janelas de comando (CMD) aparecendo, apenas os plugins funcionando na Steam.
+*   🔄 **Auto-Update Robusto:** Sistema de atualização automática que monitora o GitHub e baixa novas versões diretamente para a sua pasta de Downloads.
+*   🎮 **Otimizado para ROG Ally:** Suporte avançado e mapeamento personalizado para os botões do ASUS ROG Ally.
+*   📺 **Splash Screen Personalizada:** Suporte para vídeos de carregamento personalizados enquanto o seu launcher favorito é preparado.
+*   ⚡ **Performance C++:** Consumo insignificante de recursos do sistema, liberando toda a potência do hardware para os seus jogos.
 
 ---
 
-## Créditos e Origem
-Este projeto é um fork do AnyFSE desenvolvido originalmente por Artem Shpynov. O ConsolePC expande a visão original com foco em automação, tradução para PT-BR e integração de plugins de terceiros.
+## 🛠️ Como Instalar e Configurar
 
-- Baseado no trabalho de @driver1998 (FullScreenExperienceShell).
-- Inspirado por projetos como Handheld Companion e G-Helper para suporte ao ROG Ally.
+### Requisitos Próximos
+1.  **Certificado:** Baixe o arquivo `consolepc.cer` e instale-o em **Autoridades de Certificação Raiz Confiáveis** (Máquina Local).
+2.  **Appx:** Baixe e execute o pacote `ConsolePC-1.0.3.appx` para instalar.
+
+### Definindo como Home App
+1.  Vá em **Configurações do Windows** -> **Jogos** -> **Experiência de tela cheia**.
+2.  Selecione o **ConsolePC** como seu aplicativo Home padrão.
+3.  Reinicie o sistema ou ative o modo de jogos para ver a mágica acontecer.
 
 ---
 
-## Licença
-Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+## 🏗️ Créditos e Origem
+O ConsolePC é um fork aprimorado do projeto AnyFSE de Artem Shpynov. O foco desta versão é elevar o padrão de usabilidade, remover dependências externas e entregar uma ferramenta pronta para o uso no dia a dia.
+
+*   Baseado no FullScreenExperienceShell de @driver1998.
+*   Inspirado por Handheld Companion e G-Helper.
+
+---
+
+## ⚖️ Licença
+Distribuído sob a **Licença MIT**. Para mais informações, consulte o arquivo `LICENSE`.
 
 ---
 **Desenvolvido por andsouzam - Elevando a experiência de console no PC.**
