@@ -2,10 +2,10 @@
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <AssemblyVersion>1.0.3</AssemblyVersion>
-    <VersionRevision>1</VersionRevision>
-    <Version>1.0.3.0</Version>
-    <AssemblyFileVersion>1.0.3.0</AssemblyFileVersion>
-    <AssemblyInformationalVersion>1.0.3.0</AssemblyInformationalVersion>
+    <VersionRevision>2</VersionRevision>
+    <Version>1.0.3.1</Version>
+    <AssemblyFileVersion>1.0.3.1</AssemblyFileVersion>
+    <AssemblyInformationalVersion>1.0.3.1</AssemblyInformationalVersion>
     <AssemblyProduct>ConsolePC</AssemblyProduct>
     <AssemblyCompany>ConsolePC</AssemblyCompany>
     <PublisherCN>ConsolePC</PublisherCN>
@@ -15,7 +15,7 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>
-                VER_VERSION_STR="1.0.3.0";
+                VER_VERSION_STR="1.0.3.1";
                 VER_PRODUCT_NAME="$(AssemblyProduct)";
                 VER_COMPANY_NAME="$(AssemblyCompany)";
                 VER_PUBLISHER_CN="$(PublisherCN)";
@@ -24,8 +24,8 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>
-                VER_VERSION=1,0,3,0;
-                VER_VERSION_STR=\"1.0.3.0\";
+                VER_VERSION=1,0,3,1;
+                VER_VERSION_STR=\"1.0.3.1\";
                 COMPANY_NAME=\"$(CompanyName)\";
                 PRODUCT_NAME=\"$(AssemblyProduct)\";
                 FILE_DESCRIPTION=\"$(AssemblyDescription)\";

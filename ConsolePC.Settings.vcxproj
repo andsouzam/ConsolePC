@@ -58,6 +58,7 @@
             <WarningLevel>Level3</WarningLevel>
             <Optimization>Disabled</Optimization>
             <LanguageStandard>stdcpp17</LanguageStandard>
+            <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
             <AdditionalIncludeDirectories>
                 $(SolutionDir)src;
                 %(AdditionalIncludeDirectories)
@@ -80,6 +81,7 @@
             <Optimization>MaxSpeed</Optimization>
             <LanguageStandard>stdcpp17</LanguageStandard>
             <EnableFunctionLevelLinking>true</EnableFunctionLevelLinking>
+            <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
             <AdditionalIncludeDirectories>
                 $(SolutionDir)src;
                 %(AdditionalIncludeDirectories)
