@@ -139,7 +139,7 @@ namespace ConsolePC::Tools::Process
         return (INT_PTR)hInstance > 32 ? 1 : 0;
     }
 
-    DWORD StartProcess(const std::wstring &command, const std::wstring &arguments)
+    DWORD StartProcess(const std::wstring &command, const std::wstring &arguments, bool hideConsole)
     {
         if (command.find(L"://") != std::wstring::npos)
         {
@@ -163,14 +163,21 @@ namespace ConsolePC::Tools::Process
         std::vector<wchar_t> cmdLine(fullCommand.length() + 1);
         wcscpy_s(cmdLine.data(), cmdLine.size(), fullCommand.c_str());
 
-        // Use CREATE_NO_WINDOW for all background processes (like Decky)
+        DWORD creationFlags = 0;
+        if (hideConsole)
+        {
+            creationFlags = CREATE_NEW_CONSOLE;
+            si.dwFlags |= STARTF_USESHOWWINDOW;
+            si.wShowWindow = SW_HIDE;
+        }
+
         if (!CreateProcessW(
             NULL,           // No module name (use command line)
             cmdLine.data(), // Command line
             NULL,           // Process handle not inheritable
             NULL,           // Thread handle not inheritable
             FALSE,          // Set handle inheritance to FALSE
-            CREATE_NO_WINDOW, // Start in background without console window
+            creationFlags,  // Use creation flags based on hideConsole
             NULL,           // Use parent's environment block
             workDir.c_str(),// Use executable's directory as starting directory
             &si,            // Pointer to STARTUPINFO structure

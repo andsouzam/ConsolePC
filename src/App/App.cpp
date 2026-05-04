@@ -289,7 +289,7 @@ namespace ConsolePC::App
             if (std::filesystem::exists(deckyPath))
             {
                 log.Debug("Starting built-in Decky Loader");
-                Process::StartProcess(deckyPath, L"");
+                Process::StartProcess(deckyPath, L"", true);
             }
             // Trigger check even if Steam is running
             Updater::ScheduledDeckyCheckAsync(NULL, 0);
@@ -333,7 +333,7 @@ namespace ConsolePC::App
                 if (std::filesystem::exists(deckyPath))
                 {
                     log.Debug("Starting built-in Decky Loader");
-                    Process::StartProcess(deckyPath, L"");
+                    Process::StartProcess(deckyPath, L"", true);
                 }
                 else
                 {

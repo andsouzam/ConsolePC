@@ -205,11 +205,11 @@ namespace ConsolePC::Updater
                             swprintf_s(buf, L"%04d-%02d-%02dT%02d:%02d:%02d", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
                             Config::DeckyLastCheck = buf;
                             Config::Save();
-                            if (Config::DeckyUpdateEnabled) Process::StartProcess(deckyPath, L"");
+                            if (Config::DeckyUpdateEnabled) Process::StartProcess(deckyPath, L"", true);
                         }
                     }
-                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader.exe")) {
-                    Process::StartProcess(deckyPath, L"");
+                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader_noconsole.exe")) {
+                    Process::StartProcess(deckyPath, L"", true);
                 }
             } catch (...) {}
             {

@@ -34,7 +34,7 @@ namespace ConsolePC::Tools::Process
     DWORD FindFirstByExe(const std::wstring &processPath);
     DWORD FindFirstByName(const std::wstring& processName);
     DWORD StartProtocol(const std::wstring &command);
-    DWORD StartProcess(const std::wstring &command, const std::wstring &arguments);
+    DWORD StartProcess(const std::wstring &command, const std::wstring &arguments, bool hideConsole = false);
     HWND  GetWindow(const std::wstring &processName, DWORD exStyle, const std::wstring &className, const std::wstring &windowTitle, DWORD style=0, DWORD noStyle=0);
     HWND  GetWindow(const std::set<DWORD>& processIds, DWORD exStyle, const std::wstring &className =L"", const std::wstring &windowTitle=L"", DWORD style=0, DWORD noStyle=0);
     size_t FindAllByName(const std::wstring &processName, std::set<DWORD> & result);
