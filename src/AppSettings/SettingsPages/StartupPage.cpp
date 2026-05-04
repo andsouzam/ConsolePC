@@ -11,8 +11,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
     {
         ULONG pageTop = 0;
         SettingsLine &startupAppLinkLine = m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Native startup settings",
-            L"Configure startup apps using native windows settings",
+            L"Configurações nativas de inicialização",
+            L"Configurar aplicativos de inicialização usando as configurações nativas do Windows",
             Layout::LineHeight, Layout::LinePadding, 0);
 
         startupAppLinkLine.SetState(FluentDesign::SettingsLine::Link);
@@ -20,8 +20,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         startupAppLinkLine.OnChanged += delegate(OpenMSSettingsStartupApps);
 
         m_pStartupPageAppsHeader = &m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Additional startup applications",
-            L"Configure specific applications to be executed by ConsolePC on fullscreen experience enter",
+            L"Aplicativos de inicialização adicionais",
+            L"Configurar aplicativos específicos para serem executados pelo ConsolePC ao entrar no modo tela cheia",
             Layout::LineHeight, 0, 0
         );
 
@@ -35,7 +35,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
             Layout::StartupAddWidth, Layout::StartupAddHeight
         );
 
-        m_startupAddButton.SetText(L"Add");
+        m_startupAddButton.SetText(L"Adicionar");
         m_startupAddButton.OnChanged = delegate(OnStartupAdd);
         line.SetState(FluentDesign::SettingsLine::Caption);
     }
@@ -90,8 +90,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         line.SetMenu(
             std::vector<FluentDesign::Popup::PopupItem>
             {
-                FluentDesign::Popup::PopupItem(L"\xE13E", L"Modify",[This = this, pLine = &line](){This->OnStartupModify(pLine);}),
-                FluentDesign::Popup::PopupItem(L"\xE107", L"Delete",[This = this, pLine = &line](){This->OnStartupDelete(pLine);})
+                FluentDesign::Popup::PopupItem(L"\xE13E", L"Modificar",[This = this, pLine = &line](){This->OnStartupModify(pLine);}),
+                FluentDesign::Popup::PopupItem(L"\xE107", L"Excluir",[This = this, pLine = &line](){This->OnStartupDelete(pLine);})
             }
         );
         startToggle.SetCheck(enabled);

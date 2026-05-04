@@ -26,7 +26,7 @@ namespace ConsolePC::App::AppSettings::Settings
         ofn.hwndOwner = m_hDialog;
         ofn.lpstrFile = szFile;
         ofn.nMaxFile = sizeof(szFile);
-        ofn.lpstrFilter = L"Executable (*.exe)\0*.exe\0\0";
+        ofn.lpstrFilter = L"Executável (*.exe)\0*.exe\0\0";
         ofn.nFilterIndex = 1;
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
@@ -57,13 +57,13 @@ namespace ConsolePC::App::AppSettings::Settings
         int width = rc.right - rc.left;
         int top = rc.top;
 
-        m_captionStatic.Create(m_hDialog, m_refPath.empty() ? L"Add application" : L"Edit application",
+        m_captionStatic.Create(m_hDialog, m_refPath.empty() ? L"Adicionar aplicativo" : L"Editar aplicativo",
             rc.left, top, width, m_theme.DpiScale(Layout_CaptionHeight)
         );
         m_captionStatic.SetLarge(true);
         top += m_theme.DpiScale(Layout_CaptionHeight);
 
-        m_pathStatic.Create(m_hDialog, L"Select app to execute", rc.left, top, width, m_theme.DpiScale(Layout_TextHeight));
+        m_pathStatic.Create(m_hDialog, L"Selecione o aplicativo para executar", rc.left, top, width, m_theme.DpiScale(Layout_TextHeight));
         m_pathStatic.Format().SetLineAlignment(Gdiplus::StringAlignment::StringAlignmentFar);
 
         top += m_theme.DpiScale(Layout_TextHeight);
@@ -73,7 +73,7 @@ namespace ConsolePC::App::AppSettings::Settings
             m_theme.DpiScale(Layout_EditHeight)
         );
 
-        m_browseButton.Create(m_hDialog, L"Browse", delegate(OnBrowse),
+        m_browseButton.Create(m_hDialog, L"Procurar", delegate(OnBrowse),
             rc.right - m_theme.DpiScale(Layout_BrowseButtonWidth),
             top + (Layout_EditHeight - Layout_ButtonHeight) / 2,
             m_theme.DpiScale(Layout_BrowseButtonWidth),
@@ -81,7 +81,7 @@ namespace ConsolePC::App::AppSettings::Settings
         );
         top += m_theme.DpiScale(Layout_EditHeight);
 
-        m_argsStatic.Create(m_hDialog, L"Additional startup arguments",
+        m_argsStatic.Create(m_hDialog, L"Argumentos adicionais de inicialização",
             rc.left, top, width, m_theme.DpiScale(Layout_TextHeight)
         );
         m_argsStatic.Format().SetLineAlignment(Gdiplus::StringAlignment::StringAlignmentFar);
@@ -94,7 +94,7 @@ namespace ConsolePC::App::AppSettings::Settings
             rc.bottom - m_theme.DpiScale(Layout_ButtonHeight),
             m_theme.DpiScale(Layout_ButtonWidth), m_theme.DpiScale(Layout_ButtonHeight)
         );
-        m_cancelButton.Create(m_hDialog, L"Cancel", delegate(OnCancel),
+        m_cancelButton.Create(m_hDialog, L"Cancelar", delegate(OnCancel),
             rc.right - m_theme.DpiScale(Layout_ButtonWidth),
             rc.bottom - m_theme.DpiScale(Layout_ButtonHeight),
             m_theme.DpiScale(Layout_ButtonWidth), m_theme.DpiScale(Layout_ButtonHeight)

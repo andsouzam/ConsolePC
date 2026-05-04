@@ -146,23 +146,23 @@ namespace ConsolePC
         if (m_isUpdate)
         {
             ShowPage(L"",
-                L"Welcome to ConsolePC Updater",
-                std::wstring(L"This will update ConsolePC to version ") +
+                L"Bem-vindo ao Atualizador ConsolePC",
+                std::wstring(L"Isso irá atualizar o ConsolePC para a versão ") +
                 Unicode::to_wstring(APP_VERSION) +
-                std::wstring(L" on your system.\n\nClick Update to proceed or Cancel to exit."),
-                L"Cancel", delegate(OnCancel),
-                L"Update", delegate(OnInstall)
+                std::wstring(L" no seu sistema.\n\nClique em Atualizar para prosseguir ou Cancelar para sair."),
+                L"Cancelar", delegate(OnCancel),
+                L"Atualizar", delegate(OnInstall)
             );
         }
         else
         {
             ShowPage(L"",
-                L"Welcome to ConsolePC Installer",
-                std::wstring(L"This will install ConsolePC version ") +
+                L"Bem-vindo ao Instalador ConsolePC",
+                std::wstring(L"Isso irá instalar a versão ") +
                 Unicode::to_wstring(APP_VERSION) +
-                std::wstring(L" to your system.\n\nClick Next to proceed or Cancel to exit."),
-                L"Cancel", delegate(OnCancel),
-                L"Next", delegate(ShowLicensePage)
+                std::wstring(L" do ConsolePC no seu sistema.\n\nClique em Próximo para prosseguir ou Cancelar para sair."),
+                L"Cancelar", delegate(OnCancel),
+                L"Próximo", delegate(ShowLicensePage)
             );
         }
     }
@@ -170,23 +170,23 @@ namespace ConsolePC
     void AppInstaller::ShowLicensePage()
     {
         ShowPage(Icon_EULA,
-            L"End User License Agreements",
+            L"Contrato de Licença de Usuário Final",
 
-            L"ConsolePC is free software, distributed under terms of MIT License "
-            L"in the hope that it will be useful, "
-            L"but WITHOUT ANY WARRANTY; without even the implied warranty of "
-            L"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+            L"O ConsolePC é um software livre, distribuído sob os termos da Licença MIT "
+            L"na esperança de que seja útil, "
+            L"mas SEM QUALQUER GARANTIA; sem mesmo a garantia implícita de "
+            L"COMERCIALIZAÇÃO ou ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO.",
 
-            L"Cancel", delegate(OnCancel),
-            L"Accept", delegate(OnInstall)
+            L"Cancelar", delegate(OnCancel),
+            L"Aceitar", delegate(OnInstall)
         );
     }
 
     void AppInstaller::ShowProgressPage()
     {
         ShowPage(Icon_Progress,
-            m_isUpdate ? L"Updating ConsolePC" : L"Installing ConsolePC",
-            L"Preparation",
+            m_isUpdate ? L"Atualizando ConsolePC" : L"Instalando ConsolePC",
+            L"Preparando...",
             L"", delegate(OnCancel));
     }
 
@@ -195,18 +195,18 @@ namespace ConsolePC
         if (m_isUpdate)
         {
             ShowPage(Icon_Done,
-                L"Done",
-                L"ConsolePC update has been completed.",
-                L"Done", delegate(OnDone)
+                L"Concluído",
+                L"A atualização do ConsolePC foi finalizada com sucesso.",
+                L"Concluir", delegate(OnDone)
             );
         }
         else
         {
             ShowPage(Icon_Done,
-                L"Done",
-                L"ConsolePC installation has been completed.\n\nPress Configure change settings.\n",
-                L"Configure", delegate(OnSettings),
-                IsConfigured() ? L"Done" : L"", delegate(OnDone)
+                L"Concluído",
+                L"A instalação do ConsolePC foi finalizada com sucesso.\n\nPressione Configurar para alterar as definições.\n",
+                L"Configurar", delegate(OnSettings),
+                IsConfigured() ? L"Concluir" : L"", delegate(OnDone)
             );
         }
     }
@@ -223,7 +223,7 @@ namespace ConsolePC
         ShowPage(icon.empty() ? Icon_Error : icon,
                  caption,
                  text,
-                 L"Close", delegate(OnCancel));
+                 L"Fechar", delegate(OnCancel));
     }
 
 
@@ -287,17 +287,17 @@ namespace ConsolePC
 
 #ifdef OFFLINE_INSTALLER
             // Extract resource file
-            SetCurrentProgress(L"Unpack files");
+            SetCurrentProgress(L"Descompactando arquivos");
             CheckSuccess(ExtractEmbeddedZip(path));
 #else
-            SetCurrentProgress(L"Download files");
+            SetCurrentProgress(L"Baixando arquivos");
             CheckSuccess(DownloadFiles(path));
 #endif
 
             std::wstring oldPath = Registry::ReadString(registryPath, L"InstallLocation");
             if (!oldPath.empty())
             {
-                SetCurrentProgress(L"Remove old version");
+                SetCurrentProgress(L"Removendo versão antiga");
                 CheckSuccess(DeleteOldVersion() && DeleteOldFiles(oldPath));
             }
 
@@ -306,37 +306,37 @@ namespace ConsolePC
             m_isDevModeEnabled = IsDeveloperModeEnabled();
             if (!m_isDevModeEnabled)
             {
-                SetCurrentProgress(L"Enable developer mode");
+                SetCurrentProgress(L"Habilitando modo desenvolvedor");
                 EnableDeveloperMode(true);
                 CheckSuccess(true);
             }
 
             if (!IsRootCertificateInstalled(Unicode::to_wstring(VER_PUBLISHER_CN)))
             {
-                SetCurrentProgress(L"Install publisher certificate");
-                m_isRootCertInstalled = InstallRootCertificate(path.wstring() + L"/" + L"Artem.Shpynov.cer");
+                SetCurrentProgress(L"Instalando certificado do publicador");
+                m_isRootCertInstalled = InstallRootCertificate(path.wstring() + L"/" + L"ConsolePC.cer");
                 CheckSuccess(m_isRootCertInstalled);
             }
 
-            SetCurrentProgress(L"Install package");
+            SetCurrentProgress(L"Instalando pacote");
             CheckSuccess(InstallPackage(
                 path.wstring() + L"/ConsolePC-" + Unicode::to_wstring(VER_VERSION_STR) + L".appx",
                 L"ConsolePC"
             ));
 
-            SetCurrentProgress(L"Cleanup files");
+            SetCurrentProgress(L"Limpando arquivos temporários");
             CheckSuccess(true);
 
             if (!m_isDevModeEnabled)
             {
-                SetCurrentProgress(L"Disable developer mode");
+                SetCurrentProgress(L"Desabilitando modo desenvolvedor");
                 EnableDeveloperMode(false);
                 CheckSuccess(true);
             }
 
             if (m_isRootCertInstalled)
             {
-                SetCurrentProgress(L"Removing certificate");
+                SetCurrentProgress(L"Removendo certificado temporário");
                 RemoveRootCertificate(Unicode::to_wstring(VER_PUBLISHER_CN));
                 m_isRootCertInstalled = false;
                 CheckSuccess(true);
@@ -364,7 +364,7 @@ namespace ConsolePC
             }
 
             log.Error(e, "Installation fail:");
-            ShowErrorPage(L"Installation Error", GetProgressText(4) + Unicode::to_wstring(e.what()));
+            ShowErrorPage(L"Erro na Instalação", GetProgressText(4) + Unicode::to_wstring(e.what()));
         }
     }
 
@@ -419,7 +419,7 @@ namespace ConsolePC
     {
         if (FAILED(SHCreateDirectoryExW(NULL, path.c_str(), NULL)))
         {
-            throw std::exception("Cannot create binary folder");
+            throw std::exception("Não foi possível criar a pasta binária");
         }
 
         HINSTANCE hInstance = GetModuleHandle(NULL);
@@ -428,14 +428,14 @@ namespace ConsolePC
         HRSRC hResource = FindResource(hInstance, MAKEINTRESOURCE(IDR_EMBEDDED_ZIP), L"ZIP");
         if (!hResource)
         {
-            throw std::exception("Instalation file is corrupted. No packed files resource.");
+            throw std::exception("Arquivo de instalação corrompido. Recurso não encontrado.");
         }
 
         // Load the resource
         HGLOBAL hGlobal = LoadResource(hInstance, hResource);
         if (!hGlobal)
         {
-            throw std::exception("Instalation file is corrupted. Cannot load packed files.");
+            throw std::exception("Arquivo de instalação corrompido. Falha ao carregar arquivos.");
         }
 
         // Get resource data
@@ -444,7 +444,7 @@ namespace ConsolePC
 
         if (!zipData || zipSize == 0)
         {
-            throw std::exception("Instalation file is corrupted. No zipped data.");
+            throw std::exception("Arquivo de instalação corrompido. Sem dados ZIP.");
         }
 
         // Write resource to temporary ZIP file
@@ -460,7 +460,7 @@ namespace ConsolePC
         sei.fMask = SEE_MASK_NOCLOSEPROCESS;
         sei.lpFile = L"tar";
 
-        std::wstring parameters = L"-xf \"" + zipArchive + L"\" -C \"" + path + L"\"";
+        std::wstring parameters = L"-xf \"" + zipArchive + L\" -C \"" + path + L"\"";
         sei.lpParameters = parameters.c_str();
         sei.nShow = SW_HIDE;
 
@@ -475,7 +475,7 @@ namespace ConsolePC
         }
         else
         {
-            throw std::exception("Instalation file is corrupted. Failed unpacking.");
+            throw std::exception("Arquivo de instalação corrompido. Falha na descompactação.");
         }
 
         // Clean up temporary file
@@ -488,12 +488,11 @@ namespace ConsolePC
     {
         if (FAILED(SHCreateDirectoryExW(NULL, path.c_str(), NULL)))
         {
-            throw std::exception("Cannot create binary folder");
+            throw std::exception("Não foi possível criar a pasta de instalação");
         }
-        const std::wstring rootPath = L"https://github.org/ashpynov/ConsolePC/releases/download/v" + Unicode::to_wstring(APP_VERSION);
-        const std::wstring rootPathAlt = L"https://codeberg.org/ashpynov/ConsolePC/releases/download/v" + Unicode::to_wstring(APP_VERSION);
+        const std::wstring rootPath = L"https://github.com/andsouzam/ConsolePC/releases/download/v" + Unicode::to_wstring(APP_VERSION);
         std::list<std::wstring> files;
-        files.push_back(L"/Artem.Shpynov.cer");
+        files.push_back(L"/consolepc.cer");
         files.push_back(L"/ConsolePC-" + Unicode::to_wstring(APP_VERSION) + L".appx");
 
         for (std::wstring file : files)
@@ -506,16 +505,7 @@ namespace ConsolePC
 
             if (FAILED(hr))
             {
-                hr = URLDownloadToFileW(
-                NULL,
-                (rootPathAlt + file).c_str(),
-                (path + file).c_str(),
-                0, NULL);
-            }
-
-            if (FAILED(hr))
-            {
-                throw std::runtime_error("Download failed");
+                throw std::runtime_error("Falha no download");
             }
         }
 
@@ -543,7 +533,7 @@ namespace ConsolePC
 
         batch << L"@echo off\n";
         batch << L"chcp 65001 >nul\n";
-        batch << L"echo Cleaning up...\n";
+        batch << L"echo Limpando arquivos temporários...\n";
 
         batch << L":waitloop\n";
         batch << L"tasklist /fi \"PID eq " << GetCurrentProcessId() << L"\" | find \"" << GetCurrentProcessId() << L"\" >nul\n";
@@ -556,7 +546,7 @@ namespace ConsolePC
         batch << L"del /f /q \"" << Tools::Paths::GetExeFileName() << "\"\n";
         batch << L"del /f /q \"" << batchPath << L"\"\n";
 
-        batch << L"echo Cleaning complete!\n";
+        batch << L"echo Limpeza concluída!\n";
 
         batch.close();
 
@@ -566,8 +556,7 @@ namespace ConsolePC
         sei.nShow = SW_HIDE;
         sei.fMask = SEE_MASK_NOCLOSEPROCESS;
 
-        if (ShellExecuteExW(&sei))
-        {
+        if (ShellExecuteExW(&sei)) {
             CloseHandle(sei.hProcess);
         }
 

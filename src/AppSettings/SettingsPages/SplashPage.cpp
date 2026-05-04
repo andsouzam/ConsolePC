@@ -12,59 +12,59 @@ namespace ConsolePC::App::AppSettings::Settings::Page
     {
         ULONG pageTop = 0;
         m_pSplashTextLine = &m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Show Loading text",
+            L"Mostrar texto de carregamento",
             L"",
             m_showTextToggle,
             Layout::LineHeight, 0, 0);
 
         m_pSplashTextLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Use Custom Text",
+            L"Usar texto personalizado",
             L"",
             m_customTextEdit,
             Layout::LineHeightSmall, Layout::LinePadding, Layout::LineSmallMargin));
 
         m_pSplashLogoLine = &m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Show Home application Logo",
+            L"Mostrar logotipo do aplicativo",
             L"",
             m_showLogoToggle,
             Layout::LineHeight, 0, 0);
 
         m_pSplashLogoLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Animate Logo",
+            L"Animar logotipo",
             L"",
             m_showAnimationToggle,
             Layout::LineHeightSmall, Layout::LinePadding, Layout::LineSmallMargin));
 
 
         m_pSplashVideoLine = &m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Show Video",
-            L"Show random video from \"splash\" folder",
+            L"Mostrar vídeo",
+            L"Exibe um vídeo aleatório da pasta \"splash\"",
             m_showVideoToggle,
             Layout::LineHeight, 0, 0);
 
         m_pSplashVideoLine->OnLink = delegate(OnGotoSplashFolder);
 
         m_pSplashVideoLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Play video at least once",
-            L"Force video to play at least once, even if launcher startup is detected",
+            L"Reproduzir vídeo até o fim",
+            L"Forçar o vídeo a tocar pelo menos uma vez, mesmo se o sistema iniciar",
             m_videoTillEndToggle,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         m_pSplashVideoLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Loop video",
+            L"Repetir vídeo (Loop)",
             L"",
             m_videoLoopToggle,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         m_pSplashVideoLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Mute video",
+            L"Silenciar vídeo (Mudo)",
             L"",
             m_videoMuteToggle,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         m_pSplashVideoLine->AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Pause completed",
-            L"Show last frame when video completed earlier than home app start",
+            L"Pausar ao concluir",
+            L"Mantém o último quadro do vídeo até o app de jogos iniciar",
             m_videoPauseToggle,
             Layout::LineHeightSmall, Layout::LinePadding, Layout::LineSmallMargin));
 

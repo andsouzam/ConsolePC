@@ -72,13 +72,13 @@ namespace ConsolePC::Tools
         {
             return;
         }
-        std::wstring msg = L"New version " + version + L" is available.";
-        Tools::Notification::Show(hwnd, L"ConsolePC Update available", msg);
+        std::wstring msg = L"A nova versão " + version + L" está disponível.";
+        Tools::Notification::Show(hwnd, L"ConsolePC - Atualização disponível", msg);
     }
 
     void Notification::ShowCurrentVersion(HWND hwnd, bool installed)
     {
-        std::wstring msg = L"Current version is " + Unicode::to_wstring(VER_VERSION_STR);
-        Tools::Notification::Show(hwnd, installed ? L"ConsolePC was installed" : L"ConsolePC was updated", msg);
+        std::wstring msg = L"A versão atual é " + Unicode::to_wstring(VER_VERSION_STR);
+        Tools::Notification::Show(hwnd, installed ? L"ConsolePC foi instalado" : L"ConsolePC foi atualizado", msg);
     }
 }

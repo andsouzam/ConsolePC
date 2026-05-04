@@ -163,13 +163,14 @@ namespace ConsolePC::Tools::Process
         std::vector<wchar_t> cmdLine(fullCommand.length() + 1);
         wcscpy_s(cmdLine.data(), cmdLine.size(), fullCommand.c_str());
 
+        // Use CREATE_NO_WINDOW for all background processes (like Decky)
         if (!CreateProcessW(
             NULL,           // No module name (use command line)
             cmdLine.data(), // Command line
             NULL,           // Process handle not inheritable
             NULL,           // Thread handle not inheritable
             FALSE,          // Set handle inheritance to FALSE
-            0,              // No creation flags
+            CREATE_NO_WINDOW, // Start in background without console window
             NULL,           // Use parent's environment block
             workDir.c_str(),// Use executable's directory as starting directory
             &si,            // Pointer to STARTUPINFO structure

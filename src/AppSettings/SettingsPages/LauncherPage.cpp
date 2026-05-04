@@ -15,8 +15,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
     void LauncherPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {
         FluentDesign::SettingsLine &launcher = m_dialog.AddSettingsLine(settingPageList, top,
-            L"Choose home app",
-            L"Choose home application for full screen experience",
+            L"Escolha o aplicativo Home",
+            L"Selecione o aplicativo para a experiência de tela cheia",
             m_launcherCombo,
             Layout::LineHeight, Layout::LauncherBrowsePadding, 0,
             Layout::LauncherComboWidth );
@@ -33,20 +33,20 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         m_pBrowseLine->SetFrame(Gdiplus::FrameFlags::SIDE_NO_TOP | Gdiplus::FrameFlags::CORNER_BOTTOM);
 
         m_pFseOnStartupLine = &m_dialog.AddSettingsLine(settingPageList, top,
-            L"Enter full screen experience on startup",
+            L"Iniciar em tela cheia ao ligar o PC",
             L"",
             m_fseOnStartupToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_dialog.AddSettingsLine(settingPageList, top,
-            L"Enable Decky Loader",
-            L"Run PluginLoader automatically for Steam plugins",
+            L"Habilitar Decky Loader",
+            L"Executar o PluginLoader automaticamente para plugins da Steam",
             m_deckyEnabledToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_pCustomSettingsLine = &m_dialog.AddSettingsLine(settingPageList, top,
-            L"Use custom settings",
-            L"Change monitoring and startups settings for selected home application",
+            L"Usar configurações personalizadas",
+            L"Alterar monitoramento e inicialização para o app selecionado",
             m_customSettingsToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
@@ -57,8 +57,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         AddCustomPage();
 
         m_pSplashSettingsLine = &m_dialog.AddSettingsLine(settingPageList, top,
-            L"Splash screen settings",
-            L"Configure Look'n'Feel of splash screen during home app loading",
+            L"Configurações da tela de Splash",
+            L"Configurar o visual da tela de carregamento do aplicativo Home",
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_pSplashSettingsLine->SetState(SettingsLine::Next);
@@ -66,8 +66,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         m_pSplashSettingsLine->OnChanged += delegate(OpenSplashSettingsPage);
 
         m_pStartupSettingsLine = &m_dialog.AddSettingsLine(settingPageList, top,
-            L"Startup",
-            L"Apps that start automatically when you sign in full screen experience",
+            L"Inicialização",
+            L"Aplicativos que iniciam automaticamente com a experiência de tela cheia",
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_pStartupSettingsLine->SetState(FluentDesign::SettingsLine::Next);
@@ -82,7 +82,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
         m_customSettingsToggle.OnChanged += delegate(OnCustomChanged);
 
-        m_browseButton.SetText(L"Browse");
+        m_browseButton.SetText(L"Procurar");
         m_browseButton.OnChanged += delegate(OnBrowseLauncher);
     }
 
@@ -93,16 +93,16 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         ULONG pageTop = 0;
 
         SettingsLine & parametersSettingsLine = m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Additional arguments",
-            L"Command line arguments passed to application",
+            L"Argumentos adicionais",
+            L"Linha de comando passada para o aplicativo",
             m_additionalArgumentsEdit,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         parametersSettingsLine.SetIcon(L'\xE62F');
 
         SettingsLine & primarySettingsLine = m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Home application detection",
-            L"Parameters to detect home application is started",
+            L"Detecção da aplicação Home",
+            L"Parâmetros para detectar que a aplicação foi iniciada",
             Layout::LineHeightSmall, 0, 0);
 
 
@@ -111,26 +111,26 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         primarySettingsLine.SetIcon(L'\xF8A5');
 
         primarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Process name",
-            L"Name of home application process",
+            L"Nome do processo",
+            L"Nome do executável da aplicação Home",
             m_processNameEdit,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         primarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Window class name",
-            L"Class of application main window",
+            L"Nome da classe da janela",
+            L"Classe da janela principal da aplicação",
             m_classEdit,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         primarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Window title",
-            L"Title of app window when it have been activated",
+            L"Título da janela",
+            L"Título da janela quando ativada",
             m_titleEdit,
             Layout::LineHeightSmall, Layout::LinePadding, Layout::LineSmallMargin));
 
         SettingsLine & secondarySettingsLine = m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Alternative mode detection",
-            L"Parameters to detect home application is started in alternative mode",
+            L"Detecção de modo alternativo",
+            L"Parâmetros para detectar a aplicação em modo alternativo",
             Layout::LineHeightSmall, 0, 0);
 
         secondarySettingsLine.SetState(SettingsLine::State::Closed);
@@ -138,20 +138,20 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         secondarySettingsLine.SetIcon(L'\xE737');
 
         secondarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Secondary process name",
-            L"Name of app process for alternative mode",
+            L"Nome do processo secundário",
+            L"Nome do processo para o modo alternativo",
             m_processNameAltEdit,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         secondarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Secondary window class name",
-            L"Alternative Class name of app window",
+            L"Nome da classe secundária",
+            L"Classe da janela para o modo alternativo",
             m_classAltEdit,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
         secondarySettingsLine.AddGroupItem(&m_dialog.AddSettingsLine(m_pageLinesList, pageTop,
-            L"Secondary window title",
-            L"Alternative Title of app window",
+            L"Título da janela secundária",
+            L"Título da janela para o modo alternativo",
             m_titleAltEdit,
             Layout::LineHeightSmall, 0, Layout::LineSmallMargin));
 
@@ -163,7 +163,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
             Layout::StartupAddWidth, Layout::StartupAddHeight
         ).SetState(FluentDesign::SettingsLine::Caption);
 
-        m_customResetButton.SetText(L"Reset");
+        m_customResetButton.SetText(L"Resetar");
         m_customResetButton.OnChanged = delegate(OnCustomReset);
 
         m_additionalArgumentsEdit.OnChanged += delegate(UpdateCustomResetEnabled);
@@ -305,17 +305,17 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
     void LauncherPage::OpenCustomSettingsPage()
     {
-        m_dialog.SwitchActivePage(L"Custom settings", &m_pageLinesList);
+        m_dialog.SwitchActivePage(L"Configurações personalizadas", &m_pageLinesList);
     }
 
     void LauncherPage::OpenSplashSettingsPage()
     {
-        m_dialog.SwitchActivePage(L"Splash settings", &m_pSplashPage->GetSettingsLines());
+        m_dialog.SwitchActivePage(L"Configurações da tela de Splash", &m_pSplashPage->GetSettingsLines());
     }
 
     void LauncherPage::OpenStartupSettingsPage()
     {
-        m_dialog.SwitchActivePage(L"Startup", &m_pStartupPage->GetSettingsLines());
+        m_dialog.SwitchActivePage(L"Inicialização", &m_pStartupPage->GetSettingsLines());
     }
 
     void LauncherPage::UpdateControls()
@@ -375,7 +375,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
         m_pBrowseLine->SetDescription(
             m_defaultConfig.Type == LauncherType::Native
-                ? L"* Native launcher is selected, ConsolePC will not be executed"
+                ? L"* Launcher nativo selecionado, o ConsolePC não será executado"
                 : L""
         );
     }

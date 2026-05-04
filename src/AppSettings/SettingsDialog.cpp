@@ -180,7 +180,7 @@ namespace ConsolePC::App::AppSettings::Settings
             {   // To enable immersive dark mode (for a dark title bar)
 
                 m_theme.AttachDlg(hwnd);
-                SetWindowText(hwnd, L"ConsolePC Settings");
+                SetWindowText(hwnd, L"Configurações ConsolePC");
                 OnInitDialog(hwnd);
                 RestoreWindowPlacement();
                 Process::BringWindowToForeground(m_hDialog);
@@ -360,7 +360,7 @@ namespace ConsolePC::App::AppSettings::Settings
                 r.left += m_theme.DpiScale(Layout::MarginLeft);
                 r.top += m_theme.DpiScale(Layout::CaptionHeight);
 
-                WCHAR *text1 = L"Any Full Screen Experience";
+                WCHAR *text1 = L"Experiência de Tela Cheia";
 
                 SetBkMode(paint.MemDC(), TRANSPARENT);
                 HGDIOBJ oldFont = SelectFont(paint.MemDC(), m_theme.GetFont_Title());
@@ -653,7 +653,7 @@ namespace ConsolePC::App::AppSettings::Settings
             .SetAnchor(Align::TopLeft(), GetDialogClientRect)
             .Create(m_hDialog, Layout::BackButtonMargin * 2 + Layout::BackButtonSize, Layout::BackButtonMargin, 200, Layout::BackButtonSize - 4);
         m_captionStatic.Format().SetLineAlignment(Gdiplus::StringAlignment::StringAlignmentCenter);
-        m_captionStatic.SetText(L"Settings");
+        m_captionStatic.SetText(L"Configurações");
 
         m_captionBackButton
             .SetAnchor(Align::TopLeft(), GetDialogClientRect)
@@ -711,27 +711,6 @@ namespace ConsolePC::App::AppSettings::Settings
     void SettingsDialog::AddFooterButtons()
     {
         AddUpdateControls();
-#if 0
-        m_okButton
-            .SetAnchor(Align::BottomRight(), GetDialogCenteredRect)
-            .Create(m_hDialog,
-                - Layout::OKWidth - Layout::ButtonPadding - Layout::CloseWidth -  Layout::MarginRight,
-                - Layout::MarginBottom - Layout::ButtonHeight,
-                Layout::OKWidth,
-                Layout::ButtonHeight)
-            .SetText(L"Save")
-            .OnChanged += delegate(OnOk);
-
-        m_closeButton
-            .SetAnchor(Align::BottomRight(), GetDialogCenteredRect)
-            .Create(m_hDialog,
-                - Layout::CloseWidth - Layout::MarginRight,
-                - Layout::MarginBottom - Layout::ButtonHeight,
-                Layout::CloseWidth,
-                Layout::ButtonHeight)
-            .SetText(L"Discard and Close")
-            .OnChanged += delegate(OnClose);
-#endif
     }
 
     void SettingsDialog::OnInitDialog(HWND hwnd)

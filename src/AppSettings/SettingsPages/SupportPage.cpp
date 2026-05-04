@@ -10,13 +10,13 @@ namespace ConsolePC::App::AppSettings::Settings::Page
     void SupportPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {
         m_dialog.AddSettingsLine(settingPageList, top,
-            L"Related support",
+            L"Suporte relacionado",
             L"",
             Layout::LineHeightSmall, 0, 0
         ).SetState(FluentDesign::SettingsLine::Caption);
 
         SettingsLine &support = m_dialog.AddSettingsLine(settingPageList, top,
-            L"Support and community",
+            L"Suporte e comunidade",
             L"",
             Layout::LineHeight, 0, 0);
 
@@ -30,23 +30,15 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
         support.AddGroupItem(&links);
 
-        // links.SetMaxColumns(1);
-        links.AddLinkButton(L"Discord ConsolePC community channel", L"https://discord.gg/AfkERzTEut");
-        links.AddLinkButton(L"Navigate to log files folder", Tools::Paths::GetLogsPath());
+        links.AddLinkButton(L"Código fonte oficial (GitHub)", L"https://github.com/andsouzam/ConsolePC/");
+        links.AddLinkButton(L"Abrir pasta de logs", Tools::Paths::GetLogsPath());
 
-        links.AddLinkButton(L"Source code (Github)", L"https://github.com/ashpynov/ConsolePC/");
-        links.AddLinkButton(L"Navigate to config files folder", Tools::Paths::GetConfigPath());
+        links.AddLinkButton(L"Reportar problema ou sugestão", L"https://github.com/andsouzam/ConsolePC/issues");
+        links.AddLinkButton(L"Abrir pasta de configurações", Tools::Paths::GetConfigPath());
 
-        links.AddLinkButton(L"Source code (Codeberg Mirror)", L"https://codeberg.org/ashpynov/ConsolePC/");
-        links.AddLinkButton(L"Navigate to splash files folder", Tools::Paths::GetSplashDefaultPath());
-
-        links.AddLinkButton(L"Report issue or request at Github", L"https://github.com/ashpynov/ConsolePC/issues");
-        links.AddLinkButton(L"", L"");
-
-        links.AddLinkButton(L"Report issue or request at Codeberg", L"https://codeberg.org/ashpynov/ConsolePC/issues");
-        links.AddLinkButton(L"", L"");
+        links.AddLinkButton(L"Site oficial do projeto", L"https://github.com/andsouzam/ConsolePC/");
+        links.AddLinkButton(L"Abrir pasta de Splash Screen", Tools::Paths::GetSplashDefaultPath());
 
         support.SetState(FluentDesign::SettingsLine::Opened);
-
     }
 };

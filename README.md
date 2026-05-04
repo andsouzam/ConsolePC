@@ -1,124 +1,55 @@
-# ConsolePC Home Application
-![DownloadCountTotal](https://img.shields.io/github/downloads/ashpynov/ConsolePC/ConsolePC.Installer.exe?displayAssetName=false&style=plastic) [![DownloadCountLatest](https://img.shields.io/github/downloads/ashpynov/ConsolePC/latest/ConsolePC.Installer.exe?displayAssetName=false&style=plastic)](https://github.com/ashpynov/ConsolePC/releases/latest) [![LatestVersion](https://img.shields.io/github/v/tag/ashpynov/ConsolePC?label=Latest%20version&style=plastic)](https://github.com/ashpynov/ConsolePC/releases/latest) [![License](https://img.shields.io/github/license/ashpynov/ConsolePC?style=plastic)](LICENCE)
+# ConsolePC - Gaming Home Application
 
-The ConsolePC Home application aims to give users the ability to use their favorite launchers as Home applications for Gaming Full Screen Experience mode on modern Windows.
+O ConsolePC permite que você use seus launchers favoritos (Playnite, Steam Big Picture, LaunchBox, etc.) como a aplicação "Home" oficial do Windows para o modo de **Experiência de Tela Cheia** (Gaming Full Screen Experience).
 
-[Latest Release](https://github.com/ashpynov/ConsolePC/releases/latest)
+[Última Versão](https://github.com/andsouzam/ConsolePC/releases/latest)
 
-[Help and Discussions](https://discord.gg/AfkERzTEut)
+---
 
-ConsolePC can be selected as Home application for full screen experience and will execute users favourite launchers like Playnite, Steam Big Picture mode, LaunchBox, etc. in full screen experience mode (Xbox mode).
+## Funcionalidades
 
-Some other launchers potentially can be supported too with minor customizations
+- **Suporte a Múltiplos Launchers:** Escolha entre Playnite, Steam, RetroBat, Armoury Crate SE, entre outros.
+- **Alta Performance:** Desenvolvido em C++ para garantir consumo mínimo de memória e CPU.
+- **Vídeos de Splash Personalizados:** Adicione seus próprios vídeos de carregamento enquanto o launcher inicia.
+- **Integração ROG Ally:** Mapeamento completo dos botões traseiros e frontais do ASUS ROG Ally.
+- **Integração Decky Loader:** Suporte automático para plugins da Steam no Windows.
+- **Interface Amigável para Gamepad:** Configure tudo sem precisar de teclado ou mouse.
 
-## Kudos
+---
 
-- Way how to create home app was inspired by @driver1998 work [FullScreenExperienceShell](https://github.com/driver1998/FullScreenExperienceShell). Also thanks to discord user 'silicon' who show me that project.
-- Handling of ASUS Rog Ally buttons inspired by such projects like [Handheld Companion](https://github.com/Valkirie/HandheldCompanion) and [g-helper](https://github.com/seerge/g-helper).
-- Discord users 'Marecki' and 'TwoTracks' who helped me to design and test such features like Xbox Ally support and Steam buttons mapping.
+## Como Funciona
 
-## Features
+Quando o ConsolePC é definido como sua aplicação Home:
+1. O Windows inicia o ConsolePC ao entrar no modo de jogos.
+2. O ConsolePC carrega sua configuração e inicia o launcher selecionado.
+3. Uma tela de carregamento (Splash) é exibida (com texto ou vídeo).
+4. Assim que o launcher está pronto, o ConsolePC encerra silenciosamente, liberando recursos para seus jogos.
 
-- Ability to select one of supported launchers:
-    - [LaunchBox BigBox](https://www.launchbox-app.com/download)
-    - [One Game Launcher](https://ogl.app/)
-    - [Playnite Fullscreen and Desktop](https://playnite.link)
-    - [RetroBat](https://www.retrobat.org/download/)
-    - [Steam Big Picture Mode](https://store.steampowered.com/about/)
-    - [Armoury Crate SE](https://armoury-crate.com/#download)
-- Maximized performance during minimal runtime memory and perfomance footprint due to C++ sorce code.
-- Ability to navigate to download pages of supported launchers.
-- User defined video splash during launchers start.
-- Custom startup application launch in Fullscreen Experience mode.
-- Proper handling of Playnite restart in Fullscreen / Desktop modes.
-- ASUS ROG Ally buttons "ArmouryCrate", "Command Center", and "Library" re-mapping including "Mode+" combos.
-- Gamepad friendly navigation in application Settings dialog
+---
 
-## How it is works
+## Instalação e Configuração
 
-If ConsolePC is selected as home application:
+### Como Instalar
+1. Baixe o instalador mais recente na aba de [Releases](https://github.com/andsouzam/ConsolePC/releases).
+2. Instale o certificado `consolepc.cer` em "Autoridades de Certificação Raiz Confiáveis" (Máquina Local).
+3. Execute o arquivo `.appx` para instalar o aplicativo.
+4. Nas configurações do Windows (**Configurações -> Jogos -> Experiência de tela cheia**), selecione o ConsolePC como seu Home App.
 
-1. Windows starts ConsolePC as fullscreen home application (Fullscreen experience or Xbox mode).
-2. ConsolePC read configuration and start launcher selected by user.
-3. Show splash screen (text or video).
-4. Wait till launcher executed (try to detect it main window).
-5. Close splash screen and exit
+### Como Configurar
+Procure por "ConsolePC" no Menu Iniciar, clique com o botão direito e selecione a tarefa **Configurar**.
 
-Same for cases when ConsolePC executed from gamebar.
+---
 
-In case if ASUS ROG Ally buttons remaping is configured it will start second instance as background app that listen such buttons and execute handlers on keypress.
+## Créditos e Origem
+Este projeto é um fork do AnyFSE desenvolvido originalmente por Artem Shpynov. O ConsolePC expande a visão original com foco em automação, tradução para PT-BR e integração de plugins de terceiros.
 
+- Baseado no trabalho de @driver1998 (FullScreenExperienceShell).
+- Inspirado por projetos como Handheld Companion e G-Helper para suporte ao ROG Ally.
 
-## Install, Configure and Uninstall
+---
 
-> [!NOTE]
-> ConsolePC is not implement enabling FSE mode support in windows. It is require either supported Handheld device like ASUS ROG Ally or enabling this mode on other devices using "Enabler" tool e.g. [XboxFullscreenExperienceTool](https://github.com/8bit2qubit/XboxFullscreenExperienceTool).
+## Licença
+Distribuído sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-### How to install
-
-Just Launch ConsolePC.Installer.exe. Wait few seconds to complete and Configure.
-
-You launcher should be installed additionally.
-
-Please note: that ConsolePC work only when it is selected as home application in Settings->Gaming->Full screen experience.
-
-> [!IMPORTANT]
-> During installation of the package is should be signed. I have not ability to got code signin certificate from trusted authorities. So I had to use self-signed certificate during instalation.
-> Installer will add it to trusted authorities section automatically and then will remove it.
-> If something goes wrong and installation process was not complete, feel free to check and delete certificate manually.
-> 1. Run Certlm.msc.
-> 2. Open Trusted Root Certification Authorities -> Certificates
-> 3. Find "DDCC7751-898D-4BC9-B80C-4AA73E5D5762" (Artem Shpynov Code signin) certificate -> press right mouse button -> Delete
-
-### Manual installation
-
-In case if your antivirus still blames on ConsolePC.Installer.exe file - you may install package manualy. (Same action as installer do):
-
-1. Uninstall ConsolePC pre-0.90 version to avoid conflicting.
-2. Install Artem Shpynov Root certificate:
-- Download certificate: [here](https://github.com/andsouzam/ConsolePC/releases/download/1.0.1/consolepc.cer) and open it.
-- Press 'Install certificate',
-- Select store location 'Local Machine',
-- Press 'Next'
-- Allow changes
-- Select 'Place all certificates in the folowing store'
-- Press 'Browse' and select 'Trusted Root Certificate Authorities' and press OK and then Next.
-- Certificate installation is Done.
-3. Allow installation of packages in developer mode:
-- Open Settings -> System -> Advanced and turn on 'Developer Mode'
-- You can disable it after installation
-4. Now you can dowload and install appx package
-5. After installing you may turn off developer mode and uninstall certificate "DDCC7751-898D-4BC9-B80C-4AA73E5D5762"
-
-
-### How to launch and configure
-
-In start menu find ConsolePC application. Press right mouse key and choose 'Configure' task.
-
-### How to uninstall it
-
-Open Settings -> Apps -> Instaled apps.
-
-Find ConsolePC and select "Uninstall"
-
-
-## Splash Videos
-ConsolePC may show shuffled video as splash during your launcher is loading.
-
-To do this, Create folder 'splash' in data folder (c:\ProgramData\ConsolePC) and put there you favourite mp4 or webm videos. Files will be shuffled each time splash screen is shown.
-
-For sure it will be good idea to suppress native splash screens of launchers, to do so enable custom settings and add startup argument to prevent native splash (for Playnite it is ```--hidesplashscreen``` option).
-
-
-### Filename control
-You can specify custom position of loop via filename. To do this - name should contain additional part before extension like:
-
-```splash.m4000.mp4``` or ```other_splash.5000.webm``` here is ***m4000*** and ***5000*** instructions to
-- 'm' or 'M' - mute video during loop
-- '4000' and '5000' position in milliseconds from start of video to rewind to during loop.
-
-# Limitations
-
-As soon as new version do not monitor any application execution and even do not run in background it is not possible to implement some features like 'Exit full screen experience on launcher exit' it is disabled for now.
-
-Also application is require singned msix package. Currently I use self signed certifacate to be installed into trusted root authorities certificate storage.
+---
+**Desenvolvido por andsouzam - Elevando a experiência de console no PC.**

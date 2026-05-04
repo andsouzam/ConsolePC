@@ -19,19 +19,19 @@ namespace Ally::Handlers
 
     std::vector<HandlersDefinition> KnownHandlers =
     {
-        { L"", L"None", NULL },
-        { L"HomeApp", L"Home", Handlers::OpenLibrary },
-        { L"TaskSwitcher", L"Task switcher", Handlers::OpenTaskSwitcher },
-        { L"TaskSwitcherAlt", L"Task switcher (Win+Tab)", Handlers::OpenTaskSwitcherAlt },
-        { L"Gamebar", L"GameBar", Handlers::OpenGameBar },
-        { L"GamebarCommandCenter", L"GameBar Command Center", Handlers::OpenGameBarComandCenter },
-        { L"CommandCenter", L"Command Center (Ctrl+Alt+C)", Handlers::OpenComandCenter },
-        { L"CommandCenterF24", L"Command Center (F24)", Handlers::OpenComandCenterF24 },
+        { L"", L"Nenhum", NULL },
+        { L"HomeApp", L"Início", Handlers::OpenLibrary },
+        { L"TaskSwitcher", L"Alternador de tarefas", Handlers::OpenTaskSwitcher },
+        { L"TaskSwitcherAlt", L"Alternador (Win+Tab)", Handlers::OpenTaskSwitcherAlt },
+        { L"Gamebar", L"Barra de Jogo", Handlers::OpenGameBar },
+        { L"GamebarCommandCenter", L"Barra de Jogo (Central)", Handlers::OpenGameBarComandCenter },
+        { L"CommandCenter", L"Central de Comando (Ctrl+Alt+C)", Handlers::OpenComandCenter },
+        { L"CommandCenterF24", L"Central de Comando (F24)", Handlers::OpenComandCenterF24 },
         { L"ArmouryCrate", L"Armoury Crate SE", Handlers::OpenArmouryCrate },
         { L"SteamOverlay", L"Steam Overlay", Handlers::OpenSteamOverlay },
         { L"SteamQAM", L"Steam Quick Menu (Ctrl+2)", Handlers::OpenSteamQuickMenu },
-        { L"ConsolePCSettings", L"ConsolePC Settings", Handlers::OpenConsolePCSettings },
-        { L"Keyboard", L"On-Screen Keyboard", Handlers::ShowKeyboard },
+        { L"ConsolePCSettings", L"Configurações ConsolePC", Handlers::OpenConsolePCSettings },
+        { L"Keyboard", L"Teclado Virtual", Handlers::ShowKeyboard },
     };
 
     std::function<void()> Handlers::GetByName(const std::wstring &handleName)
@@ -186,7 +186,7 @@ namespace Ally::Handlers
 
     // {37C994E7-432B-4834-A2F7-DCE1F13B834B}
     DEFINE_GUID(IID_ITipInvocation,
-                0x37c994e7, 0x432b, 0x4834, 0xa2, 0xf7, 0xdc, 0xe1, 0xf1, 0x3b, 0x83, 0x4b);
+                0x37c994e7, 0x432b, 0x4834, 0xa2, 0xf7, 0xdce1, 0xf1, 0x3b, 0x83, 0x4b);
 
     // ITipInvocation interface (undocumented)
     struct ITipInvocation : public IUnknown

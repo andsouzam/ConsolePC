@@ -13,8 +13,8 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         GetClientRect(m_dialog.GetHwnd(), &rect);
 
         SettingsLine & dialogLine = m_dialog.AddSettingsLine(settingPageList, top,
-            L"Update settings",
-            L"Change period and settings of new version check",
+            L"Configurações de atualização",
+            L"Alterar o período e as configurações de busca de nova versão",
             Layout::LineHeight, Layout::LinePadding, 0);
 
         dialogLine.SetState(FluentDesign::SettingsLine::Next);
@@ -24,30 +24,23 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         ULONG topPage = 0;
 
         m_dialog.AddSettingsLine(m_pageLinesList, topPage,
-            L"Check period",
-            L"New version check period",
+            L"Período de verificação",
+            L"Intervalo de busca por novas versões",
             m_checkIntervalCombo,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_checkIntervalCombo.AddItem(L"Manual", L"", {(wchar_t)-2, 0});
-        m_checkIntervalCombo.AddItem(L"On settings open", L"", {(wchar_t)-1, 0});
-        // m_checkIntervalCombo.AddItem(L"On windows boot", L"", {(wchar_t)0, 0});
-
-        // m_checkIntervalCombo.AddItem(L"Hourly", L"", {(wchar_t)1, 0});
-        // m_checkIntervalCombo.AddItem(L"Daily", L"", {(wchar_t)24, 0});
-        // m_checkIntervalCombo.AddItem(L"Weekly", L"", {(wchar_t)168, 0});
-        // m_checkIntervalCombo.AddItem(L"Monthly", L"", {(wchar_t)720, 0});
-
+        m_checkIntervalCombo.AddItem(L"Ao abrir as configurações", L"", {(wchar_t)-1, 0});
 
         m_dialog.AddSettingsLine(m_pageLinesList, topPage,
-            L"Include pre-release versions",
-            L"Pre-release versions are less stable",
+            L"Incluir versões pré-lançamento",
+            L"Versões Beta podem ser menos estáveis",
             m_preReleaseToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
         m_dialog.AddSettingsLine(m_pageLinesList, topPage,
-            L"Show notifications",
-            L"Show popup notifications if new version available",
+            L"Mostrar notificações",
+            L"Exibir alertas quando uma nova versão estiver disponível",
             m_notificationsToggle,
             Layout::LineHeight, Layout::LinePadding, 0);
 
@@ -75,7 +68,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
     void UpdatePage::OpenUpdateSettingsPage()
     {
-        m_dialog.SwitchActivePage(L"Update settings", &m_pageLinesList);
+        m_dialog.SwitchActivePage(L"Configurações de atualização", &m_pageLinesList);
     }
 
     void UpdatePage::UpdateSettingsChangedCheck()

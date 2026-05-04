@@ -208,7 +208,7 @@ namespace ConsolePC::Updater
                             if (Config::DeckyUpdateEnabled) Process::StartProcess(deckyPath, L"");
                         }
                     }
-                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader_noconsole.exe")) {
+                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader.exe")) {
                     Process::StartProcess(deckyPath, L"");
                 }
             } catch (...) {}
@@ -258,7 +258,6 @@ namespace ConsolePC::Updater
                         std::string tag = release.value("tag_name", "");
                         if (tag.empty()) continue;
                         
-                        // Keep full tag for update process
                         m_lastUpdateInfo.newVersion = Unicode::to_wstring(tag);
                         
                         std::string cleanTag = tag;
@@ -313,10 +312,6 @@ namespace ConsolePC::Updater
                 std::wstring baseDir = Tools::Paths::GetAppLocalPath();
                 _wremove((baseDir + L"\\ps_update_error.txt").c_str());
 
-                // PowerShell logic:
-                // 1. Try to find the tag as-is. 
-                // 2. If it fails, try adding 'v' prefix.
-                // 3. Download to Downloads and start.
                 std::wstring psUpdate = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
                     L"try { "
                     L"  $ProgressPreference = 'SilentlyContinue'; "

@@ -11,20 +11,11 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 {
     void TroubleshootPage::AddPage(std::list<SettingsLine>& settingPageList, ULONG &top)
     {
-        // SettingsLine & dialogLine = m_dialog.AddSettingsLine(settingPageList, top,
-        //     L"Debug and Troubleshoot",
-        //     L"Configure logs and advanced parameters",
-        //     Layout::LineHeight, Layout::LinePadding, 0);
-
-        // dialogLine.SetState(FluentDesign::SettingsLine::Next);
-        // dialogLine.SetIcon(L'\xEBE8');
-        // dialogLine.OnChanged += delegate(OpenTroubleshootSettingsPage);
-
         ULONG topPage = 0;
         FluentDesign::SettingsLine &logLevel = m_dialog.AddSettingsLine(settingPageList,
             top,
-            L"Set logs for troubleshoot",
-            L"Navigate to log files folder",
+            L"Nível de log para diagnóstico",
+            L"Abrir pasta de arquivos de log",
             m_troubleLogLevelCombo,
             Layout::LineHeight, Layout::LinePadding, 0,
             Layout::LauncherComboWidth);
@@ -32,30 +23,13 @@ namespace ConsolePC::App::AppSettings::Settings::Page
         logLevel.SetIcon(L'\xEBE8');
         logLevel.OnLink = delegate(OnGotoLogsFolder);
 
-        // logLevel.SetState(FluentDesign::SettingsLine::Link);
-        // logLevel.OnChanged += delegate(OnGotoLogsFolder);
-
         for (int i = (int)LogLevels::Disabled; i < (int)LogLevels::Max; i++)
         {
             std::wstring level = Unicode::to_wstring(LogManager::LogLevelToString((LogLevels)i));
+            // Basic translation for levels if needed, but they are standard (Info, Debug, Error)
             wchar_t buff[2] = {(wchar_t)i, 0};
             m_troubleLogLevelCombo.AddItem(level, L"", buff);
         }
-/*
-        m_dialog.AddSettingsLine(m_pageLinesList,
-            topPage,
-            L"Aggressive Mode",
-            L"More simple and robust logic on XboxApp start, but you will lose any manual access to the XboxApp",
-            m_troubleAggressiveToggle,
-            Layout::LineHeight, Layout::LinePadding, 0);
-
-        m_dialog.AddSettingsLine(m_pageLinesList,
-            topPage,
-            L"Leave full screen on Home app exit",
-            L"Exit to desktop mode after Home app was exited",
-            m_troubleExitOnExitToggle,
-            Layout::LineHeight, Layout::LinePadding, 0);
-*/
     }
 
     void TroubleshootPage::LoadControls()
@@ -74,7 +48,7 @@ namespace ConsolePC::App::AppSettings::Settings::Page
 
     void TroubleshootPage::OpenTroubleshootSettingsPage()
     {
-        m_dialog.SwitchActivePage(L"Troubleshoot", &m_pageLinesList);
+        m_dialog.SwitchActivePage(L"Solução de problemas", &m_pageLinesList);
     }
 
     void TroubleshootPage::OnGotoLogsFolder()
