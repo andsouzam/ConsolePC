@@ -17,6 +17,7 @@
 #include <filesystem>
 #include <urlmon.h>
 #include <list>
+#include <fstream>
 
 #include <winrt/base.h>
 #include <winrt/Windows.Foundation.h>
@@ -46,11 +47,6 @@ namespace ConsolePC::Updater
     static const std::wstring GITHUB_HOST = L"api.github.com";
     static const std::wstring GITHUB_RELEASE_PAGE = L"https://github.com/andsouzam/ConsolePC/releases/tag/";
 
-    static const std::wstring GetRelease(const std::wstring &tag)
-    {
-        return L"/repos/andsouzam/ConsolePC/releases/tags/" + tag;
-    }
-
     static std::string WinHttpGetFull(const std::wstring& host, const std::wstring& path)
     {
         HINTERNET hSession = WinHttpOpen(L"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", WINHTTP_ACCESS_TYPE_DEFAULT_PROXY, NULL, NULL, 0);
@@ -60,7 +56,6 @@ namespace ConsolePC::Updater
         HINTERNET hRequest = WinHttpOpenRequest(hConnect, L"GET", path.c_str(), NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, WINHTTP_FLAG_SECURE);
         if (!hRequest) { WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession); return ""; }
         
-        // Add headers
         std::wstring headers = L"Accept: application/vnd.github.v3+json\r\n";
         WinHttpAddRequestHeaders(hRequest, headers.c_str(), (ULONG)-1L, WINHTTP_ADDREQ_FLAG_ADD);
         
@@ -76,6 +71,40 @@ namespace ConsolePC::Updater
         }
         WinHttpCloseHandle(hRequest); WinHttpCloseHandle(hConnect); WinHttpCloseHandle(hSession);
         return response;
+    }
+
+    static std::string PSHttpGetReleases()
+    {
+        std::wstring baseDir = Tools::Paths::GetAppLocalPath();
+        std::wstring tempFile = baseDir + L"\\releases.json";
+        _wremove(tempFile.c_str());
+
+        std::wstring psCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
+            L"$ProgressPreference = 'SilentlyContinue'; "
+            L"try { "
+            L"  Invoke-WebRequest -Uri 'https://api.github.com/repos/andsouzam/ConsolePC/releases' -Headers @{'Accept'='application/vnd.github.v3+json'; 'User-Agent'='ConsolePC'} -OutFile '" + tempFile + L"'; "
+            L"} catch { "
+            L"  $_.Exception.Message | Out-File '" + baseDir + L"\\ps_net_error.txt'; "
+            L"} "
+            L"}\"";
+
+        SHELLEXECUTEINFOW sei = { sizeof(sei) };
+        sei.fMask = SEE_MASK_NOCLOSEPROCESS; sei.lpFile = L"powershell.exe"; sei.lpParameters = psCmd.c_str(); sei.nShow = SW_HIDE;
+
+        if (ShellExecuteExW(&sei)) {
+            WaitForSingleObject(sei.hProcess, 30000);
+            CloseHandle(sei.hProcess);
+            
+            if (std::filesystem::exists(tempFile)) {
+                std::ifstream f(tempFile);
+                std::stringstream buffer;
+                buffer << f.rdbuf();
+                f.close();
+                _wremove(tempFile.c_str());
+                return buffer.str();
+            }
+        }
+        return "";
     }
 
     static bool m_bThreadExecuted = false;
@@ -117,53 +146,37 @@ namespace ConsolePC::Updater
         m_thread = std::thread([]()
         {
             try {
-                winrt::init_apartment(); // CRITICAL for MSIX worker threads
-                
-                log.Debug("Checking for Decky Loader updates...");
+                winrt::init_apartment();
                 
                 std::wstring baseDir = Tools::Paths::GetAppLocalPath();
-                std::wstring errorFile = baseDir + L"\\ps_error.txt";
-                _wremove(errorFile.c_str()); // Clear previous errors
+                _wremove((baseDir + L"\\ps_error.txt").c_str());
 
-                std::wstring markerPath = baseDir + L"\\decky_check_start.marker";
-                CreateFile(markerPath.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-                std::string resp = WinHttpGetFull(L"api.github.com", L"/repos/SteamDeckHomebrew/decky-loader/commits/main");
-
+                std::wstring shaTemp = baseDir + L"\\decky_sha.json";
+                std::wstring psShaCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
+                    L"Invoke-WebRequest -Uri 'https://api.github.com/repos/SteamDeckHomebrew/decky-loader/commits/main' -Headers @{'User-Agent'='ConsolePC'} -OutFile '" + shaTemp + L"'; "
+                    L"}\"";
+                
                 std::string sha = "";
-                if (!resp.empty()) {
-                    auto j = json::parse(resp);
-                    sha = j.value("sha", "");
-                } else {
-                    log.Warn("Failed to get latest Decky SHA from GitHub API (Response empty)");
-                    std::wstring failMarker = baseDir + L"\\decky_sha_failed.marker";
-                    CreateFile(failMarker.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                SHELLEXECUTEINFOW seiSha = { sizeof(seiSha) };
+                seiSha.fMask = SEE_MASK_NOCLOSEPROCESS; seiSha.lpFile = L"powershell.exe"; seiSha.lpParameters = psShaCmd.c_str(); seiSha.nShow = SW_HIDE;
+                if (ShellExecuteExW(&seiSha)) {
+                    WaitForSingleObject(seiSha.hProcess, 20000);
+                    CloseHandle(seiSha.hProcess);
+                    if (std::filesystem::exists(shaTemp)) {
+                        std::ifstream f(shaTemp);
+                        json j = json::parse(f);
+                        sha = j.value("sha", "");
+                        f.close();
+                        _wremove(shaTemp.c_str());
+                    }
                 }
 
                 std::wstring deckyPath = Config::GetDeckyPath();
                 std::wstring deckyDir = std::filesystem::path(deckyPath).parent_path().wstring();
-                
                 bool fileExists = std::filesystem::exists(deckyPath);
 
-                // Download if file is missing OR sha is different
                 if (!fileExists || (!sha.empty() && sha != Unicode::to_string(Config::DeckyLastSha))) {
-                    log.Info("Downloading Decky Loader (Missing: %d, New SHA: %s)", !fileExists, sha.c_str());
-
                     std::wstring zipPath = Tools::Paths::GetTempPath() + L"\\decky.zip";
-                    std::wstring dlMarker = baseDir + L"\\decky_download_start.marker";
-                    CreateFile(dlMarker.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-
-                    // Kill existing process first
-                    DWORD pid = Process::FindFirstByName(L"PluginLoader_noconsole.exe");
-                    if (pid) {
-                        log.Debug("Terminating existing Decky process (PID: %d)", pid);
-                        HANDLE h = OpenProcess(PROCESS_TERMINATE, FALSE, pid);
-                        if (h) { TerminateProcess(h, 0); CloseHandle(h); Sleep(1000); }
-                    }
-
-                    std::filesystem::create_directories(deckyDir);
-
-                    // PowerShell command: use Expand-Archive for better compatibility with PS 5.1
                     std::wstring psCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
                         L"try { "
                         L"  $ProgressPreference = 'SilentlyContinue'; "
@@ -174,7 +187,7 @@ namespace ConsolePC::Updater
                         L"    Remove-Item '" + zipPath + L"' -Force; "
                         L"  } "
                         L"} catch { "
-                        L"  $_.Exception.Message | Out-File '" + errorFile + L"'; "
+                        L"  $_.Exception.Message | Out-File '" + baseDir + L"\\ps_error.txt'; "
                         L"} "
                         L"}\"";
 
@@ -182,48 +195,23 @@ namespace ConsolePC::Updater
                     sei.fMask = SEE_MASK_NOCLOSEPROCESS; sei.lpFile = L"powershell.exe"; sei.lpParameters = psCmd.c_str(); sei.nShow = SW_HIDE;
 
                     if (ShellExecuteExW(&sei)) {
-                        log.Debug("Waiting for PowerShell to finish...");
-                        WaitForSingleObject(sei.hProcess, 120000); // 2 minutes
+                        WaitForSingleObject(sei.hProcess, 120000);
                         CloseHandle(sei.hProcess);
 
                         if (std::filesystem::exists(deckyPath)) {
-                            log.Info("Decky Loader updated and extracted successfully.");
                             if (!sha.empty()) Config::DeckyLastSha = Unicode::to_wstring(sha);
-
                             SYSTEMTIME st; GetLocalTime(&st);
                             wchar_t buf[64];
                             swprintf_s(buf, L"%04d-%02d-%02dT%02d:%02d:%02d", st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
                             Config::DeckyLastCheck = buf;
                             Config::Save();
-
-                            if (Config::DeckyUpdateEnabled) {
-                                log.Debug("Starting Decky Loader: %s", Unicode::to_string(deckyPath).c_str());
-                                DWORD deckyPid = Process::StartProcess(deckyPath, L"");
-                                if (deckyPid) {
-                                    log.Info("Decky Loader started with PID: %d", deckyPid);
-                                } else {
-                                    log.Error("Failed to start Decky Loader process.");
-                                }
-                            }
-                        } else {
-                            log.Error("PowerShell finished but PluginLoader_noconsole.exe still missing at %s", Unicode::to_string(deckyPath).c_str());
+                            if (Config::DeckyUpdateEnabled) Process::StartProcess(deckyPath, L"");
                         }
-                    } else {
-                        log.Error("Failed to launch PowerShell (Error: %d)", GetLastError());
                     }
-                } else {
-                    log.Debug("Decky Loader is up to date (SHA: %s)", sha.c_str());
-                    // Start it anyway if it's there but not running
-                    if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader_noconsole.exe")) {
-                        log.Debug("Starting Decky Loader (Already present): %s", Unicode::to_string(deckyPath).c_str());
-                        Process::StartProcess(deckyPath, L"");
-                    }
+                } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader_noconsole.exe")) {
+                    Process::StartProcess(deckyPath, L"");
                 }
-            } catch (const std::exception& e) {
-                log.Error("Exception in Decky update thread: %s", e.what());
-            } catch (...) {
-                log.Error("Unknown exception in Decky update thread");
-            }
+            } catch (...) {}
             {
                 std::lock_guard<std::mutex> lock(m_readMutex);
                 m_bThreadExecuted = false;
@@ -240,14 +228,11 @@ namespace ConsolePC::Updater
         SYSTEMTIME st = {0};
         if (swscanf_s(lastCheck.c_str(), L"%04hd-%02hd-%02hdT%02hd:%02hd:%02hd", &st.wYear, &st.wMonth, &st.wDay, &st.wHour, &st.wMinute, &st.wSecond) != 6)
             return 86400 * 365;
-
         FILETIME ft; SystemTimeToFileTime(&st, &ft);
         ULARGE_INTEGER uli; uli.LowPart = ft.dwLowDateTime; uli.HighPart = ft.dwHighDateTime;
-
         SYSTEMTIME nst; GetLocalTime(&nst);
         FILETIME nft; SystemTimeToFileTime(&nst, &nft);
         ULARGE_INTEGER nuli; nuli.LowPart = nft.dwLowDateTime; nuli.HighPart = nft.dwHighDateTime;
-
         if (nuli.QuadPart < uli.QuadPart) return 0;
         return (int)((nuli.QuadPart - uli.QuadPart) / 10000000);
     }
@@ -261,42 +246,35 @@ namespace ConsolePC::Updater
         }
 
         m_lastUpdateInfo.uiState = UpdaterState::CheckingUpdate;
-        log.Debug("Checking for main app updates...");
 
         m_thread = std::thread([includePreRelease]() {
             try {
-                winrt::init_apartment(); // CRITICAL for MSIX worker threads
-                
-                std::string resp = WinHttpGetFull(L"api.github.com", L"/repos/andsouzam/ConsolePC/releases");
+                winrt::init_apartment();
+                std::string resp = PSHttpGetReleases();
                 if (!resp.empty()) {
                     auto releases = json::parse(resp);
                     for (auto& release : releases) {
-                        bool isPreRelease = release.value("prerelease", false);
-                        if (isPreRelease && !includePreRelease) continue;
-
+                        if (release.value("prerelease", false) && !includePreRelease) continue;
                         std::string tag = release.value("tag_name", "");
                         if (tag.empty()) continue;
-
-                        // Simple version comparison: if tag starts with 'v', remove it
+                        
+                        // Keep full tag for update process
+                        m_lastUpdateInfo.newVersion = Unicode::to_wstring(tag);
+                        
                         std::string cleanTag = tag;
                         if (cleanTag[0] == 'v') cleanTag = cleanTag.substr(1);
 
                         if (cleanTag != VER_VERSION_STR) {
-                            m_lastUpdateInfo.newVersion = Unicode::to_wstring(cleanTag);
                             m_lastUpdateInfo.uiState = UpdaterState::Done;
-                            log.Info("New version found: %s", cleanTag.c_str());
                             goto end;
                         }
-                        break; // Latest stable version matches current
+                        break;
                     }
                     m_lastUpdateInfo.uiState = UpdaterState::Idle;
-                    log.Debug("No new version found.");
                 } else {
-                    log.Error("Failed to fetch releases from GitHub");
                     m_lastUpdateInfo.uiState = UpdaterState::NetworkFailed;
                 }
-            } catch (const std::exception& e) {
-                log.Error("Update check exception: %s", e.what());
+            } catch (...) {
                 m_lastUpdateInfo.uiState = UpdaterState::NetworkFailed;
             }
     end:
@@ -310,8 +288,7 @@ namespace ConsolePC::Updater
     }
 
     int ScheduledCheckAsync(const std::wstring &lastCheck, int checkInterval, bool includePreRelease, HWND hWnd, UINT uMsg) {
-        if (checkInterval == -2) return 0; // Manual only
-
+        if (checkInterval == -2) return 0;
         int since = GetSince(lastCheck);
         if (checkInterval == -1 || since >= checkInterval * 3600 || since >= 86400) {
             CheckUpdateAsync(includePreRelease, hWnd, uMsg);
@@ -329,66 +306,52 @@ namespace ConsolePC::Updater
 
         m_lastUpdateInfo.uiState = UpdaterState::Downloading;
         std::wstring versionTag = tag;
-        if (versionTag[0] != L'v') versionTag = L"v" + versionTag;
 
-        m_thread = std::thread([versionTag, h, m]() {
+        m_thread = std::thread([versionTag]() {
             try {
-                winrt::init_apartment(); // CRITICAL for MSIX worker threads
-                
-                std::string path = "/repos/andsouzam/ConsolePC/releases/tags/" + Unicode::to_string(versionTag);
-                std::string resp = WinHttpGetFull(L"api.github.com", Unicode::to_wstring(path));
+                winrt::init_apartment();
+                std::wstring baseDir = Tools::Paths::GetAppLocalPath();
+                _wremove((baseDir + L"\\ps_update_error.txt").c_str());
 
-                if (!resp.empty()) {
-                    auto release = json::parse(resp);
-                    std::string downloadUrl = "";
-                    for (auto& asset : release["assets"]) {
-                        std::string name = asset.value("name", "");
-                        if (name.find(".appx") != std::string::npos) {
-                            downloadUrl = asset.value("browser_download_url", "");
-                            break;
-                        }
-                    }
+                // PowerShell logic:
+                // 1. Try to find the tag as-is. 
+                // 2. If it fails, try adding 'v' prefix.
+                // 3. Download to Downloads and start.
+                std::wstring psUpdate = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
+                    L"try { "
+                    L"  $ProgressPreference = 'SilentlyContinue'; "
+                    L"  $headers = @{'Accept'='application/vnd.github.v3+json'; 'User-Agent'='ConsolePC'}; "
+                    L"  $tag = '" + versionTag + L"'; "
+                    L"  $url = 'https://api.github.com/repos/andsouzam/ConsolePC/releases/tags/' + $tag; "
+                    L"  $r = try { Invoke-RestMethod -Uri $url -Headers $headers } catch { "
+                    L"     $vtag = 'v' + $tag; "
+                    L"     $vurl = 'https://api.github.com/repos/andsouzam/ConsolePC/releases/tags/' + $vtag; "
+                    L"     Invoke-RestMethod -Uri $vurl -Headers $headers "
+                    L"  }; "
+                    L"  $a = $r.assets | Where-Object { $_.name -like '*.appx' } | Select-Object -First 1; "
+                    L"  if ($a) { "
+                    L"    $dl = $a.browser_download_url; "
+                    L"    $out = Join-Path ([Environment]::GetFolderPath('UserProfile')) 'Downloads\\ConsolePC-Update.appx'; "
+                    L"    Invoke-WebRequest -Uri $dl -Headers $headers -OutFile $out; "
+                    L"    Start-Process $out; "
+                    L"  } else { throw 'APPX asset not found in release' } "
+                    L"} catch { "
+                    L"  $_.Exception.Message | Out-File '" + baseDir + L"\\ps_update_error.txt'; "
+                    L"} "
+                    L"}\"";
 
-                    if (!downloadUrl.empty()) {
-                        std::wstring localPath = Tools::Paths::GetTempPath() + L"\\ConsolePC-Update.appx";
-                        _wremove(localPath.c_str());
+                SHELLEXECUTEINFOW sei = { sizeof(sei) };
+                sei.fMask = SEE_MASK_NOCLOSEPROCESS; sei.lpFile = L"powershell.exe"; sei.lpParameters = psUpdate.c_str(); sei.nShow = SW_HIDE;
 
-                        log.Info("Downloading update from: %s", downloadUrl.c_str());
-                        
-                        // Use PowerShell for download to be more robust
-                        std::wstring psDownload = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
-                            L"try { "
-                            L"  $ProgressPreference = 'SilentlyContinue'; "
-                            L"  Invoke-WebRequest -Uri '" + Unicode::to_wstring(downloadUrl) + L"' -OutFile '" + localPath + L"'; "
-                            L"} catch { "
-                            L"  $_.Exception.Message | Out-File '" + Tools::Paths::GetAppLocalPath() + L"\\ps_update_error.txt'; "
-                            L"} "
-                            L"}\"";
-                        
-                        SHELLEXECUTEINFOW sei = { sizeof(sei) };
-                        sei.fMask = SEE_MASK_NOCLOSEPROCESS; sei.lpFile = L"powershell.exe"; sei.lpParameters = psDownload.c_str(); sei.nShow = SW_HIDE;
-
-                        if (ShellExecuteExW(&sei)) {
-                            WaitForSingleObject(sei.hProcess, 300000); // 5 minutes for app update
-                            CloseHandle(sei.hProcess);
-
-                            if (std::filesystem::exists(localPath)) {
-                                log.Info("Update downloaded, starting AppInstaller...");
-                                m_lastUpdateInfo.uiState = UpdaterState::ReadyForUpdate;
-                                ShellExecuteW(NULL, L"open", localPath.c_str(), NULL, NULL, SW_SHOWNORMAL);
-                            } else {
-                                log.Error("PowerShell failed to download the update package.");
-                                m_lastUpdateInfo.uiState = UpdaterState::NetworkFailed;
-                            }
-                        }
-                    }
+                if (ShellExecuteExW(&sei)) {
+                    WaitForSingleObject(sei.hProcess, 300000);
+                    CloseHandle(sei.hProcess);
                 }
-            } catch (...) {
-                m_lastUpdateInfo.uiState = UpdaterState::NetworkFailed;
-            }
+            } catch (...) {}
             {
                 std::lock_guard<std::mutex> lock(m_readMutex);
                 m_bThreadExecuted = false;
+                m_lastUpdateInfo.uiState = UpdaterState::Idle;
             }
             NotifySubscribers();
         });
@@ -397,22 +360,17 @@ namespace ConsolePC::Updater
 
     void ShowVersion(const std::wstring &tag) {
         std::wstring url = L"https://github.com/andsouzam/ConsolePC/releases/tag/";
-        if (tag[0] == L'v') url += tag;
-        else url += L"v" + tag;
+        url += tag;
         ShellExecuteW(NULL, L"open", url.c_str(), NULL, NULL, SW_SHOWNORMAL);
     }
 
     int ScheduledDeckyCheckAsync(HWND hWnd, UINT uMsg)
     {
         if (!Config::DeckyUpdateEnabled) return 0;
-
         std::wstring deckyPath = Config::GetDeckyPath();
         bool fileExists = std::filesystem::exists(deckyPath);
         int since = GetSince(Config::DeckyLastCheck);
-
-        if (since >= 86400 || !fileExists) {
-            CheckDeckyUpdateAsync(hWnd, uMsg);
-        }
+        if (since >= 86400 || !fileExists) CheckDeckyUpdateAsync(hWnd, uMsg);
         return 86400;
     }
 
