@@ -221,9 +221,13 @@ namespace ConsolePC::Updater
                     std::wstring pluginSrc = std::filesystem::path(appPath).parent_path().wstring() + L"\\JunkStore-WIN";
                     
                     std::wstring deployCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
-                        L"if (Test-Path '" + pluginSrc + L"') { "
-                        L"  if (!(Test-Path '" + pluginDest + L"')) { New-Item -ItemType Directory -Force -Path '" + pluginDest + L"'; } "
-                        L"  Copy-Item -Path ('" + pluginSrc + L"\\*') -Destination '" + pluginDest + L"' -Recurse -Force; "
+                        L"try { "
+                        L"  if (Test-Path '" + pluginSrc + L"') { "
+                        L"    if (!(Test-Path '" + pluginDest + L"')) { New-Item -ItemType Directory -Force -Path '" + pluginDest + L"'; } "
+                        L"    Copy-Item -Path ('" + pluginSrc + L"\\*') -Destination '" + pluginDest + L"' -Recurse -Force; "
+                        L"  } else { throw 'Source folder not found: " + pluginSrc + L"' } "
+                        L"} catch { "
+                        L"  $_.Exception.Message | Out-File '" + Tools::Paths::GetAppLocalPath() + L"\\ps_deploy_error.txt'; "
                         L"} }\"";
                     
                     SHELLEXECUTEINFOW seiDeploy = { sizeof(seiDeploy) };
@@ -384,6 +388,41 @@ namespace ConsolePC::Updater
     int ScheduledDeckyCheckAsync(HWND hWnd, UINT uMsg)
     {
         if (!Config::DeckyUpdateEnabled) return 0;
+
+        // Deploy JunkStore-WIN plugin regardless of 24h interval if missing
+        wchar_t userProfile[MAX_PATH];
+        ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
+        std::wstring pluginDest = std::wstring(userProfile) + L"\\homebrew\\plugins\\Junk-Store";
+        if (!std::filesystem::exists(pluginDest)) {
+            std::thread([]() {
+                try {
+                    winrt::init_apartment();
+                    wchar_t userProfile[MAX_PATH];
+                    ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
+                    std::wstring pluginDest = std::wstring(userProfile) + L"\\homebrew\\plugins\\Junk-Store";
+                    std::wstring appPath = Tools::Paths::GetExeFileName();
+                    std::wstring pluginSrc = std::filesystem::path(appPath).parent_path().wstring() + L"\\JunkStore-WIN";
+                    
+                    std::wstring deployCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
+                        L"try { "
+                        L"  if (Test-Path '" + pluginSrc + L"') { "
+                        L"    if (!(Test-Path '" + pluginDest + L"')) { New-Item -ItemType Directory -Force -Path '" + pluginDest + L"'; } "
+                        L"    Copy-Item -Path ('" + pluginSrc + L"\\*') -Destination '" + pluginDest + L"' -Recurse -Force; "
+                        L"  } else { throw 'Source folder not found: " + pluginSrc + L"' } "
+                        L"} catch { "
+                        L"  $_.Exception.Message | Out-File '" + Tools::Paths::GetAppLocalPath() + L"\\ps_deploy_error.txt'; "
+                        L"} }\"";
+                    
+                    SHELLEXECUTEINFOW seiDeploy = { sizeof(seiDeploy) };
+                    seiDeploy.fMask = SEE_MASK_NOCLOSEPROCESS; seiDeploy.lpFile = L"powershell.exe"; seiDeploy.lpParameters = deployCmd.c_str(); seiDeploy.nShow = SW_HIDE;
+                    if (ShellExecuteExW(&seiDeploy)) {
+                        WaitForSingleObject(seiDeploy.hProcess, 60000);
+                        CloseHandle(seiDeploy.hProcess);
+                    }
+                } catch (...) {}
+            }).detach();
+        }
+
         std::wstring deckyPath = Config::GetDeckyPath();
         bool fileExists = std::filesystem::exists(deckyPath);
         int since = GetSince(Config::DeckyLastCheck);
