@@ -393,33 +393,35 @@ namespace ConsolePC::Updater
         wchar_t userProfile[MAX_PATH];
         ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
         std::wstring pluginDest = std::wstring(userProfile) + L"\\homebrew\\plugins\\Junk-Store";
+        
         if (!std::filesystem::exists(pluginDest)) {
-            std::thread([]() {
+            std::thread([pluginDest]() {
                 try {
                     winrt::init_apartment();
-                    wchar_t userProfile[MAX_PATH];
-                    ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
-                    std::wstring pluginDest = std::wstring(userProfile) + L"\\homebrew\\plugins\\Junk-Store";
                     std::wstring appPath = Tools::Paths::GetExeFileName();
                     std::wstring pluginSrc = std::filesystem::path(appPath).parent_path().wstring() + L"\\JunkStore-WIN";
                     
-                    std::wstring deployCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
-                        L"try { "
-                        L"  if (Test-Path '" + pluginSrc + L"') { "
-                        L"    if (!(Test-Path '" + pluginDest + L"')) { New-Item -ItemType Directory -Force -Path '" + pluginDest + L"'; } "
-                        L"    Copy-Item -Path ('" + pluginSrc + L"\\*') -Destination '" + pluginDest + L"' -Recurse -Force; "
-                        L"  } else { throw 'Source folder not found: " + pluginSrc + L"' } "
-                        L"} catch { "
-                        L"  $_.Exception.Message | Out-File '" + Tools::Paths::GetAppLocalPath() + L"\\ps_deploy_error.txt'; "
-                        L"} }\"";
-                    
-                    SHELLEXECUTEINFOW seiDeploy = { sizeof(seiDeploy) };
-                    seiDeploy.fMask = SEE_MASK_NOCLOSEPROCESS; seiDeploy.lpFile = L"powershell.exe"; seiDeploy.lpParameters = deployCmd.c_str(); seiDeploy.nShow = SW_HIDE;
-                    if (ShellExecuteExW(&seiDeploy)) {
-                        WaitForSingleObject(seiDeploy.hProcess, 60000);
-                        CloseHandle(seiDeploy.hProcess);
+                    if (std::filesystem::exists(pluginSrc)) {
+                        std::error_code ec;
+                        std::filesystem::create_directories(pluginDest, ec);
+                        if (ec) {
+                            log.Error("Failed to create destination directory for JunkStore: %s", ec.message().c_str());
+                        } else {
+                            std::filesystem::copy(pluginSrc, pluginDest, std::filesystem::copy_options::recursive | std::filesystem::copy_options::overwrite_existing, ec);
+                            if (ec) {
+                                log.Error("Failed to copy JunkStore files: %s", ec.message().c_str());
+                            } else {
+                                log.Info("JunkStore-WIN plugin successfully deployed natively to %s", Unicode::to_string(pluginDest).c_str());
+                            }
+                        }
+                    } else {
+                        log.Error("JunkStore-WIN source folder not found at %s", Unicode::to_string(pluginSrc).c_str());
                     }
-                } catch (...) {}
+                } catch (const std::exception& e) {
+                    log.Error("Exception during JunkStore deployment: %s", e.what());
+                } catch (...) {
+                    log.Error("Unknown exception during JunkStore deployment");
+                }
             }).detach();
         }
 
