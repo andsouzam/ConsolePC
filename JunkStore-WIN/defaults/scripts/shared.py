@@ -4,8 +4,8 @@ import subprocess
 import json
 import psutil
 
-DOSCONF = os.environ.get("DOSCONF", f"{sys.executable} ./scripts/dosconf.py")
-EPICCONF = os.environ.get("EPICCONF", f"{sys.executable} ./scripts/epic-config.py")
+DOSCONF = os.environ.get("DOSCONF", f"python ./scripts/dosconf.py")
+EPICCONF = os.environ.get("EPICCONF", f"python ./scripts/epic-config.py")
 LEGENDARY = os.environ.get("LEGENDARY", os.path.join(os.environ.get("DECKY_PLUGIN_RUNTIME_DIR", "."), "bin", "legendary.exe"))
 DBFILE = os.environ.get("DBFILE", "games.db")
 DECKY_PLUGIN_LOG_DIR = os.environ.get("DECKY_PLUGIN_LOG_DIR", "")
@@ -31,7 +31,7 @@ def init(*args):
     for plat in platforms:
         init_func = f"{plat}_init"
         if init_func in globals() and callable(globals()[init_func]):
-            execute_cmd(f"{sys.executable} {sys.argv[0]} {plat} init", background=True)
+            execute_cmd(f"python {sys.argv[0]} {plat} init", background=True)
     print(json.dumps({"Type": "Success", "Content": {"Message": "Initialized"}}))
 
 def getgames(*args):
@@ -159,14 +159,14 @@ def install(*args):
         os.remove(progress_log)
     
     execute_cmd(f"{DOSCONF} --addsteamclientid \"{game_id}\" \"{args[1]}\" --dbfile {DBFILE}")
-    args_str = execute_cmd(f"{sys.executable} ./scripts/args_script.py \"{game_id}\"") # placeholder for ARGS_SCRIPT
+    args_str = execute_cmd(f"python ./scripts/args_script.py \"{game_id}\"") # placeholder for ARGS_SCRIPT
     temp = execute_cmd(f"{EPICCONF} --launchoptions \"{game_id}\" \"{args_str}\" \"\" --dbfile {DBFILE} {OFFLINE_MODE}")
     print(temp)
     sys.exit(0)
 
 def getlaunchoptions(*args):
     game_id = args[0]
-    args_str = execute_cmd(f"{sys.executable} ./scripts/args_script.py \"{game_id}\"")
+    args_str = execute_cmd(f"python ./scripts/args_script.py \"{game_id}\"")
     temp = execute_cmd(f"{EPICCONF} --launchoptions \"{game_id}\" \"{args_str}\" \"\" --dbfile {DBFILE} {OFFLINE_MODE}")
     print(temp)
     sys.exit(0)

@@ -8,13 +8,13 @@
           "Id": "GetEpicActions",
           "Title": "Get Epic store actions",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-actions"
+          "Command": "python ./scripts/get-json.py epic-actions"
         },
         {
           "Id": "GetContent",
           "Title": "Get content",
           "Type": "TabPage",
-          "Command": "./scripts/get-json.py junk-store-tabs"
+          "Command": "python ./scripts/get-json.py junk-store-tabs"
         }
       ]
     }
@@ -28,19 +28,19 @@
           "Id": "GetEpicActions",
           "Title": "Get Epic store actions",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-actions"
+          "Command": "python ./scripts/get-json.py epic-actions"
         },
         {
           "Id": "GetContent",
           "Title": "Get content",
           "Type": "TabPage",
-          "Command": "./scripts/junk-store.py Epic getgames"
+          "Command": "python ./scripts/junk-store.py Epic getgames"
         },
         {
           "Id": "GetLoginActions",
           "Title": "Get login status",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-games-login-actions"
+          "Command": "python ./scripts/get-json.py epic-games-login-actions"
         }
       ]
     }
@@ -54,19 +54,19 @@
           "Id": "JunkStoreInit",
           "Title": "Content",
           "Type": "Init",
-          "Command": "./scripts/get-json.py junk-store-actions"
+          "Command": "python ./scripts/get-json.py junk-store-actions"
         },
         {
           "Id": "JunkStoreInitNoTabs",
           "Title": "Content",
           "Type": "Init",
-          "Command": "./scripts/get-json.py junk-store-actions-no-tabs"
+          "Command": "python ./scripts/get-json.py junk-store-actions-no-tabs"
         },
         {
           "Id": "GetEpicActions",
           "Title": "Get Epic store actions",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-actions"
+          "Command": "python ./scripts/get-json.py epic-actions"
         }
       ]
     }
@@ -88,37 +88,37 @@
           "Id": "Login",
           "Title": "Login",
           "Type": "Login",
-          "Command": "./scripts/junk-store.py Epic login"
+          "Command": "python ./scripts/junk-store.py Epic login"
         },
         {
           "Id": "LoginLaunchOptions",
           "Title": "Login",
           "Type": "Login",
-          "Command": "./scripts/junk-store.py Epic login-launch-options"
+          "Command": "python ./scripts/junk-store.py Epic login-launch-options"
         },
         {
           "Id": "Logout",
           "Title": "Logout",
           "Type": "Logout",
-          "Command": "./scripts/junk-store.py Epic logout"
+          "Command": "python ./scripts/junk-store.py Epic logout"
         },
         {
           "Id": "GetContent",
           "Title": "Status",
           "Type": "Status",
-          "Command": "./scripts/junk-store.py Epic loginstatus"
+          "Command": "python ./scripts/junk-store.py Epic loginstatus"
         },
         {
           "Id": "GetSetting",
           "Title": "Get settings",
           "Type": "GetSettings",
-          "Command": "./scripts/junk-store.py Epic getsetting"
+          "Command": "python ./scripts/junk-store.py Epic getsetting"
         },
         {
           "Id": "SaveSetting",
           "Title": "Set settings",
           "Type": "SaveSettings",
-          "Command": "./scripts/junk-store.py Epic savesetting"
+          "Command": "python ./scripts/junk-store.py Epic savesetting"
         }
       ]
     }
@@ -218,13 +218,13 @@
           "Id": "RunBinary",
           "Title": "Run executable in game folder",
           "Type": "ScriptAction",
-          "Command": "./scripts/junk-store.py Epic run-exe"
+          "Command": "python ./scripts/junk-store.py Epic run-exe"
         },
         {
           "Id": "GetContent",
           "Title": "Get executable list",
           "Type": "Content",
-          "Command": "./scripts/junk-store.py Epic get-exe-list"
+          "Command": "python ./scripts/junk-store.py Epic get-exe-list"
         }
       ]
     }
@@ -238,13 +238,13 @@
           "Id": "GetContent",
           "Title": "Get the ini files as json",
           "Type": "IniEditor",
-          "Command": "./scripts/junk-store.py Epic getplatformconfig"
+          "Command": "python ./scripts/junk-store.py Epic getplatformconfig"
         },
         {
           "Id": "SaveContent",
           "Title": "Save the ini files as json",
           "Type": "IniEditor",
-          "Command": "./scripts/junk-store.py Epic saveplatformconfig"
+          "Command": "python ./scripts/junk-store.py Epic saveplatformconfig"
         }
       ]
     }
@@ -258,13 +258,13 @@
           "Id": "GetContent",
           "Title": "Get the ini files as json",
           "Type": "IniEditor",
-          "Command": "./scripts/junk-store.py Epic gettabconfig"
+          "Command": "python ./scripts/junk-store.py Epic gettabconfig"
         },
         {
           "Id": "SaveContent",
           "Title": "Save the ini files as json",
           "Type": "IniEditor",
-          "Command": "./scripts/junk-store.py Epic savetabconfig"
+          "Command": "python ./scripts/junk-store.py Epic savetabconfig"
         }
       ]
     }
@@ -278,194 +278,194 @@
           "Id": "GetContent",
           "Title": "Get Epic games list",
           "Type": "GameGrid",
-          "Command": "./scripts/junk-store.py Epic getgames"
+          "Command": "python ./scripts/junk-store.py Epic getgames"
         },
         {
           "Id": "GetGameSize",
           "Title": "Get game size",
           "Type": "GameSize",
-          "Command": "./scripts/junk-store.py Epic getgamesize"
+          "Command": "python ./scripts/junk-store.py Epic getgamesize"
         },
         {
           "Id": "GetDetails",
           "Title": "Get game details",
           "Type": "GameDetails",
-          "Command": "./scripts/junk-store.py Epic getgamedetails"
+          "Command": "python ./scripts/junk-store.py Epic getgamedetails"
         },
         {
           "Id": "GetJsonImages",
           "Title": "Get game images as json",
           "Type": "GameImages",
-          "Command": "./scripts/junk-store.py Epic getjsonimages"
+          "Command": "python ./scripts/junk-store.py Epic getjsonimages"
         },
         {
           "Id": "Install",
           "Title": "Install game",
           "Type": "Install",
-          "Command": "./scripts/junk-store.py Epic install"
+          "Command": "python ./scripts/junk-store.py Epic install"
         },
         {
           "Id": "Download",
           "Title": "Download game",
           "Type": "Download",
-          "Command": "./scripts/junk-store.py Epic download"
+          "Command": "python ./scripts/junk-store.py Epic download"
         },
         {
           "Id": "DownloadSaves",
           "Title": "Download saves",
           "Type": "DownloadSaves",
-          "Command": "./scripts/junk-store.py Epic download-saves"
+          "Command": "python ./scripts/junk-store.py Epic download-saves"
         },
         {
           "Id": "Update",
           "Title": "Update game",
           "Type": "Update",
-          "Command": "./scripts/junk-store.py Epic update"
+          "Command": "python ./scripts/junk-store.py Epic update"
         },
         {
           "Id": "Repair",
           "Title": "Repair game",
           "Type": "Update",
-          "Command": "./scripts/junk-store.py Epic repair"
+          "Command": "python ./scripts/junk-store.py Epic repair"
         },
         {
           "Id": "RepairUpdate",
           "Title": "Repair and Update game",
           "Type": "Update",
-          "Command": "./scripts/junk-store.py Epic repair_and_update"
+          "Command": "python ./scripts/junk-store.py Epic repair_and_update"
         },
         {
           "Id": "Verify",
           "Title": "Veirfy game",
           "Type": "Verify",
-          "Command": "./scripts/junk-store.py Epic verify"
+          "Command": "python ./scripts/junk-store.py Epic verify"
         },
         {
           "Id": "Import",
           "Title": "Import game",
           "Type": "Import",
-          "Command": "./scripts/junk-store.py Epic import"
+          "Command": "python ./scripts/junk-store.py Epic import"
         },
         {
           "Id": "Uninstall",
           "Title": "Uninstall game",
           "Type": "Uninstall",
-          "Command": "./scripts/junk-store.py Epic uninstall"
+          "Command": "python ./scripts/junk-store.py Epic uninstall"
         },
         {
           "Id": "Move",
           "Title": "Move game",
           "Type": "Move",
-          "Command": "./scripts/junk-store.py Epic move"
+          "Command": "python ./scripts/junk-store.py Epic move"
         },
         {
           "Id": "EnableEOSoverlay",
           "Title": "Enable EOS overlay",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic  enable-eos-overlay"
+          "Command": "python ./scripts/junk-store.py Epic  enable-eos-overlay"
         },
         {
           "Id": "DisableEOSoverlay",
           "Title": "Disable EOS overlay",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic disable-eos-overlay"
+          "Command": "python ./scripts/junk-store.py Epic disable-eos-overlay"
         },
         {
           "Id": "InstallOverlay",
           "Title": "Install EOS overlay",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic install-overlay"
+          "Command": "python ./scripts/junk-store.py Epic install-overlay"
         },
         {
           "Id": "UpdateOverlay",
           "Title": "Install EOS overlay",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic update-overlay"
+          "Command": "python ./scripts/junk-store.py Epic update-overlay"
         },
         {
           "Id": "RemoveOverlay",
           "Title": "Install EOS overlay",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic remove-overlay"
+          "Command": "python ./scripts/junk-store.py Epic remove-overlay"
         },
         {
           "Id": "ProtonTricks",
           "Title": "Proton Tricks",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic protontricks"
+          "Command": "python ./scripts/junk-store.py Epic protontricks"
         },
         {
           "Id": "GetProgress",
           "Title": "Get install progress",
           "Type": "GetProgress",
-          "Command": "./scripts/junk-store.py Epic getprogress"
+          "Command": "python ./scripts/junk-store.py Epic getprogress"
         },
         {
           "Id": "CancelInstall",
           "Title": "Cancel install",
           "Type": "CancelInstall",
-          "Command": "./scripts/junk-store.py Epic cancelinstall"
+          "Command": "python ./scripts/junk-store.py Epic cancelinstall"
         },
         {
           "Id": "GetLoginActions",
           "Title": "Get login status",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-games-login-actions"
+          "Command": "python ./scripts/get-json.py epic-games-login-actions"
         },
         {
           "Id": "GetLaunchOptions",
           "Title": "Get launch options",
           "Type": "GetLaunchOptions",
-          "Command": "./scripts/junk-store.py Epic getlaunchoptions"
+          "Command": "python ./scripts/junk-store.py Epic getlaunchoptions"
         },
         {
           "Id": "GetExeActions",
           "Title": "Get executable action set to run exe's in game dir",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-exe-actions"
+          "Command": "python ./scripts/get-json.py epic-exe-actions"
         },
         {
           "Id": "GetGameScriptActions",
           "Title": "",
           "Type": "ScriptActions",
-          "Command": "./scripts/get-json.py epic-game-script-actions"
+          "Command": "python ./scripts/get-json.py epic-game-script-actions"
         },
         {
           "Id": "GetScriptActions",
           "Title": "",
           "Type": "ScriptActions",
-          "Command": "./scripts/get-json.py epic-script-actions"
+          "Command": "python ./scripts/get-json.py epic-script-actions"
         },
         {
           "Id": "GetPlatformConfigFileActions",
           "Title": "Get dosbox config file actions",
           "Type": "Init",
-          "Command": "./scripts/get-json.py epic-config-actions"
+          "Command": "python ./scripts/get-json.py epic-config-actions"
         },
         {
           "Id": "GetTabConfigActions",
           "Title": "Get epic tab config file actions",
           "Type": "Init",
 
-          "Command": "./scripts/get-json.py epic-tab-config-actions"
+          "Command": "python ./scripts/get-json.py epic-tab-config-actions"
         },
         {
           "Id": "Refresh",
           "Title": "Refresh Games List",
           "Type": "Refresh",
-          "Command": "./scripts/junk-store.py Epic refresh"
+          "Command": "python ./scripts/junk-store.py Epic refresh"
         },
         {
           "Id": "RegistryFix",   
           "Title": "Registry Fix",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic registry-fix"
+          "Command": "python ./scripts/junk-store.py Epic registry-fix"
         },
         {
           "Id": "UmuIdUpdate",   
           "Title": "Update UMU Id",
           "Type": "Executable",
-          "Command": "./scripts/junk-store.py Epic update-umu-id"
+          "Command": "python ./scripts/junk-store.py Epic update-umu-id"
         }
       ]
     }

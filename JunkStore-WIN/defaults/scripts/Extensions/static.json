@@ -8,7 +8,7 @@
           "Id": "GetContent",
           "Title": "Get content",
           "Type": "TabPage",
-          "Command": "./scripts/get-json.py junk-store-tabs"
+          "Command": "python ./scripts/get-json.py junk-store-tabs"
         }
       ]
     }
@@ -22,7 +22,7 @@
           "Id": "GetContent",
           "Title": "Populate Store",
           "Type": "GetContent",
-          "Command": "./scripts/get-json.py main-menu-content"
+          "Command": "python ./scripts/get-json.py main-menu-content"
         }
       ]
     }

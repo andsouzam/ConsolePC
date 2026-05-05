@@ -182,6 +182,10 @@ class Helper:
                 file_path = os.path.join(
                     decky_plugin.DECKY_PLUGIN_RUNTIME_DIR, ".cache", f"{actionSet}.json"
                 )
+            if not os.path.exists(file_path):
+                file_path = os.path.join(
+                    decky_plugin.DECKY_PLUGIN_DIR, "defaults", f"{actionSet}.json"
+                )
 
             if os.path.exists(file_path):
                 with open(file_path) as f:
@@ -291,13 +295,13 @@ class Helper:
                 data = json.loads(message.data)
                 if data["action"] == "install_dependencies":
                     await Helper.pyexec_subprocess(
-                        f"{sys.executable} ./scripts/install_deps.py",
+                        f"python ./scripts/install_deps.py",
                         websocket=websocket,
                         stream_output=True,
                     )
                 if data["action"] == "uninstall_dependencies":
                     await Helper.pyexec_subprocess(
-                        f"{sys.executable} ./scripts/install_deps.py uninstall",
+                        f"python ./scripts/install_deps.py uninstall",
                         websocket=websocket,
                         stream_output=True,
                     )
@@ -634,7 +638,7 @@ class Plugin:
                 Helper.working_directory, "scripts", "fetch_rss.py"
             )
             result = await Helper.pyexec_subprocess(
-                f"{sys.executable} {script_path}", input=input_data
+                f"python {script_path}", input=input_data
             )
 
             if result and result.get("returncode") == 0:

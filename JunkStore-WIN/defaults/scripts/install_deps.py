@@ -18,7 +18,7 @@ def install():
             for root, dirs, files in os.walk(path):
                 if "install_deps.py" in files:
                     script = os.path.join(root, "install_deps.py")
-                    subprocess.run([sys.executable, script])
+                    subprocess.run(["python", script])
 
     print("===================================")
     print("  Dependency installation complete")
@@ -40,7 +40,7 @@ def uninstall():
             for root, dirs, files in os.walk(path):
                 if "install_deps.py" in files:
                     script = os.path.join(root, "install_deps.py")
-                    subprocess.run([sys.executable, script, "uninstall"])
+                    subprocess.run(["python", script, "uninstall"])
 
     print("===================================")
     print("  Dependency uninstallation complete")
