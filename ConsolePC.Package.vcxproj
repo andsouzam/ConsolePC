@@ -110,6 +110,13 @@
       SourceFiles="@(AssetFiles)"
       DestinationFolder="$(AppPackageContentsDir)\Assets" />
 
+    <ItemGroup>
+      <JunkStoreFiles Include="$(MSBuildProjectDirectory)\JunkStore-WIN\**\*.*" />
+    </ItemGroup>
+    <Copy
+      SourceFiles="@(JunkStoreFiles)"
+      DestinationFolder="$(AppPackageContentsDir)\JunkStore-WIN\%(RecursiveDir)" />
+
     <!-- Copy custom capability if exists -->
     <ItemGroup>
       <CustomCapabilityFile Include="$(MSBuildProjectDirectory)\CustomCapability.SCCD" />

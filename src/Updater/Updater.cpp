@@ -211,6 +211,28 @@ namespace ConsolePC::Updater
                 } else if (Config::DeckyUpdateEnabled && !Process::FindFirstByName(L"PluginLoader.exe")) {
                     Process::StartProcess(deckyPath, L"", true);
                 }
+
+                // Deploy JunkStore-WIN plugin
+                if (Config::DeckyUpdateEnabled) {
+                    wchar_t userProfile[MAX_PATH];
+                    ExpandEnvironmentStringsW(L"%USERPROFILE%", userProfile, MAX_PATH);
+                    std::wstring pluginDest = std::wstring(userProfile) + L"\\homebrew\\plugins\\Junk-Store";
+                    std::wstring appPath = Tools::Paths::GetExeFileName();
+                    std::wstring pluginSrc = std::filesystem::path(appPath).parent_path().wstring() + L"\\JunkStore-WIN";
+                    
+                    std::wstring deployCmd = L"-NoProfile -ExecutionPolicy Bypass -Command \"& { "
+                        L"if (Test-Path '" + pluginSrc + L"') { "
+                        L"  if (!(Test-Path '" + pluginDest + L"')) { New-Item -ItemType Directory -Force -Path '" + pluginDest + L"'; } "
+                        L"  Copy-Item -Path ('" + pluginSrc + L"\\*') -Destination '" + pluginDest + L"' -Recurse -Force; "
+                        L"} }\"";
+                    
+                    SHELLEXECUTEINFOW seiDeploy = { sizeof(seiDeploy) };
+                    seiDeploy.fMask = SEE_MASK_NOCLOSEPROCESS; seiDeploy.lpFile = L"powershell.exe"; seiDeploy.lpParameters = deployCmd.c_str(); seiDeploy.nShow = SW_HIDE;
+                    if (ShellExecuteExW(&seiDeploy)) {
+                        WaitForSingleObject(seiDeploy.hProcess, 30000);
+                        CloseHandle(seiDeploy.hProcess);
+                    }
+                }
             } catch (...) {}
             {
                 std::lock_guard<std::mutex> lock(m_readMutex);
